@@ -26,8 +26,7 @@
   <entry>
     <title></title>
     <url>/2022/10/21/buildWebsiteBasedonGithub/</url>
-    <content><![CDATA[<p>titile: 搭建静态网页<br>categories: 随机</p>
-<h1 id="搭建静态网页"><a href="#搭建静态网页" class="headerlink" title="搭建静态网页"></a>搭建静态网页</h1><h2 id="Part1"><a href="#Part1" class="headerlink" title="Part1"></a>Part1</h2><ul>
+    <content><![CDATA[<h1 id="搭建静态网页"><a href="#搭建静态网页" class="headerlink" title="搭建静态网页"></a>搭建静态网页</h1><h2 id="Part1"><a href="#Part1" class="headerlink" title="Part1"></a>Part1</h2><ul>
 <li><p>创建仓库,命名为<code>aspect-ux.github.io</code>,找到Pages,发现site 是显示了。</p>
 </li>
 <li><p>安装node.js 参考<a href="https://blog.csdn.net/chanyeolchichi/article/details/121348541">(26条消息) Node.js详细安装教程（2021）_cheerileeyoki的博客-CSDN博客_node安装教程</a></p>
@@ -49,5 +48,8 @@
 </ul>
 <p>hexo c<br>hexo g<br>hexo d</p>
 ]]></content>
+      <categories>
+        <category>随记</category>
+      </categories>
   </entry>
 </search>
