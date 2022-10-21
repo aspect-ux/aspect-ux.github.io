@@ -24,7 +24,7 @@
 ]]></content>
   </entry>
   <entry>
-    <title></title>
+    <title>搭建静态网页</title>
     <url>/2022/10/21/buildWebsiteBasedonGithub/</url>
     <content><![CDATA[<h1 id="搭建静态网页"><a href="#搭建静态网页" class="headerlink" title="搭建静态网页"></a>搭建静态网页</h1><h2 id="Part1"><a href="#Part1" class="headerlink" title="Part1"></a>Part1</h2><ul>
 <li><p>创建仓库,命名为<code>aspect-ux.github.io</code>,找到Pages,发现site 是显示了。</p>
@@ -38,8 +38,7 @@
 <li><p>配置<code>_config.yml</code></p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Deployment</span></span><br><span class="line"><span class="comment">## Docs: https://hexo.io/docs/deployment.html</span></span><br><span class="line"><span class="attr">deploy:</span></span><br><span class="line"> 		<span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">		<span class="attr">repo:</span> <span class="string">https://github.com/aspect-ux/aspect-ux.github.io.git</span></span><br><span class="line"> 		<span class="attr">branch:</span> <span class="string">main</span></span><br></pre></td></tr></table></figure></li>
 </ul>
-<p>最后</p>
-<p><img src="pictures%5CuTools_1666352375445.png" alt="uTools_1666352375445"></p>
+<p>然后</p>
 <ul>
 <li><p>更改主题git clone <a href="https://github.com/litten/hexo-theme-yilia.git">https://github.com/litten/hexo-theme-yilia.git</a> themes/yilia </p>
 <p>更改yml文件</p>
@@ -47,13 +46,19 @@
 </li>
 </ul>
 <p>hexo c<br>hexo g<br>hexo d</p>
+<ul>
+<li><p>值得注意的是，传统的markdown语法无法显示图片</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">post_asset_folder: false` 修改为 `post_asset_folder: true</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p><code>npm install https://github.com/7ym0n/hexo-asset-image --save</code></p>
+<p>最后需要新建与文章同名的文件夹存放图片</p>
 ]]></content>
       <categories>
         <category>随记</category>
       </categories>
   </entry>
   <entry>
-    <title></title>
+    <title>unityshader精要1</title>
     <url>/2022/10/21/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/</url>
     <content><![CDATA[<h3 id="Unity-Shader01"><a href="#Unity-Shader01" class="headerlink" title="Unity Shader01"></a>Unity Shader01</h3><h4 id="什么是渲染流水线？"><a href="#什么是渲染流水线？" class="headerlink" title="什么是渲染流水线？"></a>什么是渲染流水线？</h4><p>流水线的概念早已学过，那么渲染流水线又是什么。首先要区别于GPU（硬件)流水线。</p>
 <p>分为三个概念上的阶段，每个阶段又有子流水线。</p>

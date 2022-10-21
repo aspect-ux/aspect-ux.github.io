@@ -22,18 +22,16 @@
 
   <meta name="description" content="搭建静态网页Part1 创建仓库,命名为aspect-ux.github.io,找到Pages,发现site 是显示了。  安装node.js 参考(26条消息) Node.js详细安装教程（2021）_cheerileeyoki的博客-CSDN博客_node安装教程  安装hexo,报错有可能是权限，删去c盘下的.npmrc??? 大抵是nodejs版本太高了 主要参考手把手教你从0开始搭建自己">
 <meta property="og:type" content="article">
-<meta property="og:title" content="不会美术的温蒂">
+<meta property="og:title" content="搭建静态网页">
 <meta property="og:url" content="http://example.com/2022/10/21/buildWebsiteBasedonGithub/index.html">
 <meta property="og:site_name" content="不会美术的温蒂">
 <meta property="og:description" content="搭建静态网页Part1 创建仓库,命名为aspect-ux.github.io,找到Pages,发现site 是显示了。  安装node.js 参考(26条消息) Node.js详细安装教程（2021）_cheerileeyoki的博客-CSDN博客_node安装教程  安装hexo,报错有可能是权限，删去c盘下的.npmrc??? 大抵是nodejs版本太高了 主要参考手把手教你从0开始搭建自己">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/2022/10/21/buildWebsiteBasedonGithub/pictures%5CuTools_1666352375445.png">
 <meta property="article:published_time" content="2022-10-21T14:20:57.959Z">
-<meta property="article:modified_time" content="2022-10-21T14:20:57.959Z">
+<meta property="article:modified_time" content="2022-10-21T23:10:44.937Z">
 <meta property="article:author" content="温蒂">
 <meta property="article:tag" content="TA">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2022/10/21/buildWebsiteBasedonGithub/pictures%5CuTools_1666352375445.png">
 
 <link rel="canonical" href="http://example.com/2022/10/21/buildWebsiteBasedonGithub/">
 
@@ -48,7 +46,7 @@
   };
 </script>
 
-  <title> | 不会美术的温蒂</title>
+  <title>搭建静态网页 | 不会美术的温蒂</title>
   
 
 
@@ -219,7 +217,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          
+          搭建静态网页
         </h1>
 
         <div class="post-meta">
@@ -231,6 +229,13 @@
 
               <time title="Created: 2022-10-21 22:20:57" itemprop="dateCreated datePublished" datetime="2022-10-21T22:20:57+08:00">2022-10-21</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-10-22 07:10:44" itemprop="dateModified" datetime="2022-10-22T07:10:44+08:00">2022-10-22</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -271,8 +276,7 @@
 <li><p>配置<code>_config.yml</code></p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Deployment</span></span><br><span class="line"><span class="comment">## Docs: https://hexo.io/docs/deployment.html</span></span><br><span class="line"><span class="attr">deploy:</span></span><br><span class="line"> 		<span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">		<span class="attr">repo:</span> <span class="string">https://github.com/aspect-ux/aspect-ux.github.io.git</span></span><br><span class="line"> 		<span class="attr">branch:</span> <span class="string">main</span></span><br></pre></td></tr></table></figure></li>
 </ul>
-<p>最后</p>
-<p><img src="pictures%5CuTools_1666352375445.png" alt="uTools_1666352375445"></p>
+<p>然后</p>
 <ul>
 <li><p>更改主题git clone <a target="_blank" rel="noopener" href="https://github.com/litten/hexo-theme-yilia.git">https://github.com/litten/hexo-theme-yilia.git</a> themes/yilia </p>
 <p>更改yml文件</p>
@@ -280,6 +284,12 @@
 </li>
 </ul>
 <p>hexo c<br>hexo g<br>hexo d</p>
+<ul>
+<li><p>值得注意的是，传统的markdown语法无法显示图片</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">post_asset_folder: false` 修改为 `post_asset_folder: true</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p><code>npm install https://github.com/7ym0n/hexo-asset-image --save</code></p>
+<p>最后需要新建与文章同名的文件夹存放图片</p>
 
     </div>
 
@@ -299,8 +309,8 @@
       <i class="fa fa-chevron-left"></i> 我的第一篇文章
     </a></div>
       <div class="post-nav-item">
-    <a href="/2022/10/21/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/" rel="next" title="">
-       <i class="fa fa-chevron-right"></i>
+    <a href="/2022/10/21/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/" rel="next" title="unityshader精要1">
+      unityshader精要1 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
