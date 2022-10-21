@@ -27,16 +27,16 @@
 <meta property="og:site_name" content="不会美术的温蒂">
 <meta property="og:description" content="Unity Shader01什么是渲染流水线？流水线的概念早已学过，那么渲染流水线又是什么。首先要区别于GPU（硬件)流水线。 分为三个概念上的阶段，每个阶段又有子流水线。 应用阶段：开发者支配的阶段，输入场景、贴图、摄像机、光源等等；输出点、线、三角面等渲染图元。 几何阶段（geometry): 这个阶段主要决定渲染哪些图元，以及将这些图元映射到二维平面上，包括着色，深度值，坐标。 光栅化阶段（">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/2022/10/21/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/%E5%9B%BE%E7%89%87/image-20220712135412678.png">
-<meta property="og:image" content="http://example.com/2022/10/21/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/%E5%9B%BE%E7%89%87/image-20220712141429317.png">
-<meta property="og:image" content="http://example.com/2022/10/21/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/%E5%9B%BE%E7%89%87/image-20220712142739290.png">
-<meta property="og:image" content="http://example.com/2022/10/21/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/%E5%9B%BE%E7%89%87/image-20220712145900074.png">
+<meta property="og:image" content="http://example.com/2022/10/21/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/image-20220712135412678.png">
+<meta property="og:image" content="http://example.com/2022/10/21/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/image-20220712141429317.png">
+<meta property="og:image" content="http://example.com/2022/10/21/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/image-20220712142739290.png">
+<meta property="og:image" content="http://example.com/2022/10/21/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/image-20220712145900074.png">
 <meta property="article:published_time" content="2022-10-21T15:45:10.669Z">
-<meta property="article:modified_time" content="2022-10-21T15:54:23.767Z">
+<meta property="article:modified_time" content="2022-10-21T23:03:18.853Z">
 <meta property="article:author" content="温蒂">
 <meta property="article:tag" content="TA">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2022/10/21/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/%E5%9B%BE%E7%89%87/image-20220712135412678.png">
+<meta name="twitter:image" content="http://example.com/2022/10/21/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/image-20220712135412678.png">
 
 <link rel="canonical" href="http://example.com/2022/10/21/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/">
 
@@ -231,10 +231,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2022-10-21 23:45:10 / Modified: 23:54:23" itemprop="dateCreated datePublished" datetime="2022-10-21T23:45:10+08:00">2022-10-21</time>
+              <time title="Created: 2022-10-21 23:45:10" itemprop="dateCreated datePublished" datetime="2022-10-21T23:45:10+08:00">2022-10-21</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-10-22 07:03:18" itemprop="dateModified" datetime="2022-10-22T07:03:18+08:00">2022-10-22</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -273,10 +279,10 @@
 <p>准备好后CPU发起Draw Call命令，GPU开始渲染。</p>
 <p>对应上面三个阶段。</p>
 <h4 id="GPU流水线"><a href="#GPU流水线" class="headerlink" title="GPU流水线"></a>GPU流水线</h4><p>已知几何与光栅化阶段在GPU上进行。</p>
-<p><img src="%E5%9B%BE%E7%89%87/image-20220712135412678.png" alt="image-20220712135412678"></p>
+<p><img src="/2022/10/21/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/image-20220712135412678.png" alt="image-20220712135412678"></p>
 <p>—-几何阶段</p>
 <p><strong>顶点着色器（Vertex Shader)</strong> 负责顶点几何变换和顶点着色</p>
-<p><img src="%E5%9B%BE%E7%89%87/image-20220712141429317.png" alt="image-20220712141429317"></p>
+<p><img src="/2022/10/21/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/image-20220712141429317.png" alt="image-20220712141429317"></p>
 <p>曲面细分、几何着色器均为可选着色器，分别用来细分图元和产生图元（增加）。</p>
 <p><strong>裁剪</strong></p>
 <p>位置分为完全在相机内，部分在相机内，完全不在相机内</p>
@@ -284,7 +290,7 @@
 <p>需要注意的是顶点着色器是可编程的，但裁剪却是不可编程的，是硬件上的固定操作。</p>
 <p><strong>屏幕映射</strong></p>
 <p>输入三维坐标，映射二维，z不做处理</p>
-<p><img src="%E5%9B%BE%E7%89%87/image-20220712142739290.png" alt="image-20220712142739290"></p>
+<p><img src="/2022/10/21/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/image-20220712142739290.png" alt="image-20220712142739290"></p>
 <p>——光栅化阶段</p>
 <p>三角形设置</p>
 <p>已知顶点着色器不会记录点与点之间的关系</p>
@@ -301,7 +307,7 @@
 <p><strong>逐片元操作</strong></p>
 <p>为OpenGL的说法，DX</p>
 <p>具体较复杂</p>
-<p><img src="%E5%9B%BE%E7%89%87/image-20220712145900074.png" alt="image-20220712145900074"></p>
+<p><img src="/2022/10/21/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/image-20220712145900074.png" alt="image-20220712145900074"></p>
 <p>片元着色器执行后，进行模板测试，再开始深度测试</p>
 <p>深度测试在坐标屏幕进行，屏幕空间坐标与glViewport所定义的视口大小相关</p>
 <p>可用glFragCoord(x,y,z)访问屏幕坐标，z为深度值</p>

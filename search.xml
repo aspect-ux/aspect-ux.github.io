@@ -65,10 +65,10 @@
 <p>准备好后CPU发起Draw Call命令，GPU开始渲染。</p>
 <p>对应上面三个阶段。</p>
 <h4 id="GPU流水线"><a href="#GPU流水线" class="headerlink" title="GPU流水线"></a>GPU流水线</h4><p>已知几何与光栅化阶段在GPU上进行。</p>
-<p><img src="%E5%9B%BE%E7%89%87/image-20220712135412678.png" alt="image-20220712135412678"></p>
+<p><img src="/2022/10/21/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/image-20220712135412678.png" alt="image-20220712135412678"></p>
 <p>—-几何阶段</p>
 <p><strong>顶点着色器（Vertex Shader)</strong> 负责顶点几何变换和顶点着色</p>
-<p><img src="%E5%9B%BE%E7%89%87/image-20220712141429317.png" alt="image-20220712141429317"></p>
+<p><img src="/2022/10/21/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/image-20220712141429317.png" alt="image-20220712141429317"></p>
 <p>曲面细分、几何着色器均为可选着色器，分别用来细分图元和产生图元（增加）。</p>
 <p><strong>裁剪</strong></p>
 <p>位置分为完全在相机内，部分在相机内，完全不在相机内</p>
@@ -76,7 +76,7 @@
 <p>需要注意的是顶点着色器是可编程的，但裁剪却是不可编程的，是硬件上的固定操作。</p>
 <p><strong>屏幕映射</strong></p>
 <p>输入三维坐标，映射二维，z不做处理</p>
-<p><img src="%E5%9B%BE%E7%89%87/image-20220712142739290.png" alt="image-20220712142739290"></p>
+<p><img src="/2022/10/21/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/image-20220712142739290.png" alt="image-20220712142739290"></p>
 <p>——光栅化阶段</p>
 <p>三角形设置</p>
 <p>已知顶点着色器不会记录点与点之间的关系</p>
@@ -93,7 +93,7 @@
 <p><strong>逐片元操作</strong></p>
 <p>为OpenGL的说法，DX</p>
 <p>具体较复杂</p>
-<p><img src="%E5%9B%BE%E7%89%87/image-20220712145900074.png" alt="image-20220712145900074"></p>
+<p><img src="/2022/10/21/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/image-20220712145900074.png" alt="image-20220712145900074"></p>
 <p>片元着色器执行后，进行模板测试，再开始深度测试</p>
 <p>深度测试在坐标屏幕进行，屏幕空间坐标与glViewport所定义的视口大小相关</p>
 <p>可用glFragCoord(x,y,z)访问屏幕坐标，z为深度值</p>
