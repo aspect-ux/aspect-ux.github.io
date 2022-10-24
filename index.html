@@ -134,7 +134,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">5</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">6</span></a>
 
   </li>
         <li class="menu-item menu-item-schedule">
@@ -203,6 +203,88 @@
 	  </div>
 	</div>
 	<br>
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/24/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8103/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/1.jpg">
+      <meta itemprop="name" content="温蒂">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="不会美术的温蒂">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/10/24/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8103/" class="post-title-link" itemprop="url">unityshader精要3</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-10-24 14:34:22 / Modified: 14:35:07" itemprop="dateCreated datePublished" datetime="2022-10-24T14:34:22+08:00">2022-10-24</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/unity-shader/" itemprop="url" rel="index"><span itemprop="name">unity shader</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="Unity-Shader03"><a href="#Unity-Shader03" class="headerlink" title="Unity Shader03"></a>Unity Shader03</h3><h4 id="线性代数基础"><a href="#线性代数基础" class="headerlink" title="线性代数基础"></a>线性代数基础</h4><h4 id="顶点的坐标空间变换"><a href="#顶点的坐标空间变换" class="headerlink" title="顶点的坐标空间变换"></a>顶点的坐标空间变换</h4><p><strong>模型空间</strong></p>
+<p>指的是模型物体前、上、右</p>
+<p><strong>裁剪空间</strong></p>
+<p>视锥体有六面，称为裁剪平面</p>
+<p>其中又有两个平面特殊，分别为靠近摄像机的近裁剪平面和远离摄像机的远裁剪平面。</p>
+<p>透视中视锥体呈金字塔状，正交中呈长方体</p>
+<p>已知处于几何处理的阶段</p>
+<p>现进行投影矩阵</p>
+<p><img src="/2022/10/24/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8103/image-20220713173712165.png" alt="image-20220713173712165"></p>
+<p><strong>总结</strong></p>
+<p>从模型空间到世界空间，再到观察空间，然后裁剪空间，最后屏幕映射到屏幕空间。需要许多变换矩阵。</p>
+<p><img src="/2022/10/24/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8103/image-20220714095415512.png" alt="image-20220714095415512"></p>
+<p><code>float4 a = float4(1.0,1.0,1.0,1.0);</code>该变量是矩阵还是矢量取决于运算种类和位置。</p>
+<p>点积（dot)</p>
+<p>矩阵乘法(mul)</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -724,7 +806,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-count">6</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

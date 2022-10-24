@@ -159,4 +159,27 @@
         <category>unity shader</category>
       </categories>
   </entry>
+  <entry>
+    <title>unityshader精要3</title>
+    <url>/2022/10/24/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8103/</url>
+    <content><![CDATA[<h3 id="Unity-Shader03"><a href="#Unity-Shader03" class="headerlink" title="Unity Shader03"></a>Unity Shader03</h3><h4 id="线性代数基础"><a href="#线性代数基础" class="headerlink" title="线性代数基础"></a>线性代数基础</h4><h4 id="顶点的坐标空间变换"><a href="#顶点的坐标空间变换" class="headerlink" title="顶点的坐标空间变换"></a>顶点的坐标空间变换</h4><p><strong>模型空间</strong></p>
+<p>指的是模型物体前、上、右</p>
+<p><strong>裁剪空间</strong></p>
+<p>视锥体有六面，称为裁剪平面</p>
+<p>其中又有两个平面特殊，分别为靠近摄像机的近裁剪平面和远离摄像机的远裁剪平面。</p>
+<p>透视中视锥体呈金字塔状，正交中呈长方体</p>
+<p>已知处于几何处理的阶段</p>
+<p>现进行投影矩阵</p>
+<p><img src="/2022/10/24/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8103/image-20220713173712165.png" alt="image-20220713173712165"></p>
+<p><strong>总结</strong></p>
+<p>从模型空间到世界空间，再到观察空间，然后裁剪空间，最后屏幕映射到屏幕空间。需要许多变换矩阵。</p>
+<p><img src="/2022/10/24/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8103/image-20220714095415512.png" alt="image-20220714095415512"></p>
+<p><code>float4 a = float4(1.0,1.0,1.0,1.0);</code>该变量是矩阵还是矢量取决于运算种类和位置。</p>
+<p>点积（dot)</p>
+<p>矩阵乘法(mul)</p>
+]]></content>
+      <categories>
+        <category>unity shader</category>
+      </categories>
+  </entry>
 </search>
