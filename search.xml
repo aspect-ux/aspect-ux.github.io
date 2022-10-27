@@ -226,4 +226,26 @@
         <category>unity shader</category>
       </categories>
   </entry>
+  <entry>
+    <title>Computer Graphics 01</title>
+    <url>/2022/10/27/%E8%99%8E%E4%B9%A6/01/</url>
+    <content><![CDATA[<h1 id="Computer-Graphics-01"><a href="#Computer-Graphics-01" class="headerlink" title="Computer Graphics 01"></a>Computer Graphics 01</h1><h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><h3 id="Efficiency"><a href="#Efficiency" class="headerlink" title="Efficiency"></a>Efficiency</h3><p><code>However, for the foreseeable future, a good heuristic is that programmers</code></p>
+<p><code>should pay more attention to memory access patterns than to operation counts.</code></p>
+<p>因为内存的速度跟不上处理器的速度</p>
+<h2 id="Miscellaneous-Math"><a href="#Miscellaneous-Math" class="headerlink" title="Miscellaneous Math"></a>Miscellaneous Math</h2><p>2.1 集合和映射</p>
+<p>2.2 解决二次等式</p>
+<p>2.3 三角学（trigonometry) 勾股，三角函数，角</p>
+<p>…</p>
+<p>2.4.4 叉乘（cross product)</p>
+<p><strong>a</strong> x <strong>b</strong> = |ab| sin (theta)</p>
+<p>…</p>
+<h4 id="Curve-and-Surface"><a href="#Curve-and-Surface" class="headerlink" title="Curve and Surface"></a>Curve and Surface</h4><p>从1d 到3d的积分，参数方程</p>
+<h4 id="Linear-Interpolation"><a href="#Linear-Interpolation" class="headerlink" title="Linear Interpolation"></a>Linear Interpolation</h4><p><code>p = (1 - t)a + tb</code></p>
+<p>barycentric 重心坐标</p>
+<p>cardinality 集合基数</p>
+]]></content>
+      <categories>
+        <category>Fundamental of Computer Graphics</category>
+      </categories>
+  </entry>
 </search>
