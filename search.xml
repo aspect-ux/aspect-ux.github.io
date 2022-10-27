@@ -248,4 +248,33 @@
         <category>Fundamental of Computer Graphics</category>
       </categories>
   </entry>
+  <entry>
+    <title></title>
+    <url>/2022/10/27/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8105/</url>
+    <content><![CDATA[<h3 id="UnityShader-05"><a href="#UnityShader-05" class="headerlink" title="UnityShader 05"></a>UnityShader 05</h3><h4 id="Unity中的基本光照"><a href="#Unity中的基本光照" class="headerlink" title="Unity中的基本光照"></a>Unity中的基本光照</h4><p>光线是如何产生的，光源发射光，一些物体与光交互，吸收一些光，散射一些光，而摄像机吸收一些光，形成了图像。</p>
+<p>在光学中，使用<strong>辐照度</strong>（irradiance)来量化光。</p>
+<p>那么如何计算辐照度呢？</p>
+<p>辐照度与照射到物体表面光线之间的距离<code>d/cosx</code>成反比。</p>
+<p>当光垂直下落<code>cosx=1</code>,那么距离为d</p>
+<p>当光与竖直方向呈x度角，距离为<code>d/cosx</code></p>
+<p>其中x可以由表面法线n和光源方向l的点积得到。</p>
+<h5 id="散射与吸收"><a href="#散射与吸收" class="headerlink" title="散射与吸收"></a>散射与吸收</h5><p>散射（scatering)只改变光线方向，不改变光线的密度和颜色。散射的光线一般有两种方向，一种是向物体内部折射（refraction)或透射（transmission);另一种是反射（reflection)到外部。</p>
+<p>为了区分两种散射，用<strong>高光反射</strong>（specular)和<strong>漫反射</strong>（diffuse)分别表示物体如何反射以及计算多少光线折射、吸收(absorption)、反射出表面。</p>
+<p>根据光线的入射方向和入射量可以得到出射度（exitance)</p>
+<h5 id="着色"><a href="#着色" class="headerlink" title="着色"></a>着色</h5><p>根据一系列的信息得到计算出射度的等式，也即光照模型。（lighting model )</p>
+<h5 id="标准光照模型"><a href="#标准光照模型" class="headerlink" title="标准光照模型"></a>标准光照模型</h5><ul>
+<li><p>自发光（emissive) 光线直接由光源进入摄像机，直接用材质的自发光颜色。</p>
+</li>
+<li><p>高光反射（specular)</p>
+</li>
+<li><p>漫反射（diffuse)</p>
+<p>漫反射光照符合兰伯特定律 (Lambert’s law): 反射光线的强度与表面法线和光源方向之间角的余弦值 成正比。因此， 漫反射部分的计算如下</p>
+<p><img src="/2022/10/27/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8105/image-20220715170258041.png" alt="image-20220715170258041"></p>
+<p>c light 和 m diffuse 分别表示光源颜色和漫反射颜色</p>
+</li>
+<li><p>环境光（ambient) 一般是全局变量</p>
+</li>
+</ul>
+]]></content>
+  </entry>
 </search>
