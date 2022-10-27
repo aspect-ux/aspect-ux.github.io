@@ -249,7 +249,7 @@
       </categories>
   </entry>
   <entry>
-    <title></title>
+    <title>unityshader精要5</title>
     <url>/2022/10/27/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8105/</url>
     <content><![CDATA[<h3 id="UnityShader-05"><a href="#UnityShader-05" class="headerlink" title="UnityShader 05"></a>UnityShader 05</h3><h4 id="Unity中的基本光照"><a href="#Unity中的基本光照" class="headerlink" title="Unity中的基本光照"></a>Unity中的基本光照</h4><p>光线是如何产生的，光源发射光，一些物体与光交互，吸收一些光，散射一些光，而摄像机吸收一些光，形成了图像。</p>
 <p>在光学中，使用<strong>辐照度</strong>（irradiance)来量化光。</p>
@@ -276,5 +276,8 @@
 </li>
 </ul>
 ]]></content>
+      <categories>
+        <category>unity shader</category>
+      </categories>
   </entry>
 </search>
