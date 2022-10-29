@@ -339,7 +339,7 @@
       </categories>
   </entry>
   <entry>
-    <title></title>
+    <title>unityshader精要7</title>
     <url>/2022/10/29/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter7/</url>
     <content><![CDATA[<h2 id="纹理"><a href="#纹理" class="headerlink" title="纹理"></a>纹理</h2><p>我们通常用一张纹理代替物体漫反射</p>
 <h3 id="单纹理贴图"><a href="#单纹理贴图" class="headerlink" title="单纹理贴图"></a>单纹理贴图</h3><p><em>代码</em></p>
@@ -368,5 +368,8 @@
 <p><img src="/2022/10/29/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter7/image-20220820083553612.png" alt="image-20220820083553612"></p>
 <p><strong>CreateFromGrayscale</strong> 用高度图生成切线空间法线纹理</p>
 ]]></content>
+      <categories>
+        <category>unity shader</category>
+      </categories>
   </entry>
 </search>
