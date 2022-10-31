@@ -417,7 +417,7 @@
       </categories>
   </entry>
   <entry>
-    <title></title>
+    <title>Computer Graphics 03</title>
     <url>/2022/10/31/%E8%99%8E%E4%B9%A6/03/</url>
     <content><![CDATA[<h1 id="Ray-Tracing"><a href="#Ray-Tracing" class="headerlink" title="Ray Tracing"></a>Ray Tracing</h1><p>渲染3d物体时计算机图形的工作之一。</p>
 <p>同一场景的物体渲染需要考虑每个物体贡献的像素。</p>
@@ -475,5 +475,39 @@
 <p>展开得到quadratic 二次方程，判别式b^2 - 4ac</p>
 <p><img src="/2022/10/31/%E8%99%8E%E4%B9%A6/03/uTools_1667222501427.png" alt="uTools_1667222501427"></p>
 ]]></content>
+      <categories>
+        <category>Fundamental of Computer Graphics</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>unityshader精要7-1</title>
+    <url>/2022/10/31/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter7_1/</url>
+    <content><![CDATA[<h2 id="Chapter7"><a href="#Chapter7" class="headerlink" title="Chapter7"></a>Chapter7</h2><h3 id="渐变纹理"><a href="#渐变纹理" class="headerlink" title="渐变纹理"></a>渐变纹理</h3><p>冷色调转暖色调，编写卡通风格Unity Shader（<em>记录：区别BlinnPhong和Phong高光计算</em>，另外如果计算新的漫反射albedo,就不用声明_Diffuse来计算diffuse）</p>
+<p><em>代码</em></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fixed4 frag(v2f i) : SV_TARGET&#123;</span><br><span class="line">               fixed3 worldNormal = normalize(i.worldNormal);</span><br><span class="line">               fixed3 worldLightDir = normalize(UnityWorldSpaceLightDir(i.worldPos));</span><br><span class="line"></span><br><span class="line">               fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz;  //</span><br><span class="line"></span><br><span class="line">               //使用纹理来采样漫反射,使用半兰伯特模型</span><br><span class="line">               fixed halfLambert = 0.5 * dot(worldNormal,worldLightDir) + 0.5;</span><br><span class="line">               fixed3 diffuseColor = tex2D(_RampTex,fixed2(halfLambert,halfLambert)).rgb * _Color.rgb;</span><br><span class="line"></span><br><span class="line">               fixed3 diffuse = _LightColor0.rgb * diffuseColor;</span><br><span class="line"></span><br><span class="line">               //计算高光BlinnPhong模型</span><br><span class="line">               fixed3 viewDir = normalize(UnityWorldSpaceViewDir(i.worldPos));</span><br><span class="line">               fixed3 halfDir = normalize(worldLightDir + viewDir);</span><br><span class="line">               fixed3 specular = _LightColor0.rgb * _Specular.rgb * pow(max(0,dot(worldNormal,halfDir)),_Gloss);</span><br><span class="line">               </span><br><span class="line">               return fixed4(ambient + diffuse + specular,1.0);</span><br><span class="line">           &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>注意使用<code>fixed2(halfLambert,halfLambert)</code>会发生大于1的情况（1.0001）,这样映射到模型上会出现黑点</p>
+<p>此时需要将纹理的WrapMode从Repeat(重复，但是最左边是黑色的）换成Clamp(大于1取1)</p>
+<p><img src="/2022/10/31/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter7_1/UnityShader%E7%B2%BE%E8%A6%81Chapter7_1%5Cimage-20220820110835470.png" alt="image-20220820110835470"></p>
+<h3 id="遮罩纹理"><a href="#遮罩纹理" class="headerlink" title="遮罩纹理"></a>遮罩纹理</h3><p>使用高光遮罩纹理，遮罩纹理用于更加细致地控制高光反射光强度</p>
+<p>变量声明</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">fixed4 _Color;</span><br><span class="line">sampler2D _MainTex;</span><br><span class="line">float4 _MainTex_ST;</span><br><span class="line">sampler2D _BumpMap;</span><br><span class="line"><span class="comment">//float4 _BumpMap_ST;</span></span><br><span class="line"><span class="built_in">float</span> _BumpScale;</span><br><span class="line">sampler2D _SpecularMask;</span><br><span class="line"><span class="comment">//float4 _SpecularMask_ST;</span></span><br><span class="line"><span class="built_in">float</span> _SpecularScale;</span><br><span class="line">fixed4 _Specular;</span><br><span class="line"><span class="built_in">float</span> _Gloss;</span><br></pre></td></tr></table></figure>
+
+<p><em>这里 _ BumpMap、_ Specular和_MainTex共用一个ST</em></p>
+<p>如果每个纹理都需要不同的平铺系数和偏移系数，那么纹理数目增加顶点着色器中的插值寄存器会迅速被占满。</p>
+<p><strong>流程</strong></p>
+<p>1.该实验使用了三个纹理，分别是基本纹理，切线空间的法线纹理（凹凸贴图），高光遮罩纹理</p>
+<p>2.计算是逐像素计算，计算是在切线空间下进行（一定要明确在哪个空间下进行），diffuse用lambert模型</p>
+<p>specular用BlinnPhong模型</p>
+<p>3.<code>o.uv = TRANSFORM_TEX(v.texcoord, _MainTex;</code>三张纹理共用同一套uv</p>
+<p><strong>结果</strong></p>
+<p>加上遮罩贴图后高光更加暗淡和谐</p>
+<p><img src="/2022/10/31/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter7_1/UnityShader%E7%B2%BE%E8%A6%81Chapter7_1%5CuTools_1660974045813.png" alt="uTools_1660974045813"></p>
+]]></content>
+      <categories>
+        <category>unity shader</category>
+      </categories>
   </entry>
 </search>

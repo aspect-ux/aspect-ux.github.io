@@ -134,7 +134,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">13</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">14</span></a>
 
   </li>
         <li class="menu-item menu-item-schedule">
@@ -207,6 +207,96 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/31/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter7_1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/1.jpg">
+      <meta itemprop="name" content="温蒂">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="不会美术的温蒂">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/10/31/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter7_1/" class="post-title-link" itemprop="url">unityshader精要7-1</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-10-31 21:26:55 / Modified: 21:32:04" itemprop="dateCreated datePublished" datetime="2022-10-31T21:26:55+08:00">2022-10-31</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/unity-shader/" itemprop="url" rel="index"><span itemprop="name">unity shader</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Chapter7"><a href="#Chapter7" class="headerlink" title="Chapter7"></a>Chapter7</h2><h3 id="渐变纹理"><a href="#渐变纹理" class="headerlink" title="渐变纹理"></a>渐变纹理</h3><p>冷色调转暖色调，编写卡通风格Unity Shader（<em>记录：区别BlinnPhong和Phong高光计算</em>，另外如果计算新的漫反射albedo,就不用声明_Diffuse来计算diffuse）</p>
+<p><em>代码</em></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">fixed4 frag(v2f i) : SV_TARGET&#123;</span><br><span class="line">               fixed3 worldNormal = normalize(i.worldNormal);</span><br><span class="line">               fixed3 worldLightDir = normalize(UnityWorldSpaceLightDir(i.worldPos));</span><br><span class="line"></span><br><span class="line">               fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz;  //</span><br><span class="line"></span><br><span class="line">               //使用纹理来采样漫反射,使用半兰伯特模型</span><br><span class="line">               fixed halfLambert = 0.5 * dot(worldNormal,worldLightDir) + 0.5;</span><br><span class="line">               fixed3 diffuseColor = tex2D(_RampTex,fixed2(halfLambert,halfLambert)).rgb * _Color.rgb;</span><br><span class="line"></span><br><span class="line">               fixed3 diffuse = _LightColor0.rgb * diffuseColor;</span><br><span class="line"></span><br><span class="line">               //计算高光BlinnPhong模型</span><br><span class="line">               fixed3 viewDir = normalize(UnityWorldSpaceViewDir(i.worldPos));</span><br><span class="line">               fixed3 halfDir = normalize(worldLightDir + viewDir);</span><br><span class="line">               fixed3 specular = _LightColor0.rgb * _Specular.rgb * pow(max(0,dot(worldNormal,halfDir)),_Gloss);</span><br><span class="line">               </span><br><span class="line">               return fixed4(ambient + diffuse + specular,1.0);</span><br><span class="line">           &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>注意使用<code>fixed2(halfLambert,halfLambert)</code>会发生大于1的情况（1.0001）,这样映射到模型上会出现黑点</p>
+<p>此时需要将纹理的WrapMode从Repeat(重复，但是最左边是黑色的）换成Clamp(大于1取1)</p>
+<p><img src="/2022/10/31/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter7_1/UnityShader%E7%B2%BE%E8%A6%81Chapter7_1%5Cimage-20220820110835470.png" alt="image-20220820110835470"></p>
+<h3 id="遮罩纹理"><a href="#遮罩纹理" class="headerlink" title="遮罩纹理"></a>遮罩纹理</h3><p>使用高光遮罩纹理，遮罩纹理用于更加细致地控制高光反射光强度</p>
+<p>变量声明</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">fixed4 _Color;</span><br><span class="line">sampler2D _MainTex;</span><br><span class="line">float4 _MainTex_ST;</span><br><span class="line">sampler2D _BumpMap;</span><br><span class="line"><span class="comment">//float4 _BumpMap_ST;</span></span><br><span class="line"><span class="built_in">float</span> _BumpScale;</span><br><span class="line">sampler2D _SpecularMask;</span><br><span class="line"><span class="comment">//float4 _SpecularMask_ST;</span></span><br><span class="line"><span class="built_in">float</span> _SpecularScale;</span><br><span class="line">fixed4 _Specular;</span><br><span class="line"><span class="built_in">float</span> _Gloss;</span><br></pre></td></tr></table></figure>
+
+<p><em>这里 _ BumpMap、_ Specular和_MainTex共用一个ST</em></p>
+<p>如果每个纹理都需要不同的平铺系数和偏移系数，那么纹理数目增加顶点着色器中的插值寄存器会迅速被占满。</p>
+<p><strong>流程</strong></p>
+<p>1.该实验使用了三个纹理，分别是基本纹理，切线空间的法线纹理（凹凸贴图），高光遮罩纹理</p>
+<p>2.计算是逐像素计算，计算是在切线空间下进行（一定要明确在哪个空间下进行），diffuse用lambert模型</p>
+<p>specular用BlinnPhong模型</p>
+<p>3.<code>o.uv = TRANSFORM_TEX(v.texcoord, _MainTex;</code>三张纹理共用同一套uv</p>
+<p><strong>结果</strong></p>
+<p>加上遮罩贴图后高光更加暗淡和谐</p>
+<p><img src="/2022/10/31/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter7_1/UnityShader%E7%B2%BE%E8%A6%81Chapter7_1%5CuTools_1660974045813.png" alt="uTools_1660974045813"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/31/%E8%99%8E%E4%B9%A6/03/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -221,7 +311,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/10/31/%E8%99%8E%E4%B9%A6/03/" class="post-title-link" itemprop="url">Untitled</a>
+            <a href="/2022/10/31/%E8%99%8E%E4%B9%A6/03/" class="post-title-link" itemprop="url">Computer Graphics 03</a>
         </h2>
 
         <div class="post-meta">
@@ -232,7 +322,16 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-10-31 19:21:15 / Modified: 21:25:36" itemprop="dateCreated datePublished" datetime="2022-10-31T19:21:15+08:00">2022-10-31</time>
+              <time title="Created: 2022-10-31 19:21:15 / Modified: 21:32:30" itemprop="dateCreated datePublished" datetime="2022-10-31T19:21:15+08:00">2022-10-31</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Fundamental-of-Computer-Graphics/" itemprop="url" rel="index"><span itemprop="name">Fundamental of Computer Graphics</span></a>
+                </span>
             </span>
 
           
@@ -1099,125 +1198,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/21/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/1.jpg">
-      <meta itemprop="name" content="温蒂">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="不会美术的温蒂">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/10/21/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/" class="post-title-link" itemprop="url">unityshader精要1</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2022-10-21 23:45:10" itemprop="dateCreated datePublished" datetime="2022-10-21T23:45:10+08:00">2022-10-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-10-22 07:10:56" itemprop="dateModified" datetime="2022-10-22T07:10:56+08:00">2022-10-22</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/unity-shader/" itemprop="url" rel="index"><span itemprop="name">unity shader</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="Unity-Shader01"><a href="#Unity-Shader01" class="headerlink" title="Unity Shader01"></a>Unity Shader01</h3><h4 id="什么是渲染流水线？"><a href="#什么是渲染流水线？" class="headerlink" title="什么是渲染流水线？"></a>什么是渲染流水线？</h4><p>流水线的概念早已学过，那么渲染流水线又是什么。首先要区别于GPU（硬件)流水线。</p>
-<p>分为三个概念上的阶段，每个阶段又有子流水线。</p>
-<p>应用阶段：开发者支配的阶段，输入场景、贴图、摄像机、光源等等；输出点、线、三角面等渲染图元。</p>
-<p>几何阶段（geometry): 这个阶段主要决定渲染哪些图元，以及将这些图元映射到二维平面上，包括着色，深度值，坐标。</p>
-<p>光栅化阶段（rasterization): 这个阶段同上一个阶段都是在GPU上进行，利用上一阶段的数据绘制出像素。先是逐顶点处理，然后是像素处理。</p>
-<h4 id="CPU与GPU之间"><a href="#CPU与GPU之间" class="headerlink" title="CPU与GPU之间"></a>CPU与GPU之间</h4><p>CPU控制数据从HDD(硬盘)中加载到显卡的显存（VRAM)中，数据包括位置、顶点着色、法线方向等。</p>
-<p>指定渲染状态，例如使用哪个顶点/片元着色器，使用哪个光源属性、材质。</p>
-<p>准备好后CPU发起Draw Call命令，GPU开始渲染。</p>
-<p>对应上面三个阶段。</p>
-<h4 id="GPU流水线"><a href="#GPU流水线" class="headerlink" title="GPU流水线"></a>GPU流水线</h4><p>已知几何与光栅化阶段在GPU上进行。</p>
-<p><img src="/2022/10/21/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/image-20220712135412678.png" alt="image-20220712135412678"></p>
-<p>—-几何阶段</p>
-<p><strong>顶点着色器（Vertex Shader)</strong> 负责顶点几何变换和顶点着色</p>
-<p><img src="/2022/10/21/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/image-20220712141429317.png" alt="image-20220712141429317"></p>
-<p>曲面细分、几何着色器均为可选着色器，分别用来细分图元和产生图元（增加）。</p>
-<p><strong>裁剪</strong></p>
-<p>位置分为完全在相机内，部分在相机内，完全不在相机内</p>
-<p>裁剪用来处理部分在相机内的部分，将与相机交点替代相机外的部分。</p>
-<p>需要注意的是顶点着色器是可编程的，但裁剪却是不可编程的，是硬件上的固定操作。</p>
-<p><strong>屏幕映射</strong></p>
-<p>输入三维坐标，映射二维，z不做处理</p>
-<p><img src="/2022/10/21/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/image-20220712142739290.png" alt="image-20220712142739290"></p>
-<p>——光栅化阶段</p>
-<p>三角形设置</p>
-<p>已知顶点着色器不会记录点与点之间的关系</p>
-<p>该过程用来得到三角形边界表达方式，计算像素覆盖情况。</p>
-<p><strong>三角形遍历</strong></p>
-<p>（Triangle Traversal)</p>
-<p>找到覆盖的像素，生成片元。</p>
-<p>一个片元并不是真正意义上的像素，而是包含了很多状态的集合 这些状态用于计算每个像素的最终颜色</p>
-<p>对三个顶点进行插值，然后三角形内部颜色由三点渐变(gradient)混合而成。</p>
-<p><strong>片元着色器</strong></p>
-<p>DX中又称为像素着色器（Pixel Shader),不过片元不是真正意义上的像素</p>
-<p>可编程</p>
-<p>纹理采样，对三个顶点插值后，就可以得到片元的纹理坐标，仅可以影响单个片元，无法传递给邻居</p>
-<p><strong>逐片元操作</strong></p>
-<p>为OpenGL的说法，DX</p>
-<p>具体较复杂</p>
-<p><img src="/2022/10/21/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/image-20220712145900074.png" alt="image-20220712145900074"></p>
-<p>片元着色器执行后，进行模板测试，再开始深度测试</p>
-<p>深度测试在坐标屏幕进行，屏幕空间坐标与glViewport所定义的视口大小相关</p>
-<p>可用glFragCoord(x,y,z)访问屏幕坐标，z为深度值</p>
-<p>现代GPU硬件特性，深度测试可以在片着之前，但是不能同时。</p>
-<p>参照<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/371245442">深度测试 - 知乎 (zhihu.com)</a></p>
-<h4 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h4><p>OpenGL、DX是CPU和GPU之间的桥梁，图形接口（api)</p>
-<p>显卡中除了图形处理单元GPU,还有显存(VRAM)。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1289,7 +1269,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-count">14</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
