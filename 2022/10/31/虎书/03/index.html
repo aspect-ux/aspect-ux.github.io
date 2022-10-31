@@ -22,23 +22,26 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="Unity Shader03线性代数基础顶点的坐标空间变换模型空间 指的是模型物体前、上、右 裁剪空间 视锥体有六面，称为裁剪平面 其中又有两个平面特殊，分别为靠近摄像机的近裁剪平面和远离摄像机的远裁剪平面。 透视中视锥体呈金字塔状，正交中呈长方体 已知处于几何处理的阶段 现进行投影矩阵  总结 从模型空间到世界空间，再到观察空间，然后裁剪空间，最后屏幕映射到屏幕空间。需要许多变换矩阵。  flo">
+  <meta name="description" content="Ray Tracing渲染3d物体时计算机图形的工作之一。 同一场景的物体渲染需要考虑每个物体贡献的像素。 有两种常规的方法来考虑  object-order rendering ,通过找物体来计算对应像素 image-order rendering，通过找像素来判断物体，然后计算像素  差别可以这么来看 前者双重循环外循环是物体，后者则是像素 宽泛来说，image-order rendering">
 <meta property="og:type" content="article">
-<meta property="og:title" content="unityshader精要3">
-<meta property="og:url" content="http://example.com/2022/10/24/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8103/index.html">
+<meta property="og:title" content="不会美术的温蒂">
+<meta property="og:url" content="http://example.com/2022/10/31/%E8%99%8E%E4%B9%A6/03/index.html">
 <meta property="og:site_name" content="不会美术的温蒂">
-<meta property="og:description" content="Unity Shader03线性代数基础顶点的坐标空间变换模型空间 指的是模型物体前、上、右 裁剪空间 视锥体有六面，称为裁剪平面 其中又有两个平面特殊，分别为靠近摄像机的近裁剪平面和远离摄像机的远裁剪平面。 透视中视锥体呈金字塔状，正交中呈长方体 已知处于几何处理的阶段 现进行投影矩阵  总结 从模型空间到世界空间，再到观察空间，然后裁剪空间，最后屏幕映射到屏幕空间。需要许多变换矩阵。  flo">
+<meta property="og:description" content="Ray Tracing渲染3d物体时计算机图形的工作之一。 同一场景的物体渲染需要考虑每个物体贡献的像素。 有两种常规的方法来考虑  object-order rendering ,通过找物体来计算对应像素 image-order rendering，通过找像素来判断物体，然后计算像素  差别可以这么来看 前者双重循环外循环是物体，后者则是像素 宽泛来说，image-order rendering">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/2022/10/24/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8103/image-20220713173712165.png">
-<meta property="og:image" content="http://example.com/2022/10/24/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8103/image-20220714095415512.png">
-<meta property="article:published_time" content="2022-10-24T06:34:22.454Z">
-<meta property="article:modified_time" content="2022-10-24T06:35:07.585Z">
+<meta property="og:image" content="http://example.com/2022/10/31/%E8%99%8E%E4%B9%A6/03/uTools_1667218571247.png">
+<meta property="og:image" content="http://example.com/2022/10/31/%E8%99%8E%E4%B9%A6/03/uTools_1667219704846.png">
+<meta property="og:image" content="http://example.com/2022/10/31/%E8%99%8E%E4%B9%A6/03/uTools_1667219881824.png">
+<meta property="og:image" content="http://example.com/2022/10/31/%E8%99%8E%E4%B9%A6/03/uTools_1667220608282.png">
+<meta property="og:image" content="http://example.com/2022/10/31/%E8%99%8E%E4%B9%A6/03/uTools_1667222501427.png">
+<meta property="article:published_time" content="2022-10-31T11:21:15.666Z">
+<meta property="article:modified_time" content="2022-10-31T13:25:36.928Z">
 <meta property="article:author" content="温蒂">
 <meta property="article:tag" content="TA">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2022/10/24/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8103/image-20220713173712165.png">
+<meta name="twitter:image" content="http://example.com/2022/10/31/%E8%99%8E%E4%B9%A6/03/uTools_1667218571247.png">
 
-<link rel="canonical" href="http://example.com/2022/10/24/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8103/">
+<link rel="canonical" href="http://example.com/2022/10/31/%E8%99%8E%E4%B9%A6/03/">
 
 
 <script id="page-configurations">
@@ -51,7 +54,7 @@
   };
 </script>
 
-  <title>unityshader精要3 | 不会美术的温蒂</title>
+  <title> | 不会美术的温蒂</title>
   
 
 
@@ -209,7 +212,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/24/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8103/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/31/%E8%99%8E%E4%B9%A6/03/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/1.jpg">
@@ -222,7 +225,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          unityshader精要3
+          
         </h1>
 
         <div class="post-meta">
@@ -233,16 +236,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-10-24 14:34:22 / Modified: 14:35:07" itemprop="dateCreated datePublished" datetime="2022-10-24T14:34:22+08:00">2022-10-24</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/unity-shader/" itemprop="url" rel="index"><span itemprop="name">unity shader</span></a>
-                </span>
+              <time title="Created: 2022-10-31 19:21:15 / Modified: 21:25:36" itemprop="dateCreated datePublished" datetime="2022-10-31T19:21:15+08:00">2022-10-31</time>
             </span>
 
           
@@ -263,21 +257,61 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="Unity-Shader03"><a href="#Unity-Shader03" class="headerlink" title="Unity Shader03"></a>Unity Shader03</h3><h4 id="线性代数基础"><a href="#线性代数基础" class="headerlink" title="线性代数基础"></a>线性代数基础</h4><h4 id="顶点的坐标空间变换"><a href="#顶点的坐标空间变换" class="headerlink" title="顶点的坐标空间变换"></a>顶点的坐标空间变换</h4><p><strong>模型空间</strong></p>
-<p>指的是模型物体前、上、右</p>
-<p><strong>裁剪空间</strong></p>
-<p>视锥体有六面，称为裁剪平面</p>
-<p>其中又有两个平面特殊，分别为靠近摄像机的近裁剪平面和远离摄像机的远裁剪平面。</p>
-<p>透视中视锥体呈金字塔状，正交中呈长方体</p>
-<p>已知处于几何处理的阶段</p>
-<p>现进行投影矩阵</p>
-<p><img src="/2022/10/24/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8103/image-20220713173712165.png" alt="image-20220713173712165"></p>
-<p><strong>总结</strong></p>
-<p>从模型空间到世界空间，再到观察空间，然后裁剪空间，最后屏幕映射到屏幕空间。需要许多变换矩阵。</p>
-<p><img src="/2022/10/24/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8103/image-20220714095415512.png" alt="image-20220714095415512"></p>
-<p><code>float4 a = float4(1.0,1.0,1.0,1.0);</code>该变量是矩阵还是矢量取决于运算种类和位置。</p>
-<p>点积（dot)</p>
-<p>矩阵乘法(mul)</p>
+        <h1 id="Ray-Tracing"><a href="#Ray-Tracing" class="headerlink" title="Ray Tracing"></a>Ray Tracing</h1><p>渲染3d物体时计算机图形的工作之一。</p>
+<p>同一场景的物体渲染需要考虑每个物体贡献的像素。</p>
+<p>有两种常规的方法来考虑</p>
+<ul>
+<li>object-order rendering ,通过找物体来计算对应像素</li>
+<li>image-order rendering，通过找像素来判断物体，然后计算像素</li>
+</ul>
+<p>差别可以这么来看</p>
+<p>前者双重循环外循环是物体，后者则是像素</p>
+<p>宽泛来说，image-order rendering 是更加简单和灵活的，一般来说也会有更长的执行事件来制造同样的图片。</p>
+<p><strong>Ray Tracing 就是image-order algorithm</strong>因为这样不需要像前者一样用数学器械就能实现光线追踪器。</p>
+<h2 id="The-Basic-Ray-Tracing-Algorithm"><a href="#The-Basic-Ray-Tracing-Algorithm" class="headerlink" title="The Basic Ray-Tracing Algorithm"></a>The Basic Ray-Tracing Algorithm</h2><p>基本的光线追踪器有三个部分</p>
+<p>某种意义上，在引擎中，可以认为“眼睛发光”</p>
+<ol>
+<li><p>ray generation. 计算每个像素的view射线的来源和方向</p>
+</li>
+<li><p>ray intersection. 计算与view射线相交的最近物体</p>
+</li>
+<li><p>shading. 在原有的射线相交的基础上进行着色</p>
+<p><img src="/2022/10/31/%E8%99%8E%E4%B9%A6/03/uTools_1667218571247.png" alt="uTools_1667218571247"></p>
+</li>
+</ol>
+<h2 id="Perspective"><a href="#Perspective" class="headerlink" title="Perspective"></a>Perspective</h2><p>标准的方法来为计算机图形，艺术和照片制作图片，是使用linear perspective(线性透视)</p>
+<p>parallel projection(平行投影)是最简单的投影方式，平移。一般用于机械和建筑</p>
+<p>如果image plane和视线方向垂直，成为orthograph(正交投影)  orthonormal(正交的)</p>
+<h2 id="Compute-View-Ray"><a href="#Compute-View-Ray" class="headerlink" title="Compute View Ray"></a>Compute View Ray</h2><p>phase 1</p>
+<p>为了生成ray,我们首先需要一个数学表达</p>
+<p><code>p(t) = e + t(s- e)</code></p>
+<p>e is eye,    s is image plane point</p>
+<p><img src="/2022/10/31/%E8%99%8E%E4%B9%A6/03/uTools_1667219704846.png" alt="uTools_1667219704846"></p>
+<p>在代码中</p>
+<p><img src="/2022/10/31/%E8%99%8E%E4%B9%A6/03/uTools_1667219881824.png" alt="uTools_1667219881824"></p>
+<p>详情见P84</p>
+<h3 id="Orthographic-Views"><a href="#Orthographic-Views" class="headerlink" title="Orthographic Views"></a>Orthographic Views</h3><p>对于正交投影view ray,</p>
+<p>ray generation 使用相机的框架，</p>
+<ol>
+<li><p>正交投影从image plane的一个像素的位置开始，并且全部共享相同的方向—-view direction.</p>
+</li>
+<li><p>而透视投影则是选择一个view point 开始，方向则是view point 到image plane的点的位置。</p>
+</li>
+</ol>
+<p><strong>要将nx  ny 的像素投射到(r - l) x (t - b)的矩形上</strong></p>
+<p>其中l,r分别是片元，pixel的左右边界坐标，b和t则是下、上边界坐标</p>
+<p><img src="/2022/10/31/%E8%99%8E%E4%B9%A6/03/uTools_1667220608282.png" alt="uTools_1667220608282"></p>
+<p>详情见P86</p>
+<h3 id="Perspective-Views"><a href="#Perspective-Views" class="headerlink" title="Perspective Views"></a>Perspective Views</h3><h2 id="Ray-Object-Intersection"><a href="#Ray-Object-Intersection" class="headerlink" title="Ray-Object Intersection"></a>Ray-Object Intersection</h2><p>phase 2</p>
+<h3 id="Ray-Sphere-Intersection"><a href="#Ray-Sphere-Intersection" class="headerlink" title="Ray-Sphere Intersection"></a>Ray-Sphere Intersection</h3><p>使用implicit surface</p>
+<p>隐式表达式f(p(t)) = 0或者f(e + td) = 0</p>
+<p>对于一个球来说，设中心点为c</p>
+<p><code>(p - c)(p - c) - R^2 = 0</code></p>
+<p><strong>注意，当满足上式，说明p对应的点已经在球上，也即intersection</strong></p>
+<p><code>(e + t d - c)(e + td - c) - R^2 = 0</code></p>
+<p>只有t未知</p>
+<p>展开得到quadratic 二次方程，判别式b^2 - 4ac</p>
+<p><img src="/2022/10/31/%E8%99%8E%E4%B9%A6/03/uTools_1667222501427.png" alt="uTools_1667222501427"></p>
 
     </div>
 
@@ -293,13 +327,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2022/10/22/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8102/" rel="prev" title="unityshader精要2">
-      <i class="fa fa-chevron-left"></i> unityshader精要2
+    <a href="/2022/10/29/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter7/" rel="prev" title="unityshader精要7">
+      <i class="fa fa-chevron-left"></i> unityshader精要7
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2022/10/26/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8104/" rel="next" title="unityshader精要4">
-      unityshader精要4 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -358,7 +389,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Unity-Shader03"><span class="nav-number">1.</span> <span class="nav-text">Unity Shader03</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0%E5%9F%BA%E7%A1%80"><span class="nav-number">1.1.</span> <span class="nav-text">线性代数基础</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A1%B6%E7%82%B9%E7%9A%84%E5%9D%90%E6%A0%87%E7%A9%BA%E9%97%B4%E5%8F%98%E6%8D%A2"><span class="nav-number">1.2.</span> <span class="nav-text">顶点的坐标空间变换</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Ray-Tracing"><span class="nav-number">1.</span> <span class="nav-text">Ray Tracing</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#The-Basic-Ray-Tracing-Algorithm"><span class="nav-number">1.1.</span> <span class="nav-text">The Basic Ray-Tracing Algorithm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Perspective"><span class="nav-number">1.2.</span> <span class="nav-text">Perspective</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Compute-View-Ray"><span class="nav-number">1.3.</span> <span class="nav-text">Compute View Ray</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Orthographic-Views"><span class="nav-number">1.3.1.</span> <span class="nav-text">Orthographic Views</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Perspective-Views"><span class="nav-number">1.3.2.</span> <span class="nav-text">Perspective Views</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Ray-Object-Intersection"><span class="nav-number">1.4.</span> <span class="nav-text">Ray-Object Intersection</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Ray-Sphere-Intersection"><span class="nav-number">1.4.1.</span> <span class="nav-text">Ray-Sphere Intersection</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

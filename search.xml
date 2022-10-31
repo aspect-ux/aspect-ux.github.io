@@ -345,6 +345,20 @@
 <p>大部分计算机图像都是用rgb来定义颜色</p>
 <p>颜色叠加公式</p>
 <p>详情见P75</p>
+<h2 id="Image-Storage"><a href="#Image-Storage" class="headerlink" title="Image Storage"></a>Image Storage</h2><p>大部分rgb格式的图片,为三个通道，每个分配8bit</p>
+<p>并且大部分格式的图片支持压缩（compression)</p>
+<p>压缩又分为有损压缩和无损压缩</p>
+<p><strong>为什么不让monitor(显示器)变成线性的，来避免gamma校正呢？</strong></p>
+<blockquote>
+<p>Ideally, the 256 possible intensities of a monitor should <em>look</em> evenly spaced as</p>
+<p>opposed to being linearly spaced in energy. Because human perception of in</p>
+<p>tensity is itself nonlinear, a gamma between 1.5 and 3 (depending on viewing</p>
+<p>conditions) will make the intensities approximately uniform in a subjective sense.</p>
+<p>In this way, gamma is a feature. Otherwise, the manufacturers would make the</p>
+<p>monitors linear.</p>
+</blockquote>
+<p>理想情况下，256种强度的显示器应该是看起来能量均匀分布而不是线性分布。</p>
+<p>因为人类感知本来就不是线性的。一个1.5到3的gamma值可以几乎让人从主观的感觉区分每种强度。</p>
 <h3 id="补充"><a href="#补充" class="headerlink" title="补充"></a><font jump="补充">补充</font></h3><p><strong>根据百度</strong>：</p>
 <p><code>Gamma源于CRT（显示器/电视机）的响应曲线，即其亮度与输入电压的非线性关系。</code></p>
 <ul>
@@ -401,5 +415,65 @@
       <categories>
         <category>unity shader</category>
       </categories>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/2022/10/31/%E8%99%8E%E4%B9%A6/03/</url>
+    <content><![CDATA[<h1 id="Ray-Tracing"><a href="#Ray-Tracing" class="headerlink" title="Ray Tracing"></a>Ray Tracing</h1><p>渲染3d物体时计算机图形的工作之一。</p>
+<p>同一场景的物体渲染需要考虑每个物体贡献的像素。</p>
+<p>有两种常规的方法来考虑</p>
+<ul>
+<li>object-order rendering ,通过找物体来计算对应像素</li>
+<li>image-order rendering，通过找像素来判断物体，然后计算像素</li>
+</ul>
+<p>差别可以这么来看</p>
+<p>前者双重循环外循环是物体，后者则是像素</p>
+<p>宽泛来说，image-order rendering 是更加简单和灵活的，一般来说也会有更长的执行事件来制造同样的图片。</p>
+<p><strong>Ray Tracing 就是image-order algorithm</strong>因为这样不需要像前者一样用数学器械就能实现光线追踪器。</p>
+<h2 id="The-Basic-Ray-Tracing-Algorithm"><a href="#The-Basic-Ray-Tracing-Algorithm" class="headerlink" title="The Basic Ray-Tracing Algorithm"></a>The Basic Ray-Tracing Algorithm</h2><p>基本的光线追踪器有三个部分</p>
+<p>某种意义上，在引擎中，可以认为“眼睛发光”</p>
+<ol>
+<li><p>ray generation. 计算每个像素的view射线的来源和方向</p>
+</li>
+<li><p>ray intersection. 计算与view射线相交的最近物体</p>
+</li>
+<li><p>shading. 在原有的射线相交的基础上进行着色</p>
+<p><img src="/2022/10/31/%E8%99%8E%E4%B9%A6/03/uTools_1667218571247.png" alt="uTools_1667218571247"></p>
+</li>
+</ol>
+<h2 id="Perspective"><a href="#Perspective" class="headerlink" title="Perspective"></a>Perspective</h2><p>标准的方法来为计算机图形，艺术和照片制作图片，是使用linear perspective(线性透视)</p>
+<p>parallel projection(平行投影)是最简单的投影方式，平移。一般用于机械和建筑</p>
+<p>如果image plane和视线方向垂直，成为orthograph(正交投影)  orthonormal(正交的)</p>
+<h2 id="Compute-View-Ray"><a href="#Compute-View-Ray" class="headerlink" title="Compute View Ray"></a>Compute View Ray</h2><p>phase 1</p>
+<p>为了生成ray,我们首先需要一个数学表达</p>
+<p><code>p(t) = e + t(s- e)</code></p>
+<p>e is eye,    s is image plane point</p>
+<p><img src="/2022/10/31/%E8%99%8E%E4%B9%A6/03/uTools_1667219704846.png" alt="uTools_1667219704846"></p>
+<p>在代码中</p>
+<p><img src="/2022/10/31/%E8%99%8E%E4%B9%A6/03/uTools_1667219881824.png" alt="uTools_1667219881824"></p>
+<p>详情见P84</p>
+<h3 id="Orthographic-Views"><a href="#Orthographic-Views" class="headerlink" title="Orthographic Views"></a>Orthographic Views</h3><p>对于正交投影view ray,</p>
+<p>ray generation 使用相机的框架，</p>
+<ol>
+<li><p>正交投影从image plane的一个像素的位置开始，并且全部共享相同的方向—-view direction.</p>
+</li>
+<li><p>而透视投影则是选择一个view point 开始，方向则是view point 到image plane的点的位置。</p>
+</li>
+</ol>
+<p><strong>要将nx  ny 的像素投射到(r - l) x (t - b)的矩形上</strong></p>
+<p>其中l,r分别是片元，pixel的左右边界坐标，b和t则是下、上边界坐标</p>
+<p><img src="/2022/10/31/%E8%99%8E%E4%B9%A6/03/uTools_1667220608282.png" alt="uTools_1667220608282"></p>
+<p>详情见P86</p>
+<h3 id="Perspective-Views"><a href="#Perspective-Views" class="headerlink" title="Perspective Views"></a>Perspective Views</h3><h2 id="Ray-Object-Intersection"><a href="#Ray-Object-Intersection" class="headerlink" title="Ray-Object Intersection"></a>Ray-Object Intersection</h2><p>phase 2</p>
+<h3 id="Ray-Sphere-Intersection"><a href="#Ray-Sphere-Intersection" class="headerlink" title="Ray-Sphere Intersection"></a>Ray-Sphere Intersection</h3><p>使用implicit surface</p>
+<p>隐式表达式f(p(t)) = 0或者f(e + td) = 0</p>
+<p>对于一个球来说，设中心点为c</p>
+<p><code>(p - c)(p - c) - R^2 = 0</code></p>
+<p><strong>注意，当满足上式，说明p对应的点已经在球上，也即intersection</strong></p>
+<p><code>(e + t d - c)(e + td - c) - R^2 = 0</code></p>
+<p>只有t未知</p>
+<p>展开得到quadratic 二次方程，判别式b^2 - 4ac</p>
+<p><img src="/2022/10/31/%E8%99%8E%E4%B9%A6/03/uTools_1667222501427.png" alt="uTools_1667222501427"></p>
+]]></content>
   </entry>
 </search>

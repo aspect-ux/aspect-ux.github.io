@@ -35,7 +35,7 @@
 <meta property="og:image" content="https://bkimg.cdn.bcebos.com/formula/6e778b35764a65eed7a22fa000b7dcf4.svg">
 <meta property="og:image" content="https://bkimg.cdn.bcebos.com/formula/61b798fe6cddb99adc44b1aae1c92c22.svg">
 <meta property="article:published_time" content="2022-10-28T15:27:51.188Z">
-<meta property="article:modified_time" content="2022-10-31T11:19:54.580Z">
+<meta property="article:modified_time" content="2022-10-31T11:47:09.102Z">
 <meta property="article:author" content="温蒂">
 <meta property="article:tag" content="TA">
 <meta name="twitter:card" content="summary">
@@ -144,7 +144,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">12</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">13</span></a>
 
   </li>
         <li class="menu-item menu-item-schedule">
@@ -242,7 +242,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-10-31 19:19:54" itemprop="dateModified" datetime="2022-10-31T19:19:54+08:00">2022-10-31</time>
+                <time title="Modified: 2022-10-31 19:47:09" itemprop="dateModified" datetime="2022-10-31T19:47:09+08:00">2022-10-31</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -300,6 +300,20 @@
 <p>大部分计算机图像都是用rgb来定义颜色</p>
 <p>颜色叠加公式</p>
 <p>详情见P75</p>
+<h2 id="Image-Storage"><a href="#Image-Storage" class="headerlink" title="Image Storage"></a>Image Storage</h2><p>大部分rgb格式的图片,为三个通道，每个分配8bit</p>
+<p>并且大部分格式的图片支持压缩（compression)</p>
+<p>压缩又分为有损压缩和无损压缩</p>
+<p><strong>为什么不让monitor(显示器)变成线性的，来避免gamma校正呢？</strong></p>
+<blockquote>
+<p>Ideally, the 256 possible intensities of a monitor should <em>look</em> evenly spaced as</p>
+<p>opposed to being linearly spaced in energy. Because human perception of in</p>
+<p>tensity is itself nonlinear, a gamma between 1.5 and 3 (depending on viewing</p>
+<p>conditions) will make the intensities approximately uniform in a subjective sense.</p>
+<p>In this way, gamma is a feature. Otherwise, the manufacturers would make the</p>
+<p>monitors linear.</p>
+</blockquote>
+<p>理想情况下，256种强度的显示器应该是看起来能量均匀分布而不是线性分布。</p>
+<p>因为人类感知本来就不是线性的。一个1.5到3的gamma值可以几乎让人从主观的感觉区分每种强度。</p>
 <h3 id="补充"><a href="#补充" class="headerlink" title="补充"></a><font jump="补充">补充</font></h3><p><strong>根据百度</strong>：</p>
 <p><code>Gamma源于CRT（显示器/电视机）的响应曲线，即其亮度与输入电压的非线性关系。</code></p>
 <ul>
@@ -398,7 +412,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#02"><span class="nav-number">1.</span> <span class="nav-text">02</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Raster-Images"><span class="nav-number">1.1.</span> <span class="nav-text">Raster Images</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Raster-Device"><span class="nav-number">1.2.</span> <span class="nav-text">Raster Device</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Images-Pixels-and-Geometry"><span class="nav-number">1.3.</span> <span class="nav-text">Images,Pixels,and Geometry</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RGB-Color"><span class="nav-number">1.4.</span> <span class="nav-text">RGB Color</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E5%85%85"><span class="nav-number">1.4.1.</span> <span class="nav-text">补充</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8"><span class="nav-number">1.4.2.</span> <span class="nav-text">应用</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#02"><span class="nav-number">1.</span> <span class="nav-text">02</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Raster-Images"><span class="nav-number">1.1.</span> <span class="nav-text">Raster Images</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Raster-Device"><span class="nav-number">1.2.</span> <span class="nav-text">Raster Device</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Images-Pixels-and-Geometry"><span class="nav-number">1.3.</span> <span class="nav-text">Images,Pixels,and Geometry</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RGB-Color"><span class="nav-number">1.4.</span> <span class="nav-text">RGB Color</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Image-Storage"><span class="nav-number">1.5.</span> <span class="nav-text">Image Storage</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E5%85%85"><span class="nav-number">1.5.1.</span> <span class="nav-text">补充</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8"><span class="nav-number">1.5.2.</span> <span class="nav-text">应用</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -414,7 +428,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-count">13</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
