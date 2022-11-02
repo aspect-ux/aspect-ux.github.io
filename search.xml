@@ -419,7 +419,14 @@
   <entry>
     <title>Computer Graphics 03</title>
     <url>/2022/10/31/%E8%99%8E%E4%B9%A6/03/</url>
-    <content><![CDATA[<h1 id="Ray-Tracing"><a href="#Ray-Tracing" class="headerlink" title="Ray Tracing"></a>Ray Tracing</h1><p>渲染3d物体时计算机图形的工作之一。</p>
+    <content><![CDATA[<h1 id="Ray-Tracing"><a href="#Ray-Tracing" class="headerlink" title="Ray Tracing"></a>Ray Tracing</h1><p><strong>Why Ray Tracing?</strong></p>
+<ul>
+<li>rasterization : real-time,ray tracing: offline</li>
+<li>ray tracing is accurate,but is very slow</li>
+</ul>
+<p><strong>Whitted-Style Ray Tracing</strong></p>
+<p><img src="/2022/10/31/%E8%99%8E%E4%B9%A6/03/uTools_1667388590899.png" alt="uTools_1667388590899"></p>
+<p>渲染3d物体时计算机图形的工作之一。</p>
 <p>同一场景的物体渲染需要考虑每个物体贡献的像素。</p>
 <p>有两种常规的方法来考虑</p>
 <ul>
@@ -474,7 +481,40 @@
 <p>只有t未知</p>
 <p>展开得到quadratic 二次方程，判别式b^2 - 4ac</p>
 <p><img src="/2022/10/31/%E8%99%8E%E4%B9%A6/03/uTools_1667222501427.png" alt="uTools_1667222501427"></p>
-<h2 id="Shading"><a href="#Shading" class="headerlink" title="Shading"></a>Shading</h2>]]></content>
+<h2 id="Shading"><a href="#Shading" class="headerlink" title="Shading"></a>Shading</h2><p>Here we will discuss how a ray tracer computes the inputs to shading</p>
+<p>1.从点光源和直线光计算着色需要具体的几何信息。当viewing ray 确定与表面相交，我们需要决定以下4个向量。</p>
+<ul>
+<li>着色点x可以通过估算viewing ray 以t的值相交</li>
+<li>表面的法线向量n</li>
+<li>光源方向l</li>
+<li>视觉射线viewing direction 是viewing ray的反方向（v = -d/|d|)</li>
+</ul>
+<p>2.coding</p>
+<p>3.一旦你已经在光线追踪器上有基本的着色后，光线和点阴影添加会很容易</p>
+<p><img src="/2022/10/31/%E8%99%8E%E4%B9%A6/03/uTools_1667389464606.png" alt="uTools_1667389464606"></p>
+<p>使用directional light 的阴影与点光源类似，但是t=无穷，也即距离无穷，环境光不进行阴影测试（shadow test)</p>
+<p>4.Mirror Reflection(镜面反射)</p>
+<p>为光线追踪程序添加镜面发射（or specular reflection) 很直接。</p>
+<p>由视线计算反射光向量，<strong>易得</strong></p>
+<p><code>r = d - 2(d*n)*n</code></p>
+<p>其中r是反射向量，d是view(视线)入射的向量</p>
+<p><strong>在现实世界中，当光线从表面反射出去，一定会有能量损失</strong></p>
+<p>由于光线颜色不同，损失也会不一样，这里使用递归算法(recursive)</p>
+<p>调用shader-ray函数。</p>
+<p><code>color c = c + k * shader-ray(Ray(p,r),t,infinity)</code></p>
+<p>k是specular rgb color, 并且t = infinity,和shadow一样。因为并不想让光线反射到光源上</p>
+<h2 id="Frequently-Asked"><a href="#Frequently-Asked" class="headerlink" title="Frequently Asked"></a>Frequently Asked</h2><ul>
+<li><p>为什么ray tracing 中没有透视矩阵</p>
+</li>
+<li><p>可以实现交互式光线追踪吗</p>
+<p>对于充分小的模型和图片，任何现代pc都足以支持可交互式光线追踪。现实中，对于全屏的实现，多cpu共享帧缓存区是需要的。</p>
+<p>计算机算力进步比屏幕分辨率更快，让传统pc在屏幕分辨率下实现复杂场景光线追踪只不过是时间问题。</p>
+</li>
+<li><p>ray tracing在硬件图形程序中有用吗</p>
+<p>光线追踪经常用于<strong>采集</strong>，当用户点击鼠标3d图形程序的像素，程序需要决定哪个物体的显示。</p>
+</li>
+</ul>
+]]></content>
       <categories>
         <category>Fundamental of Computer Graphics</category>
       </categories>
@@ -509,5 +549,10 @@
       <categories>
         <category>unity shader</category>
       </categories>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/2022/11/02/%E8%99%8E%E4%B9%A6/04/</url>
+    <content><![CDATA[]]></content>
   </entry>
 </search>

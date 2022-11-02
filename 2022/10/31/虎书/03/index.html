@@ -22,24 +22,26 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="Ray Tracing渲染3d物体时计算机图形的工作之一。 同一场景的物体渲染需要考虑每个物体贡献的像素。 有两种常规的方法来考虑  object-order rendering ,通过找物体来计算对应像素 image-order rendering，通过找像素来判断物体，然后计算像素  差别可以这么来看 前者双重循环外循环是物体，后者则是像素 宽泛来说，image-order rendering">
+  <meta name="description" content="Ray TracingWhy Ray Tracing?  rasterization : real-time,ray tracing: offline ray tracing is accurate,but is very slow  Whitted-Style Ray Tracing  渲染3d物体时计算机图形的工作之一。 同一场景的物体渲染需要考虑每个物体贡献的像素。 有两种常规的方法来考虑">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Computer Graphics 03">
 <meta property="og:url" content="http://example.com/2022/10/31/%E8%99%8E%E4%B9%A6/03/index.html">
 <meta property="og:site_name" content="不会美术的温蒂">
-<meta property="og:description" content="Ray Tracing渲染3d物体时计算机图形的工作之一。 同一场景的物体渲染需要考虑每个物体贡献的像素。 有两种常规的方法来考虑  object-order rendering ,通过找物体来计算对应像素 image-order rendering，通过找像素来判断物体，然后计算像素  差别可以这么来看 前者双重循环外循环是物体，后者则是像素 宽泛来说，image-order rendering">
+<meta property="og:description" content="Ray TracingWhy Ray Tracing?  rasterization : real-time,ray tracing: offline ray tracing is accurate,but is very slow  Whitted-Style Ray Tracing  渲染3d物体时计算机图形的工作之一。 同一场景的物体渲染需要考虑每个物体贡献的像素。 有两种常规的方法来考虑">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2022/10/31/%E8%99%8E%E4%B9%A6/03/uTools_1667388590899.png">
 <meta property="og:image" content="http://example.com/2022/10/31/%E8%99%8E%E4%B9%A6/03/uTools_1667218571247.png">
 <meta property="og:image" content="http://example.com/2022/10/31/%E8%99%8E%E4%B9%A6/03/uTools_1667219704846.png">
 <meta property="og:image" content="http://example.com/2022/10/31/%E8%99%8E%E4%B9%A6/03/uTools_1667219881824.png">
 <meta property="og:image" content="http://example.com/2022/10/31/%E8%99%8E%E4%B9%A6/03/uTools_1667220608282.png">
 <meta property="og:image" content="http://example.com/2022/10/31/%E8%99%8E%E4%B9%A6/03/uTools_1667222501427.png">
+<meta property="og:image" content="http://example.com/2022/10/31/%E8%99%8E%E4%B9%A6/03/uTools_1667389464606.png">
 <meta property="article:published_time" content="2022-10-31T11:21:15.666Z">
-<meta property="article:modified_time" content="2022-10-31T23:11:51.883Z">
+<meta property="article:modified_time" content="2022-11-02T12:31:49.786Z">
 <meta property="article:author" content="温蒂">
 <meta property="article:tag" content="TA">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2022/10/31/%E8%99%8E%E4%B9%A6/03/uTools_1667218571247.png">
+<meta name="twitter:image" content="http://example.com/2022/10/31/%E8%99%8E%E4%B9%A6/03/uTools_1667388590899.png">
 
 <link rel="canonical" href="http://example.com/2022/10/31/%E8%99%8E%E4%B9%A6/03/">
 
@@ -144,7 +146,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">14</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">15</span></a>
 
   </li>
         <li class="menu-item menu-item-schedule">
@@ -242,7 +244,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-11-01 07:11:51" itemprop="dateModified" datetime="2022-11-01T07:11:51+08:00">2022-11-01</time>
+                <time title="Modified: 2022-11-02 20:31:49" itemprop="dateModified" datetime="2022-11-02T20:31:49+08:00">2022-11-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -272,7 +274,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="Ray-Tracing"><a href="#Ray-Tracing" class="headerlink" title="Ray Tracing"></a>Ray Tracing</h1><p>渲染3d物体时计算机图形的工作之一。</p>
+        <h1 id="Ray-Tracing"><a href="#Ray-Tracing" class="headerlink" title="Ray Tracing"></a>Ray Tracing</h1><p><strong>Why Ray Tracing?</strong></p>
+<ul>
+<li>rasterization : real-time,ray tracing: offline</li>
+<li>ray tracing is accurate,but is very slow</li>
+</ul>
+<p><strong>Whitted-Style Ray Tracing</strong></p>
+<p><img src="/2022/10/31/%E8%99%8E%E4%B9%A6/03/uTools_1667388590899.png" alt="uTools_1667388590899"></p>
+<p>渲染3d物体时计算机图形的工作之一。</p>
 <p>同一场景的物体渲染需要考虑每个物体贡献的像素。</p>
 <p>有两种常规的方法来考虑</p>
 <ul>
@@ -327,7 +336,40 @@
 <p>只有t未知</p>
 <p>展开得到quadratic 二次方程，判别式b^2 - 4ac</p>
 <p><img src="/2022/10/31/%E8%99%8E%E4%B9%A6/03/uTools_1667222501427.png" alt="uTools_1667222501427"></p>
-<h2 id="Shading"><a href="#Shading" class="headerlink" title="Shading"></a>Shading</h2>
+<h2 id="Shading"><a href="#Shading" class="headerlink" title="Shading"></a>Shading</h2><p>Here we will discuss how a ray tracer computes the inputs to shading</p>
+<p>1.从点光源和直线光计算着色需要具体的几何信息。当viewing ray 确定与表面相交，我们需要决定以下4个向量。</p>
+<ul>
+<li>着色点x可以通过估算viewing ray 以t的值相交</li>
+<li>表面的法线向量n</li>
+<li>光源方向l</li>
+<li>视觉射线viewing direction 是viewing ray的反方向（v = -d/|d|)</li>
+</ul>
+<p>2.coding</p>
+<p>3.一旦你已经在光线追踪器上有基本的着色后，光线和点阴影添加会很容易</p>
+<p><img src="/2022/10/31/%E8%99%8E%E4%B9%A6/03/uTools_1667389464606.png" alt="uTools_1667389464606"></p>
+<p>使用directional light 的阴影与点光源类似，但是t=无穷，也即距离无穷，环境光不进行阴影测试（shadow test)</p>
+<p>4.Mirror Reflection(镜面反射)</p>
+<p>为光线追踪程序添加镜面发射（or specular reflection) 很直接。</p>
+<p>由视线计算反射光向量，<strong>易得</strong></p>
+<p><code>r = d - 2(d*n)*n</code></p>
+<p>其中r是反射向量，d是view(视线)入射的向量</p>
+<p><strong>在现实世界中，当光线从表面反射出去，一定会有能量损失</strong></p>
+<p>由于光线颜色不同，损失也会不一样，这里使用递归算法(recursive)</p>
+<p>调用shader-ray函数。</p>
+<p><code>color c = c + k * shader-ray(Ray(p,r),t,infinity)</code></p>
+<p>k是specular rgb color, 并且t = infinity,和shadow一样。因为并不想让光线反射到光源上</p>
+<h2 id="Frequently-Asked"><a href="#Frequently-Asked" class="headerlink" title="Frequently Asked"></a>Frequently Asked</h2><ul>
+<li><p>为什么ray tracing 中没有透视矩阵</p>
+</li>
+<li><p>可以实现交互式光线追踪吗</p>
+<p>对于充分小的模型和图片，任何现代pc都足以支持可交互式光线追踪。现实中，对于全屏的实现，多cpu共享帧缓存区是需要的。</p>
+<p>计算机算力进步比屏幕分辨率更快，让传统pc在屏幕分辨率下实现复杂场景光线追踪只不过是时间问题。</p>
+</li>
+<li><p>ray tracing在硬件图形程序中有用吗</p>
+<p>光线追踪经常用于<strong>采集</strong>，当用户点击鼠标3d图形程序的像素，程序需要决定哪个物体的显示。</p>
+</li>
+</ul>
+
     </div>
 
     
@@ -407,7 +449,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Ray-Tracing"><span class="nav-number">1.</span> <span class="nav-text">Ray Tracing</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#The-Basic-Ray-Tracing-Algorithm"><span class="nav-number">1.1.</span> <span class="nav-text">The Basic Ray-Tracing Algorithm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Perspective"><span class="nav-number">1.2.</span> <span class="nav-text">Perspective</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Compute-View-Ray"><span class="nav-number">1.3.</span> <span class="nav-text">Compute View Ray</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Orthographic-Views"><span class="nav-number">1.3.1.</span> <span class="nav-text">Orthographic Views</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Perspective-Views"><span class="nav-number">1.3.2.</span> <span class="nav-text">Perspective Views</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Ray-Object-Intersection"><span class="nav-number">1.4.</span> <span class="nav-text">Ray-Object Intersection</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Ray-Sphere-Intersection"><span class="nav-number">1.4.1.</span> <span class="nav-text">Ray-Sphere Intersection</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Shading"><span class="nav-number">1.5.</span> <span class="nav-text">Shading</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Ray-Tracing"><span class="nav-number">1.</span> <span class="nav-text">Ray Tracing</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#The-Basic-Ray-Tracing-Algorithm"><span class="nav-number">1.1.</span> <span class="nav-text">The Basic Ray-Tracing Algorithm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Perspective"><span class="nav-number">1.2.</span> <span class="nav-text">Perspective</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Compute-View-Ray"><span class="nav-number">1.3.</span> <span class="nav-text">Compute View Ray</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Orthographic-Views"><span class="nav-number">1.3.1.</span> <span class="nav-text">Orthographic Views</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Perspective-Views"><span class="nav-number">1.3.2.</span> <span class="nav-text">Perspective Views</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Ray-Object-Intersection"><span class="nav-number">1.4.</span> <span class="nav-text">Ray-Object Intersection</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Ray-Sphere-Intersection"><span class="nav-number">1.4.1.</span> <span class="nav-text">Ray-Sphere Intersection</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Shading"><span class="nav-number">1.5.</span> <span class="nav-text">Shading</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Frequently-Asked"><span class="nav-number">1.6.</span> <span class="nav-text">Frequently Asked</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -423,7 +465,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-count">15</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
