@@ -134,7 +134,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">14</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">16</span></a>
 
   </li>
         <li class="menu-item menu-item-schedule">
@@ -203,6 +203,184 @@
 	  </div>
 	</div>
 	<br>
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/02/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/1.jpg">
+      <meta itemprop="name" content="温蒂">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="不会美术的温蒂">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/11/02/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter8/" class="post-title-link" itemprop="url">unityshader精要8</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-11-02 21:00:26 / Modified: 21:02:04" itemprop="dateCreated datePublished" datetime="2022-11-02T21:00:26+08:00">2022-11-02</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/unity-shader/" itemprop="url" rel="index"><span itemprop="name">unity shader</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Chapter8-透明效果"><a href="#Chapter8-透明效果" class="headerlink" title="Chapter8 透明效果"></a>Chapter8 透明效果</h2><h3 id="实现透明的方法"><a href="#实现透明的方法" class="headerlink" title="实现透明的方法"></a>实现透明的方法</h3><p>unity中通常使用两种方式实现透明效果</p>
+<p>1.透明度测试(alpha test),（无法实现真正的半透明）</p>
+<p>2.透明度混合(alpha blending)</p>
+<p><strong>使用深度测试，可以不考虑渲染顺序</strong>，但是使用透明度混合时，需要关闭*<code>ZWrite</code>*，关闭了深度写入</p>
+<p>虽然<em>透明度测试</em>不需要关闭，但是它的机制是如果透明度不满足某个阈值（通常小于），直接舍弃该片元。</p>
+<ul>
+<li>为什么关闭<code>ZWrite</code>?</li>
+</ul>
+<p><em>由于深度测试丢弃远处被遮挡部分，但是透明物体的机制是”可以透过并看见远处的物体”。</em></p>
+<p>关闭了ZWrite，渲染顺序则成了问题。</p>
+<p><strong>流程</strong></p>
+<p>1.渲染时，会进行深度测试，如果先渲染后面的不透明b，将b写入颜色缓冲和深度缓冲；然后渲染前面的透明a,a写入颜色缓冲，会发生透明混合，显示正确。</p>
+<p>2.如果先渲染a,进行深度测试，写入颜色缓冲，但是关闭了ZWrite，无法写入深度值，然后渲染b，写入深度值，写入颜色缓冲，b的颜色<strong>覆盖</strong>a,只能看见b。</p>
+<p>3.半透明物体之间亦然。</p>
+<h3 id="Alpha-Test"><a href="#Alpha-Test" class="headerlink" title="Alpha Test"></a>Alpha Test</h3><p>Unity Shader解决方案为SubShader 中的Tags</p>
+<p>以下为透明度测试alpha test示例</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">SubShader&#123;</span><br><span class="line">       Tags&#123;<span class="string">&quot;Queue&quot;</span>=<span class="string">&quot;AlphaTest&quot;</span> <span class="string">&quot;IgnoreProjector&quot;</span> = <span class="string">&quot;True&quot;</span> <span class="string">&quot;RenderType&quot;</span> = <span class="string">&quot;TransparentCutout&quot;</span>&#125;</span><br><span class="line">       Pass&#123;</span><br><span class="line">           Tags&#123;<span class="string">&quot;LightMode&quot;</span> = <span class="string">&quot;ForwardBase&quot;</span>&#125;</span><br><span class="line">           ...</span><br><span class="line">            <span class="comment">//alpha test</span></span><br><span class="line">               clip(texColor.a - _Cutoff);</span><br><span class="line">               <span class="comment">// Equal to </span></span><br><span class="line">               <span class="comment">// if (( exColor - _Cutoff) &lt; 0 . 0) &#123; </span></span><br><span class="line">               <span class="comment">// discard; &#125;</span></span><br><span class="line">           	...</span><br><span class="line">           &#125;</span><br><span class="line">           ...</span><br><span class="line">         &#125;  </span><br></pre></td></tr></table></figure>
+
+<p>每块的透明度都不同，根据面板调整_Cutoff可以看出哪个更低，低的那个会直接被剔除</p>
+<p>结果图</p>
+<p><img src="/2022/11/02/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter8/uTools_1660983793621.png" alt="uTools_1660983793621"></p>
+<h3 id="Alpha-Blend"><a href="#Alpha-Blend" class="headerlink" title="Alpha Blend"></a>Alpha Blend</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SubShader&#123;</span><br><span class="line">       //alpha blend</span><br><span class="line">       Tags&#123;&quot;Queue&quot;=/*&quot;AlphaTest&quot;*/&quot;Transparent&quot; &quot;IgnoreProjector&quot; = &quot;True&quot; &quot;RenderType&quot; = &quot;TransparentCutout&quot;&#125;</span><br><span class="line">       Pass&#123;</span><br><span class="line">           Tags&#123;&quot;LightMode&quot; = &quot;ForwardBase&quot;&#125;</span><br><span class="line">           ZWrite Off</span><br><span class="line">           Blend SrcAlpha OneMinusSrcAlpha  //P170</span><br><span class="line">           ...</span><br><span class="line">           &#125;</span><br><span class="line">           //去掉clip</span><br></pre></td></tr></table></figure>
+
+<h3 id="解决排序问题"><a href="#解决排序问题" class="headerlink" title="解决排序问题"></a>解决排序问题</h3><p><strong>一般先开启深度测试、写入，先渲染不透明物体，然后关闭写入，对不透明物体排序，先渲染后面的物体</strong></p>
+<ul>
+<li><strong>但是仍然存在很大问题。</strong></li>
+</ul>
+<p>比如一个物体，各个部分互相遮挡，又或者多个物体，相互遮挡，而深度排序是像素级别的。</p>
+<p><strong>问题在于</strong></p>
+<p>现在开启ZWrite</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> Pass&#123;</span><br><span class="line"> ZWrite On </span><br><span class="line"> ColorMask 0//ColorMask RGB 、 A 、 0 、其他任何rgba的组合</span><br><span class="line"> //0表示不写入任何颜色通道，即只写入深度缓存，不输出颜色</span><br><span class="line"> 	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>新添加一个Pass通道。该Pass专门用来写入深度缓冲，并且先执行。</p>
+<p>Pass通道中加上<code>//Cull Front/Back/Off 需要双面渲染时关闭剔除</code></p>
+<p>注意如果关闭了深度写入，此时再双面渲染就会出现半透明错误渲染</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/02/%E8%99%8E%E4%B9%A6/04/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/1.jpg">
+      <meta itemprop="name" content="温蒂">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="不会美术的温蒂">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/11/02/%E8%99%8E%E4%B9%A6/04/" class="post-title-link" itemprop="url">Computer Graphics 04</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-11-02 20:43:23 / Modified: 20:58:54" itemprop="dateCreated datePublished" datetime="2022-11-02T20:43:23+08:00">2022-11-02</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Fundamental-of-Computer-Graphics/" itemprop="url" rel="index"><span itemprop="name">Fundamental of Computer Graphics</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Surface-Shading"><a href="#Surface-Shading" class="headerlink" title="Surface Shading"></a>Surface Shading</h1><p>渲染3d场景时，无论使用ray tracing还是rasterization，在实时还是在批处理中，<strong>着色</strong>是对视觉效果影响</p>
+<p>最大的过程之一</p>
+<p>本章描述基于点光源照射的不透明表面基本着色模型。</p>
+<h2 id="Point-source-illumination"><a href="#Point-source-illumination" class="headerlink" title="Point source illumination"></a>Point source illumination</h2><p>点光源包括position,intensity</p>
+<p>点光源有isotropic(各向同性)</p>
+<p>the irradiance E is  <code>E = P/4PI * 1/pow(r,2)</code></p>
+<p>the quantity I = P/4PI,是光强(amount of light)，后者是factor</p>
+<p>更普遍地，<code>E = I * cos(theta) / pow(r,2)</code>,其中<code>cos(theta) = n * l</code></p>
+<p><img src="/2022/11/02/%E8%99%8E%E4%B9%A6/04/uTools_1667393710823.png" alt="uTools_1667393710823"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -1055,195 +1233,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/24/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8103/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/1.jpg">
-      <meta itemprop="name" content="温蒂">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="不会美术的温蒂">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/10/24/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8103/" class="post-title-link" itemprop="url">unityshader精要3</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2022-10-24 14:34:22 / Modified: 14:35:07" itemprop="dateCreated datePublished" datetime="2022-10-24T14:34:22+08:00">2022-10-24</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/unity-shader/" itemprop="url" rel="index"><span itemprop="name">unity shader</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="Unity-Shader03"><a href="#Unity-Shader03" class="headerlink" title="Unity Shader03"></a>Unity Shader03</h3><h4 id="线性代数基础"><a href="#线性代数基础" class="headerlink" title="线性代数基础"></a>线性代数基础</h4><h4 id="顶点的坐标空间变换"><a href="#顶点的坐标空间变换" class="headerlink" title="顶点的坐标空间变换"></a>顶点的坐标空间变换</h4><p><strong>模型空间</strong></p>
-<p>指的是模型物体前、上、右</p>
-<p><strong>裁剪空间</strong></p>
-<p>视锥体有六面，称为裁剪平面</p>
-<p>其中又有两个平面特殊，分别为靠近摄像机的近裁剪平面和远离摄像机的远裁剪平面。</p>
-<p>透视中视锥体呈金字塔状，正交中呈长方体</p>
-<p>已知处于几何处理的阶段</p>
-<p>现进行投影矩阵</p>
-<p><img src="/2022/10/24/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8103/image-20220713173712165.png" alt="image-20220713173712165"></p>
-<p><strong>总结</strong></p>
-<p>从模型空间到世界空间，再到观察空间，然后裁剪空间，最后屏幕映射到屏幕空间。需要许多变换矩阵。</p>
-<p><img src="/2022/10/24/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8103/image-20220714095415512.png" alt="image-20220714095415512"></p>
-<p><code>float4 a = float4(1.0,1.0,1.0,1.0);</code>该变量是矩阵还是矢量取决于运算种类和位置。</p>
-<p>点积（dot)</p>
-<p>矩阵乘法(mul)</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/22/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8102/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/1.jpg">
-      <meta itemprop="name" content="温蒂">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="不会美术的温蒂">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/10/22/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8102/" class="post-title-link" itemprop="url">unityshader精要2</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2022-10-22 22:42:38 / Modified: 23:11:35" itemprop="dateCreated datePublished" datetime="2022-10-22T22:42:38+08:00">2022-10-22</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/unity-shader/" itemprop="url" rel="index"><span itemprop="name">unity shader</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="Unity-Shader-精要02"><a href="#Unity-Shader-精要02" class="headerlink" title="Unity Shader 精要02"></a>Unity Shader 精要02</h3><h4 id="什么是Shader"><a href="#什么是Shader" class="headerlink" title="什么是Shader?"></a>什么是Shader?</h4><p>Shader 翻译为着色器，GPU流水线中对于高度可编程的阶段来说，Shader是可以在GPU上运行的渲染代码；而对于固定流水线来说，</p>
-<p>则起着渲染设置的作用。前者有顶点着色器，片元着色器等。</p>
-<p>顶点着色器负责顶点变换和数据传递、顶点着色等，片元着色器负责渲染片元（几何处理后的像素）</p>
-<p>首先搞清楚Shader的语言，分为GLSL,HLSL和Cg;</p>
-<p>Unity Shader 则是在Unity上的实现手段，是一种与渲染打交道的抽象，而与之对应的则是ShaderLab语言</p>
-<h4 id="Shader基础"><a href="#Shader基础" class="headerlink" title="Shader基础"></a>Shader基础</h4><p>Untiy 主要有Standard Surface Shader, Unlit Shader, Image Effect Shader 以及 Compute Shader。</p>
-<p><strong>Unity Shader基本结构</strong></p>
-<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Shader <span class="string">&quot;ShaderName&quot;</span>&#123;</span><br><span class="line">    Properties&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    SubShader&#123;</span><br><span class="line">        <span class="comment">//显卡A</span></span><br><span class="line">    &#125;</span><br><span class="line">    SubShader&#123;</span><br><span class="line">        <span class="comment">//显卡B</span></span><br><span class="line">    &#125;</span><br><span class="line">    FallBack <span class="string">&quot;VertexLit&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>Properties 声明</strong></p>
-<p><img src="/2022/10/22/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8102/image-20220713074058424.png" alt="image-20220713074058424"></p>
-<p>Properties 语义块的作用仅仅是为了让这些属性可以出现在材质面板中。</p>
-<p><strong>SubShader</strong></p>
-<p>Tags可以进行设置</p>
-<p><code>Tags&#123;&quot;Queue&quot; = &quot;Transparent&quot;&#125;</code>  设置渲染顺序</p>
-<p><strong>Pass</strong></p>
-<p>设置渲染状态</p>
-<p><img src="/2022/10/22/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8102/image-20220713090702796.png" alt="image-20220713090702796"></p>
-<p>首先Pass的命名<code>Name&quot;MyPassName&quot;</code></p>
-<p>调用其他Unity Shader中的Pass <code>UsePass &quot;MyShader/MyPassName&quot;</code></p>
-<p>Pass中的Tags与SubShader中的不一样</p>
-<p><img src="/2022/10/22/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8102/image-20220713091457211.png" alt="image-20220713091457211"></p>
-<p>有关FallBack</p>
-<p>FallBack “name”如果都没用，就用这个sub shader</p>
-<p>FallBack off 关闭，不管了</p>
-<p>FallBack “VertexLit” 调用内置的Shader中的Pass</p>
-<p><strong>结构</strong></p>
-<p><img src="/2022/10/22/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8102/image-20220713092133474.png" alt="image-20220713092133474"></p>
-<h4 id="各种着色器"><a href="#各种着色器" class="headerlink" title="各种着色器"></a>各种着色器</h4><p><strong>表面着色器</strong></p>
-<p>(Surface Shader)</p>
-<p>可以理解为顶点、片元着色器的进一步抽象，Unity中的Shader代码一般如上图所示。</p>
-<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Shader <span class="string">&quot;Custom/Simple Surface Shader&quot;</span>&#123;</span><br><span class="line">    SubShader&#123;</span><br><span class="line">        Tags&#123;<span class="string">&quot;RenderType&quot;</span> = <span class="string">&quot;Opaque&quot;</span>&#125;</span><br><span class="line">        </span><br><span class="line">        CGPROGRAM</span><br><span class="line">        <span class="meta">#<span class="keyword">pragma</span> surface surf Lambert</span></span><br><span class="line">        <span class="keyword">struct</span> Input&#123;</span><br><span class="line">            float4 color : COLOR;</span><br><span class="line">        &#125;;</span><br><span class="line">        ENDCG</span><br><span class="line">    &#125;</span><br><span class="line">    Fallback <span class="string">&quot;Diffuse&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>顶点/片元着色器</strong></p>
-<p>（Vertex/Fragment Shader)</p>
-<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Shader <span class="string">&quot;Custom/Simple VertexFragment Shader&quot;</span>&#123;</span><br><span class="line">    SubShader&#123;</span><br><span class="line">    </span><br><span class="line">        CGPROGRAM <span class="comment">//用来包裹ShaderLab语言</span></span><br><span class="line">        <span class="meta">#<span class="keyword">pragma</span> vertex vert</span></span><br><span class="line">        <span class="meta">#<span class="keyword">pragma</span> fragment frag</span></span><br><span class="line">        </span><br><span class="line">        <span class="function">float4 <span class="title">vert</span>(<span class="params">float4 v : POSITION</span>) :SV_POSITION</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> mul(UNITY_MATRIX_MVP,v);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="function">float4 <span class="title">frag</span>() : SV_Target</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> fixed4(<span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">0.0</span>,<span class="number">1.0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    </span><br><span class="line">        ENDCG</span><br><span class="line">    &#125;</span><br><span class="line">    Fallback <span class="string">&quot;Diffuse&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>固定函数着色器落后不讨论</p>
-<p>从本质上来讲，Unity Shader只包含后两种</p>
-<p>表面着色器中SubShader的CG代码会被Unity细分到Pass</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1315,7 +1304,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-count">16</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

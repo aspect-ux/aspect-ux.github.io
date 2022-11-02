@@ -550,4 +550,64 @@
         <category>unity shader</category>
       </categories>
   </entry>
+  <entry>
+    <title>Computer Graphics 04</title>
+    <url>/2022/11/02/%E8%99%8E%E4%B9%A6/04/</url>
+    <content><![CDATA[<h1 id="Surface-Shading"><a href="#Surface-Shading" class="headerlink" title="Surface Shading"></a>Surface Shading</h1><p>渲染3d场景时，无论使用ray tracing还是rasterization，在实时还是在批处理中，<strong>着色</strong>是对视觉效果影响</p>
+<p>最大的过程之一</p>
+<p>本章描述基于点光源照射的不透明表面基本着色模型。</p>
+<h2 id="Point-source-illumination"><a href="#Point-source-illumination" class="headerlink" title="Point source illumination"></a>Point source illumination</h2><p>点光源包括position,intensity</p>
+<p>点光源有isotropic(各向同性)</p>
+<p>the irradiance E is  <code>E = P/4PI * 1/pow(r,2)</code></p>
+<p>the quantity I = P/4PI,是光强(amount of light)，后者是factor</p>
+<p>更普遍地，<code>E = I * cos(theta) / pow(r,2)</code>,其中<code>cos(theta) = n * l</code></p>
+<p><img src="/2022/11/02/%E8%99%8E%E4%B9%A6/04/uTools_1667393710823.png" alt="uTools_1667393710823"></p>
+]]></content>
+      <categories>
+        <category>Fundamental of Computer Graphics</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>unityshader精要8</title>
+    <url>/2022/11/02/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter8/</url>
+    <content><![CDATA[<h2 id="Chapter8-透明效果"><a href="#Chapter8-透明效果" class="headerlink" title="Chapter8 透明效果"></a>Chapter8 透明效果</h2><h3 id="实现透明的方法"><a href="#实现透明的方法" class="headerlink" title="实现透明的方法"></a>实现透明的方法</h3><p>unity中通常使用两种方式实现透明效果</p>
+<p>1.透明度测试(alpha test),（无法实现真正的半透明）</p>
+<p>2.透明度混合(alpha blending)</p>
+<p><strong>使用深度测试，可以不考虑渲染顺序</strong>，但是使用透明度混合时，需要关闭*<code>ZWrite</code>*，关闭了深度写入</p>
+<p>虽然<em>透明度测试</em>不需要关闭，但是它的机制是如果透明度不满足某个阈值（通常小于），直接舍弃该片元。</p>
+<ul>
+<li>为什么关闭<code>ZWrite</code>?</li>
+</ul>
+<p><em>由于深度测试丢弃远处被遮挡部分，但是透明物体的机制是”可以透过并看见远处的物体”。</em></p>
+<p>关闭了ZWrite，渲染顺序则成了问题。</p>
+<p><strong>流程</strong></p>
+<p>1.渲染时，会进行深度测试，如果先渲染后面的不透明b，将b写入颜色缓冲和深度缓冲；然后渲染前面的透明a,a写入颜色缓冲，会发生透明混合，显示正确。</p>
+<p>2.如果先渲染a,进行深度测试，写入颜色缓冲，但是关闭了ZWrite，无法写入深度值，然后渲染b，写入深度值，写入颜色缓冲，b的颜色<strong>覆盖</strong>a,只能看见b。</p>
+<p>3.半透明物体之间亦然。</p>
+<h3 id="Alpha-Test"><a href="#Alpha-Test" class="headerlink" title="Alpha Test"></a>Alpha Test</h3><p>Unity Shader解决方案为SubShader 中的Tags</p>
+<p>以下为透明度测试alpha test示例</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">SubShader&#123;</span><br><span class="line">       Tags&#123;<span class="string">&quot;Queue&quot;</span>=<span class="string">&quot;AlphaTest&quot;</span> <span class="string">&quot;IgnoreProjector&quot;</span> = <span class="string">&quot;True&quot;</span> <span class="string">&quot;RenderType&quot;</span> = <span class="string">&quot;TransparentCutout&quot;</span>&#125;</span><br><span class="line">       Pass&#123;</span><br><span class="line">           Tags&#123;<span class="string">&quot;LightMode&quot;</span> = <span class="string">&quot;ForwardBase&quot;</span>&#125;</span><br><span class="line">           ...</span><br><span class="line">            <span class="comment">//alpha test</span></span><br><span class="line">               clip(texColor.a - _Cutoff);</span><br><span class="line">               <span class="comment">// Equal to </span></span><br><span class="line">               <span class="comment">// if (( exColor - _Cutoff) &lt; 0 . 0) &#123; </span></span><br><span class="line">               <span class="comment">// discard; &#125;</span></span><br><span class="line">           	...</span><br><span class="line">           &#125;</span><br><span class="line">           ...</span><br><span class="line">         &#125;  </span><br></pre></td></tr></table></figure>
+
+<p>每块的透明度都不同，根据面板调整_Cutoff可以看出哪个更低，低的那个会直接被剔除</p>
+<p>结果图</p>
+<p><img src="/2022/11/02/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter8/uTools_1660983793621.png" alt="uTools_1660983793621"></p>
+<h3 id="Alpha-Blend"><a href="#Alpha-Blend" class="headerlink" title="Alpha Blend"></a>Alpha Blend</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SubShader&#123;</span><br><span class="line">       //alpha blend</span><br><span class="line">       Tags&#123;&quot;Queue&quot;=/*&quot;AlphaTest&quot;*/&quot;Transparent&quot; &quot;IgnoreProjector&quot; = &quot;True&quot; &quot;RenderType&quot; = &quot;TransparentCutout&quot;&#125;</span><br><span class="line">       Pass&#123;</span><br><span class="line">           Tags&#123;&quot;LightMode&quot; = &quot;ForwardBase&quot;&#125;</span><br><span class="line">           ZWrite Off</span><br><span class="line">           Blend SrcAlpha OneMinusSrcAlpha  //P170</span><br><span class="line">           ...</span><br><span class="line">           &#125;</span><br><span class="line">           //去掉clip</span><br></pre></td></tr></table></figure>
+
+<h3 id="解决排序问题"><a href="#解决排序问题" class="headerlink" title="解决排序问题"></a>解决排序问题</h3><p><strong>一般先开启深度测试、写入，先渲染不透明物体，然后关闭写入，对不透明物体排序，先渲染后面的物体</strong></p>
+<ul>
+<li><strong>但是仍然存在很大问题。</strong></li>
+</ul>
+<p>比如一个物体，各个部分互相遮挡，又或者多个物体，相互遮挡，而深度排序是像素级别的。</p>
+<p><strong>问题在于</strong></p>
+<p>现在开启ZWrite</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"> Pass&#123;</span><br><span class="line"> ZWrite On </span><br><span class="line"> ColorMask 0//ColorMask RGB 、 A 、 0 、其他任何rgba的组合</span><br><span class="line"> //0表示不写入任何颜色通道，即只写入深度缓存，不输出颜色</span><br><span class="line"> 	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>新添加一个Pass通道。该Pass专门用来写入深度缓冲，并且先执行。</p>
+<p>Pass通道中加上<code>//Cull Front/Back/Off 需要双面渲染时关闭剔除</code></p>
+<p>注意如果关闭了深度写入，此时再双面渲染就会出现半透明错误渲染</p>
+]]></content>
+      <categories>
+        <category>unity shader</category>
+      </categories>
+  </entry>
 </search>
