@@ -134,7 +134,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">16</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">17</span></a>
 
   </li>
         <li class="menu-item menu-item-schedule">
@@ -203,6 +203,109 @@
 	  </div>
 	</div>
 	<br>
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/26/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8104/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/1.jpg">
+      <meta itemprop="name" content="温蒂">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="不会美术的温蒂">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/10/26/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8104/" class="post-title-link" itemprop="url">unityshader精要4</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-10-26 20:56:21 / Modified: 20:58:22" itemprop="dateCreated datePublished" datetime="2022-10-26T20:56:21+08:00">2022-10-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/unity-shader/" itemprop="url" rel="index"><span itemprop="name">unity shader</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="Unity-Shader04"><a href="#Unity-Shader04" class="headerlink" title="Unity Shader04"></a>Unity Shader04</h3><h4 id="基础语法"><a href="#基础语法" class="headerlink" title="基础语法"></a>基础语法</h4><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Shader <span class="string">&quot;Unity Shaders Book/Chaper5/Simple Shader&quot;</span> &#123; </span><br><span class="line">    SubShader &#123; </span><br><span class="line">    Pass &#123; <span class="comment">//自定义渲染设置</span></span><br><span class="line">        CGPROGR</span><br><span class="line">        <span class="meta">#<span class="keyword">pragma</span> vertex vert </span></span><br><span class="line">        <span class="meta">#<span class="keyword">pragma</span> fragment frag </span></span><br><span class="line">        <span class="function">float4 <span class="title">vert</span>(<span class="params">float4 v: POSITION</span>) : SV POSITION</span> &#123; </span><br><span class="line">            <span class="keyword">return</span> mul (UNITY MATRIX MVP, v);</span><br><span class="line">        &#125; </span><br><span class="line">        <span class="function">fixed4 <span class="title">frag</span>() : SV_Target</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> fixed4(<span class="number">1.0</span>, <span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>); </span><br><span class="line">        &#125;</span><br><span class="line">        ENDCG</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>顶点着色器中</li>
+</ul>
+<p>POSITION和SV_POSITION是CG/HLSL中的语义（semantic)不可省略。</p>
+<p>POSITION告诉Unity将模型的坐标作为输入参数输入到v中。</p>
+<p>而SV_POSITION则告诉Unity返回裁剪坐标。</p>
+<p>片元着色器中</p>
+<p>SV_TARGET也是一个语义，告诉系统将渲染输出存储到渲染目标，默认输出到帧缓存。（1，1，1）表示白色，这里返回了白色。</p>
+<p>结构体</p>
+<p>用来定义着色器的输入</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> a2v&#123;   <span class="comment">//a2v意思是将应用阶段数据传到顶点着色器</span></span><br><span class="line">    <span class="comment">//用模型坐标填充</span></span><br><span class="line">    float4 vertex : POSITION;</span><br><span class="line">    <span class="comment">//用法线方向填充</span></span><br><span class="line">    float3 normal : NORMAL;</span><br><span class="line">    <span class="comment">//TEXCOORD0告诉系统用第一条纹理坐标填充</span></span><br><span class="line">    float4 texcoord : TEXCOORD0;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>Unity <strong>支持的语义有：</strong> POSITION, TANGENT, NORMAL, TEXCOORDO, TEXCOORDJ, TEXCOORD2, TEXCOORD3, COLOR 等。</p>
+<p><code>struct StructName&#123;TypeName name : Semantic;&#125;;</code></p>
+<h4 id="顶点与片元着色器通信"><a href="#顶点与片元着色器通信" class="headerlink" title="顶点与片元着色器通信"></a>顶点与片元着色器通信</h4><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> v2f&#123; <span class="comment">//从顶点着色器到片元</span></span><br><span class="line">    <span class="comment">//pos中包含了裁剪空间的位置信息</span></span><br><span class="line">    float4 pos : SV_POSITION;</span><br><span class="line">    <span class="comment">//COLOR0用来存储颜色信息</span></span><br><span class="line">    float3 color : COLOR0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以下为完整代码</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">Shader <span class="string">&quot;Unity Shaders Book/Simple Shader&quot;</span>&#123;</span><br><span class="line">    SubShader&#123;</span><br><span class="line">        Pass&#123;</span><br><span class="line">            CGPROGRAM</span><br><span class="line">            <span class="meta">#<span class="keyword">pragma</span> vertex vert</span></span><br><span class="line">            <span class="meta">#<span class="keyword">pragma</span> fragment frag</span></span><br><span class="line">			<span class="comment">//将模型坐标输入到顶点着色器</span></span><br><span class="line">            <span class="keyword">struct</span> a2v&#123;</span><br><span class="line">                float4 vertex : POSITION;</span><br><span class="line">                float3 normal : NORMAL;</span><br><span class="line">                float4 texcoord : TEXCOORD0;</span><br><span class="line">            &#125;;</span><br><span class="line">			<span class="comment">//将顶点数据输出到片元</span></span><br><span class="line">            <span class="keyword">struct</span> v2f&#123;</span><br><span class="line">                float4 pos : SV_POSITION;</span><br><span class="line">                fixed3 color : COLOR0;</span><br><span class="line">            &#125;;</span><br><span class="line">            <span class="comment">//顶点着色器，逐顶点调用</span></span><br><span class="line">            <span class="function">v2f <span class="title">vert</span>(<span class="params">a2v v</span>)</span>&#123;</span><br><span class="line">                v2f o;</span><br><span class="line">                o.pos = mul(UNITY_MATRIX_MVP,v.vertex);</span><br><span class="line">                o.color = v.normal * <span class="number">0.5</span>+fixed3(<span class="number">0.5</span>,<span class="number">0.5</span>,<span class="number">0.5</span>);</span><br><span class="line">                <span class="keyword">return</span> o;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//逐片元调用</span></span><br><span class="line">            <span class="function">fixed4 <span class="title">frag</span>(<span class="params">v2f i</span>) : SV_TARGET</span>&#123;</span><br><span class="line">                <span class="keyword">return</span> fixed4(i.color,<span class="number">1.0</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            ENDCG</span><br><span class="line">        &#125;</span><br><span class="line">       </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h4><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Properties&#123;</span><br><span class="line">	_Color(<span class="string">&quot;Color Tint&quot;</span>,Color) = (<span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//需要注意的是，在CG代码中需要定义出名称类型都一致的变量</span></span><br><span class="line"></span><br><span class="line">SubShader&#123;</span><br><span class="line">    Pass&#123;</span><br><span class="line">        CGPROGRAM</span><br><span class="line">            fixed4 _Color;</span><br><span class="line">            ENDCG</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>区别ShaderLab和CG的变量</p>
+<p><img src="/2022/10/26/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8104/image-20220714112206997.png" alt="image-20220714112206997"></p>
+<h4 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h4><p>已知真正的Shader不是简单的一个<code>.shader</code>文件。</p>
+<p>UnityShader 的方便性使得不用开发者自己转换法线方向，处理光照阴影等。</p>
+<p>类似于C++的头文件,写在CG中，根据情况下载</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CGPROGRAM</span><br><span class="line"><span class="comment">//...</span></span><br><span class="line"><span class="meta">#include &quot;UnityCG.cginc&quot;</span></span><br><span class="line"><span class="comment">//...</span></span><br><span class="line">ENGCG</span><br></pre></td></tr></table></figure>
+
+<h4 id="Debug"><a href="#Debug" class="headerlink" title="Debug"></a>Debug</h4><p>ColorPicker.cs绑定摄像机，获取屏幕RGB值</p>
+<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><p>有关CG/HLSL的语义，可参照微软DX文档</p>
+<p>语义主要是用来限定输入输出的字符串，决定输入输出来源去向，方式等。</p>
+<p>SV（system value semantics)</p>
+<p>定义复杂变量类型时，需要注意，一个语义，寄存器只能存储4个浮点数，所以可以采取分成4个变量表示一个矩阵</p>
+<p>shader中不要除以0</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -809,7 +912,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-count">17</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

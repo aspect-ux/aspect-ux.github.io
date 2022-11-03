@@ -610,4 +610,50 @@
         <category>unity shader</category>
       </categories>
   </entry>
+  <entry>
+    <title>unityshader精要9</title>
+    <url>/2022/11/03/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter9/</url>
+    <content><![CDATA[<h2 id="Complex-Light-Chapter9"><a href="#Complex-Light-Chapter9" class="headerlink" title="Complex Light - Chapter9"></a>Complex Light - Chapter9</h2><h3 id="渲染路径（Rendering-Path"><a href="#渲染路径（Rendering-Path" class="headerlink" title="渲染路径（Rendering Path)"></a>渲染路径（Rendering Path)</h3><p><strong>分为前向渲染路径，延迟渲染路径(更新），顶点渲染路径（弃用）</strong></p>
+<p>1.前向渲染路径，如果深度测试不过关，该片元不可见，反之可见，就进行光照计算</p>
+<p>2.如果物体受到多个光源照射，就要写多个Pass,然后在帧缓冲中将这些光照结果混合。</p>
+<p>3.前向渲染中，光照类型（平行光parallel light或其他）+光照渲染模式（important)决定了处理光照（照亮物体）的方式。</p>
+<p>而处理方式分为逐像素，逐顶点、sh计算。</p>
+<p>参见P182</p>
+<h3 id="Unity光源类型"><a href="#Unity光源类型" class="headerlink" title="Unity光源类型"></a>Unity光源类型</h3><p>1.平行光、点光源、<em>面光源</em>和<em>聚光灯</em>，面光源只在烘焙时才会产生作用</p>
+<p>2.当RenderMode是Auto,Unity自动判断哪些光源逐像素，哪些顶点、sh计算。</p>
+<p>3.最亮的平行光是按照逐像素计算，而Auto状态下最多除平行光源外4个逐像素计算，这些在addtional pass中计算</p>
+<p><strong>最常用的光源属性有：位置、方向、颜色、强度、衰减</strong></p>
+<ul>
+<li>光照衰弱</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="comment">//使用纹理来计算衰弱值</span></span><br><span class="line"><span class="keyword">fixed</span> atten = tex2D(_ ghtTextureO, dot(lightCoord, lightCoord) .rr) .UNITY_ATTEN_CHANNEL;</span><br><span class="line"></span><br><span class="line"><span class="comment">//使用数学公式进行线性衰弱值计算</span></span><br><span class="line"><span class="built_in">float</span> distance = length (_WorldSpaceLightPosO . xyz - i. worldPosi <span class="keyword">on</span>.xyz);</span><br><span class="line">atten = <span class="number">1.0</span> <span class="comment">// distance; // linear attenuation</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Unity阴影"><a href="#Unity阴影" class="headerlink" title="Unity阴影"></a>Unity阴影</h3><p>1.如果最重要的平行光开启了阴影，那么Unity会为这个光源生成<em>阴影纹理图</em>，一种由光源出发的深度图。</p>
+<p>2.另取一个LightMode为ShadowCaster的Pass,Unity会将摄像头放到光源的地方</p>
+<p>3.一个物体想要接收阴影，那么在shader中要对纹理采样；相同地，一个物体想要投射阴影，就要参与纹理计算</p>
+<p>见P200</p>
+<ul>
+<li>如何让正方体接收阴影</li>
+</ul>
+<p>SHADOWCOORD,TRANSFER_SHADOW,SHADOW_ATTENUATION分别在v2f,vert,frag中调用</p>
+<p>实现接收阴影</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SHADOW_COORDS(2)</span><br><span class="line">TRANSFER_SHADOW(o);</span><br><span class="line">fixed shadow = SHADOW_ATTENUATION(i);</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>光照衰减和阴影的效果是一样的，于是就有了统一光照衰弱和阴影</strong></p>
+<p>unity提供一个方法同时管理这两者</p>
+<p><code>UNITY_LIGHT_ATTENUATION(atten,i,i.worldPos);</code></p>
+<ul>
+<li><p>透明物体的阴影</p>
+<p>在AlphaTest的基础上使用上述方法</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>unity shader</category>
+      </categories>
+  </entry>
 </search>
