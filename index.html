@@ -437,10 +437,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2022-11-02 20:43:23 / Modified: 20:58:54" itemprop="dateCreated datePublished" datetime="2022-11-02T20:43:23+08:00">2022-11-02</time>
+              <time title="Created: 2022-11-02 20:43:23" itemprop="dateCreated datePublished" datetime="2022-11-02T20:43:23+08:00">2022-11-02</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-11-05 00:21:18" itemprop="dateModified" datetime="2022-11-05T00:21:18+08:00">2022-11-05</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -471,6 +477,36 @@
 <p>the quantity I = P/4PI,是光强(amount of light)，后者是factor</p>
 <p>更普遍地，<code>E = I * cos(theta) / pow(r,2)</code>,其中<code>cos(theta) = n * l</code></p>
 <p><img src="/2022/11/02/%E8%99%8E%E4%B9%A6/04/uTools_1667393710823.png" alt="uTools_1667393710823"></p>
+<h3 id="Directional-illumination"><a href="#Directional-illumination" class="headerlink" title="Directional illumination"></a>Directional illumination</h3><p>不同于点光源，由于方向光是由很远的点光源产生，这就导致I/(r^2)的占比很小，这里设为一个常数H</p>
+<p><code>E = H * cos(theta)</code></p>
+<p>其中常量H被称为法向辐射（normal irradiance)</p>
+<h3 id="Basic-reflection-models"><a href="#Basic-reflection-models" class="headerlink" title="Basic reflection models"></a>Basic reflection models</h3><p>现在可以计算辐射度（irradiance)了，辐射量可以表示照在物体上的光的量。</p>
+<p><strong>1.Lambertian reflection</strong> 这是一种非常简单的模型，用于计算漫反射，光无差别反射。</p>
+<p><code>L = kE</code></p>
+<p><code>L = R/PI * E</code> 其中R是反射的光的强度</p>
+<p>兰伯特模型公式<code>c = _DiffuseColor.rgb * _MainLight.rgb * max(dot(n,l),0);</code></p>
+<p>半兰伯特则是点乘结果tilling 0.5,offset 0.5</p>
+<p><strong>2. Specular reflection</strong></p>
+<p>许多材质具有不同程度的亮度（shininess),例如金属光泽（metal),塑料（plastic)</p>
+<p>光泽（gloss),半光泽（semi-gloss)</p>
+<p>2.1最简单的高光（镜面反射）发生在完美的平滑表面，例如镜子，或者水的表面。</p>
+<p>这种效果来源于一个点光源，点光源有具体的方向，使得表面有一个大的高光点。</p>
+<p>2.2但是一般表面并不平滑，一般显示的效果更接近于glossy reflection.</p>
+<p>比较知名的简单模型是BlinnPhong模型。</p>
+<p>简化公式为<code>specular = _SpecularColor.rgb * _BaseColor * pow(max(0,dot(n,h)),_Gloss);</code></p>
+<p>其中<code>h = normalize(l + v)</code></p>
+<p>注意phong模型与BlinnPhong的区别（v*r)</p>
+<p>一般将高光和漫反射相加统筹</p>
+<p><img src="/2022/11/02/%E8%99%8E%E4%B9%A6/04/uTools_1667567665544.png" alt="uTools_1667567665544"></p>
+<p><strong>生成因子k的表达式叫做双向反射分布函数（BRDF)</strong></p>
+<p>因为它反映了反射光随l,v两个向量的改变而改变</p>
+<p>对于lambertian的brdf是常量（constant)</p>
+<p>对于specular则不是。irradiance描述了光的“量”，而brdf则描述了表面如何反射光。</p>
+<h3 id="Caculating-shading"><a href="#Caculating-shading" class="headerlink" title="Caculating shading"></a>Caculating shading</h3><ul>
+<li>光的入射向量<code>l = lightPosition - modelVertex</code></li>
+</ul>
+<p><img src="/2022/11/02/%E8%99%8E%E4%B9%A6/04/uTools_1667568753509.png" alt="uTools_1667568753509"></p>
+<h2 id="Ambient-illumination"><a href="#Ambient-illumination" class="headerlink" title="Ambient illumination"></a>Ambient illumination</h2><p>点光源是非常局部性的光源</p>
 
       
     </div>
