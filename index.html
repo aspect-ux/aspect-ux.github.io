@@ -134,7 +134,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">18</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">20</span></a>
 
   </li>
         <li class="menu-item menu-item-schedule">
@@ -203,6 +203,204 @@
 	  </div>
 	</div>
 	<br>
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/07/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter10/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/1.jpg">
+      <meta itemprop="name" content="温蒂">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="不会美术的温蒂">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/11/07/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter10/" class="post-title-link" itemprop="url">unityshader精要9</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-11-07 20:47:02 / Modified: 20:52:14" itemprop="dateCreated datePublished" datetime="2022-11-07T20:47:02+08:00">2022-11-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/unity-shader/" itemprop="url" rel="index"><span itemprop="name">unity shader</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="高级纹理"><a href="#高级纹理" class="headerlink" title="高级纹理"></a>高级纹理</h2><h3 id="立方体纹理（CubeMap"><a href="#立方体纹理（CubeMap" class="headerlink" title="立方体纹理（CubeMap)"></a>立方体纹理（CubeMap)</h3><p>立方体纹理映射技术是实现环境映射的一种方法，还应用于Skybox</p>
+<p>1.新建skybox类型的材质，填充6张中级篇Chapter10，设置为Wrap Mode设置为Clamp使得衔接顺畅;</p>
+<p>2.创建用于环境映射的<code>CubeMap</code></p>
+<p>环境映射技术最常见的应用是<strong>反射</strong>和<strong>折射</strong></p>
+<ul>
+<li>反射</li>
+</ul>
+<p><code>lerp(y1,y2,weight) = y1 + (y2-y1)*weight;</code></p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">fixed3 reflection = texCUBE(_CubeMap,i.worldRefl).rgb * _Reflection.rgb;<span class="comment">//在立体纹理中采样</span></span><br><span class="line"></span><br><span class="line">UNITY_LIGHT_ATTENUATION(atten,i,i.worldPos);</span><br><span class="line">float3 color = ambient + lerp(diffuse,reflection,_ReflectionAmount) *atten;<span class="comment">//有反射，无高光</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2022/11/07/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter10/uTools_1661213048053.png" alt="uTools_1661213048053"></p>
+<ul>
+<li>折射(Refraction)</li>
+</ul>
+<p>​    计算折射</p>
+<p><img src="/2022/11/07/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter10/uTools_1661213306951.png" alt="uTools_1661213306951"></p>
+<p>**斯涅尔定律(Snell’s law)**，m1 *sin(a) = m2 * sin(a2)，m1,m2 分别为折射率。真空折射率是1，玻璃的折射率是1.5</p>
+<p>玻璃一般分为两次折射，但第二次折射较复杂，一般只模拟第一次折射。</p>
+<p><img src="/2022/11/07/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter10/uTools_1661218211269.png" alt="uTools_1661218211269"></p>
+<p><strong>菲涅耳反射</strong></p>
+<p>（Fresnel Reflection)</p>
+<p>比如看远处的水会反光，这就是菲涅耳反射；不仅透明物体，很多不透明物体或多或少都存在菲涅耳反射。</p>
+<p>F(V ,D)=F0+(l-F0)(1-v·n)^5</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fixed fresnel = _FresnelScale + (1-_FresnelScale) * pow(1-dot(worldViewDir,worldNormal),5);</span><br><span class="line">fixed3 color = ambient + lerp(diffuse, reflection, saturate(fresnel)) * atten;</span><br><span class="line">return fixed4(color, 1.0);</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="渲染目标纹理"><a href="#渲染目标纹理" class="headerlink" title="渲染目标纹理"></a>渲染目标纹理</h3><p>现代GPU允许将三维场景渲染到中间缓冲，即渲染目标纹理（Render Target Texture)</p>
+<p><strong>使用渲染纹理模拟镜子效果</strong></p>
+<p>见P219</p>
+<p><strong>玻璃效果</strong></p>
+<p>to be studyed</p>
+<h3 id="程序纹理"><a href="#程序纹理" class="headerlink" title="程序纹理"></a>程序纹理</h3><p>SetProperty，该插件用于在Unity面板上修改材质属性，并通过_UpdateMaterial()函数来使用新的属性生成程序<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E7%BA%B9%E7%90%86&spm=1001.2101.3001.7020">纹理</a>。</p>
+<p><em>示例</em> :<code>ProceduralTextureGeneration.cs</code></p>
+<p>代码首先初始化 维纹理，并且提前计算了 些生成纹理时需要的变队。然后，使用了</p>
+<p>个两层的嵌套循环遍历纹理中的每个像素，并在纹理七依次绘制 个圆形 。最后，调用</p>
+<p>Texture2D.Apply 函数来强制把像素值写入纹理中，并返回该程序纹理。</p>
+<p><strong>unity中有一种程序材质专门使用程序纹理。而程序纹理是通过算法实现的效果。</strong></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/07/%E8%99%8E%E4%B9%A6/05/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/1.jpg">
+      <meta itemprop="name" content="温蒂">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="不会美术的温蒂">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/11/07/%E8%99%8E%E4%B9%A6/05/" class="post-title-link" itemprop="url">Computer Graphics 05</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-11-07 19:33:18 / Modified: 20:45:54" itemprop="dateCreated datePublished" datetime="2022-11-07T19:33:18+08:00">2022-11-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Fundamental-of-Computer-Graphics/" itemprop="url" rel="index"><span itemprop="name">Fundamental of Computer Graphics</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Viewing"><a href="#Viewing" class="headerlink" title="Viewing"></a>Viewing</h1><h2 id="Viewing-Transformations"><a href="#Viewing-Transformations" class="headerlink" title="Viewing Transformations"></a>Viewing Transformations</h2><p>视角变换用于映射3d位置。</p>
+<p>它是一头复杂的野兽，依赖于包括相机坐标、orientation(取向)，投影的类型，视角的区域，和图片的清晰度(resolution);</p>
+<p>它是通过几个简单变换点乘获得</p>
+<ul>
+<li>相机变换(camera/eye  transformation)</li>
+<li>投影变换(projection transformation)</li>
+<li>视口(窗口)变换(viewport transformation)</li>
+</ul>
+<p><img src="/2022/11/07/%E8%99%8E%E4%B9%A6/05/uTools_1667821796670.png" alt="uTools_1667821796670"></p>
+<p>模型空间-&gt;世界空间-&gt;相机空间-&gt;规范化视线空间-&gt;屏幕空间</p>
+<h3 id="The-Viewport-Transformation"><a href="#The-Viewport-Transformation" class="headerlink" title="The Viewport Transformation"></a>The Viewport Transformation</h3><p>假设我们想要看到的几何体在规范的视图体积空间(canonical view volume)</p>
+<p>然后我们想要在z轴方向用**正交(orthographic)**相机观察</p>
+<p>canonical view volume(规范视图空间)是一个包含了所有3d坐标的正方体，这些坐标</p>
+<p>在笛卡尔坐标系(cartesian coordinates)中处于（-1，1）之间</p>
+<p>我们将x = -1投射到屏幕的左边，y = -1投射到屏幕的底部，像素坐标的定义是围绕着</p>
+<p>以整数坐标为中心的方形。这样图像的边缘就有半个unit的overshoot</p>
+<p>如果我们想要在图片上画nx * ny个像素,我们需要将square[-1.1]映射到[-0.5，nx - 0.5]</p>
+<p>x [-0.5,ny - 0.5]</p>
+<p><strong>这里是假设线段完全在规范视角空间里，后面会放下这个假设,讨论clipping(裁剪)</strong></p>
+<p><img src="/2022/11/07/%E8%99%8E%E4%B9%A6/05/uTools_1667823244143.png" alt="uTools_1667823244143"></p>
+<p><code>Xscreen = nx/2 * Xcanonical + (nx - 1) / 2</code></p>
+<p>…</p>
+<p>注意这个矩阵忽略了z分量，因为这不影响投影到图片，但是在正式称呼这个矩阵为视口矩阵</p>
+<p>(transform to screen),我们需要增加一一行和一列来存储z分量，不改变z分量</p>
+<p><img src="/2022/11/07/%E8%99%8E%E4%B9%A6/05/uTools_1667824528183.png" alt="uTools_1667824528183"></p>
+<p>最终这个投影到屏幕</p>
+<h3 id="正交投影矩阵变换"><a href="#正交投影矩阵变换" class="headerlink" title="正交投影矩阵变换"></a>正交投影矩阵变换</h3><h3 id="相机变换"><a href="#相机变换" class="headerlink" title="相机变换"></a>相机变换</h3><h2 id="投影变换"><a href="#投影变换" class="headerlink" title="投影变换"></a>投影变换</h2><h2 id="透视投影"><a href="#透视投影" class="headerlink" title="透视投影"></a>透视投影</h2>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -535,7 +733,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-11-05 00:21:18" itemprop="dateModified" datetime="2022-11-05T00:21:18+08:00">2022-11-05</time>
+                <time title="Modified: 2022-11-07 19:32:55" itemprop="dateModified" datetime="2022-11-07T19:32:55+08:00">2022-11-07</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -597,6 +795,16 @@
 </ul>
 <p><img src="/2022/11/02/%E8%99%8E%E4%B9%A6/04/uTools_1667568753509.png" alt="uTools_1667568753509"></p>
 <h2 id="Ambient-illumination"><a href="#Ambient-illumination" class="headerlink" title="Ambient illumination"></a>Ambient illumination</h2><p>点光源是非常局部性的光源</p>
+<p><code>ambient = UNITY_LIGHTMODE_AMBIENT.rgb * albedo</code></p>
+<p><img src="/2022/11/02/%E8%99%8E%E4%B9%A6/04/uTools_1667819295698.png" alt="uTools_1667819295698"></p>
+<p>环境光着色是一个有点hack的手段，因为大型扩展光源发出的光是不同的，在角落和凹陷区域都会更暗一些。</p>
+<p>但是它却是很重要的，因为它防止阴影变成完全的黑色，并且容易调整场景对比度。</p>
+<p>一些系统把环境光看作一种点光源或平行光。还有一些系统则是让环境光Intensity成为一个场景的参数，来模拟环境光。</p>
+<h3 id="Frequently-Asked-Questions"><a href="#Frequently-Asked-Questions" class="headerlink" title="Frequently Asked Questions"></a>Frequently Asked Questions</h3><ul>
+<li><p>Phong 模型看起来是个很大的hack操作</p>
+<p>yes</p>
+</li>
+</ul>
 
       
     </div>
@@ -1096,190 +1304,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/28/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/1.jpg">
-      <meta itemprop="name" content="温蒂">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="不会美术的温蒂">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/10/28/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter6/" class="post-title-link" itemprop="url">unityshader精要6</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2022-10-28 23:24:13 / Modified: 23:29:57" itemprop="dateCreated datePublished" datetime="2022-10-28T23:24:13+08:00">2022-10-28</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/unity-shader/" itemprop="url" rel="index"><span itemprop="name">unity shader</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Chapter6-Diffuse"><a href="#Chapter6-Diffuse" class="headerlink" title="Chapter6_Diffuse"></a>Chapter6_Diffuse</h2><h3 id="逐顶点计算漫反射"><a href="#逐顶点计算漫反射" class="headerlink" title="逐顶点计算漫反射"></a>逐顶点计算漫反射</h3><p>漫反射光照符合兰伯特定律 (Lambert’s law): 反射光线的强度与表面法线和光源方向之间</p>
-<p>角的余弦值 。因此， 漫反射部分的计算如下</p>
-<p>c_diffuse=( light * m_diffuse) max( n . I ) </p>
-<p>中， n是表面法线,I 是指向光源的单位矢量 ,m_diffuse 是材质的漫反射颜色 ,light 是光源颜色。</p>
-<p>需要注意的是 我们需要防止法线和光源方向点乘的结果为负值，为此 我们使用取最大值的函数来将其截取到 o, 这可以防止物体被从后面来的光源照亮。</p>
-<p><em>以下为具体代码</em></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">//顶点着色器代码</span><br><span class="line">          v2f vert(a2v v)&#123;</span><br><span class="line">              v2f o;   //用于输出</span><br><span class="line"></span><br><span class="line">              //将顶点信息从模型空间传递到投影空间</span><br><span class="line">              o.pos = mul(UNITY_MATRIX_MVP,v.vertex);</span><br><span class="line"></span><br><span class="line">              //获取环境光</span><br><span class="line">              fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz;</span><br><span class="line"></span><br><span class="line">              //将法线从模型空间传递到世界空间,</span><br><span class="line">              fixed3 worldNormal = normalize(mul(v.normal,(float3x3)_World2Object));</span><br><span class="line"></span><br><span class="line">              //获取世界空间的光照方向</span><br><span class="line">              fixed3 worldLight = normalizze(_WorldSpaceLightPos0.xyz); //只有一个光源且为平行光才有用</span><br><span class="line"></span><br><span class="line">              //计算漫反射  saturate：饱和,用于将数据截取到【0，1】之间</span><br><span class="line">              fixed3 diffuse = _LightColor0.rgb * _Diffuse.rgb * saturate(dot(worldNormal,worldLight));</span><br><span class="line"></span><br><span class="line">              o.color = ambient + diffuse;</span><br><span class="line"></span><br><span class="line">              return o;</span><br><span class="line">          &#125;</span><br></pre></td></tr></table></figure>
-
-<p>详情见P128.</p>
-<p>矩阵变换见P86</p>
-<p>要注意，非统一缩放，<strong>经计算得知</strong>会导致，法线不再垂直，所以不能用M(A-B)矩阵</p>
-<p>需要用变换矩阵的<em>逆转置矩阵</em></p>
-<h4 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h4><p>1.进行漫反射计算，需要法线，光照，但是需要两者在同一空间下，这里是世界空间，并且法线变换不同于顶点变换</p>
-<p><em>法线变换mv方法</em></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//右乘mv逆矩阵</span><br><span class="line">fixed3 worldNormal = normalize(mul(v.normal,(float3x3)_World2Object));</span><br><span class="line">//因为左乘逆转置矩阵，</span><br><span class="line">//it为逆转置，其实对于正交来说，等于原来变换矩阵，但不是正交矩阵，会出现上述法线问题</span><br></pre></td></tr></table></figure>
-
-<p>2.一个矩阵可以左乘达成mv变换，那么它的逆矩阵就可以达成vm变换；逆=换方向，转=换位置</p>
-<p><img src="/2022/10/28/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter6/uTools_1660737217984.png" alt="uTools_1660737217984"></p>
-<h3 id="逐像素计算漫反射"><a href="#逐像素计算漫反射" class="headerlink" title="逐像素计算漫反射"></a>逐像素计算漫反射</h3><p>类似于顶点</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">Shader &quot;Unity Shaders Books/Chapter6/Pixel_Level&quot;&#123;</span><br><span class="line">     Properties&#123;</span><br><span class="line">        //初始化Color属性,得到并控制漫反射颜色,设置为白色</span><br><span class="line">        _Diffuse(&quot;Diffuse&quot;,Color)=(1,1,1,1)</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    SubShader&#123;</span><br><span class="line">        // Tags &#123; &quot;RenderType&quot;=&quot;Opaque&quot; &#125;</span><br><span class="line">        //顶点片元着色器代码要写在pass通道中</span><br><span class="line">        Pass&#123;</span><br><span class="line">            //正确定义lightmode才可以得到unity内置光照变量，该Tag用于定义pass的角色</span><br><span class="line">            Tags&#123;&quot;LightMode&quot; = &quot;ForwardBase&quot;&#125;</span><br><span class="line"></span><br><span class="line">            CGPROGRAM</span><br><span class="line">            #pragma vertex vert</span><br><span class="line">            #pragma fragment frag</span><br><span class="line">            #include &quot;Lighting.cginc&quot;</span><br><span class="line">            //获取properties中的变量</span><br><span class="line">            fixed4 _Diffuse;</span><br><span class="line"></span><br><span class="line">            //定义顶点着色器的输入输出结构体,同时输出也是片元的输入</span><br><span class="line">            struct a2v&#123;</span><br><span class="line">                float4 vertex : POSITION;</span><br><span class="line">                float3 normal :NORMAL;  //将模型顶点法线信息保存</span><br><span class="line">            &#125;;</span><br><span class="line">            </span><br><span class="line">            struct v2f&#123;</span><br><span class="line">                float4 pos : SV_POSITION;</span><br><span class="line">                fixed3 worldNormal : TEXCOORD0;  //将光照颜色传递给片元着色器，也可以用 XCOORDO 语义。</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            //顶点着色器代码,由于顶点着色器不参加计算，只要获取到坐标和世界法线</span><br><span class="line">            v2f vert(a2v v)&#123;</span><br><span class="line">                v2f o;   //用于输出</span><br><span class="line"></span><br><span class="line">                //将顶点信息从模型空间传递到投影空间</span><br><span class="line">                o.pos = UnityObjectToClipPos(v.vertex);</span><br><span class="line">                // //获取环境光</span><br><span class="line">                // fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz;</span><br><span class="line">                //将法线从模型空间传递到世界空间</span><br><span class="line">                fixed3 worldNormal = normalize(mul(v.normal,(float3x3)unity_WorldToObject));</span><br><span class="line">                // //获取世界空间的光照方向</span><br><span class="line">                // fixed3 worldLight = normalize(_WorldSpaceLightPos0.xyz); //只有一个光源且为平行光才有用</span><br><span class="line">                // //计算漫反射  saturate：饱和</span><br><span class="line">                // fixed3 diffuse = _LightColor0.rgb * _Diffuse.rgb * saturate(dot(worldNormal,worldLight));</span><br><span class="line">                // o.color = ambient + diffuse;</span><br><span class="line"></span><br><span class="line">                return o;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            //逐像素计算</span><br><span class="line">            fixed4 frag(v2f i) :SV_TARGET&#123;</span><br><span class="line">                fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz;</span><br><span class="line"></span><br><span class="line">                //法线</span><br><span class="line">                fixed3 worldNormal = normalize(i.worldNormal);</span><br><span class="line">                //获取光照方向</span><br><span class="line">                fixed3 worldLightDir = normalize(_WorldSpaceLightPos0.xyz);</span><br><span class="line"></span><br><span class="line">                //计算漫反射</span><br><span class="line">                fixed3 diffuse = _LightColor0.rgb * _Diffuse.rgb * saturate(dot(worldNormal,worldLightDir));</span><br><span class="line">                fixed3 color = ambient + diffuse;</span><br><span class="line">                </span><br><span class="line">                return fixed4(color,1.0);</span><br><span class="line">            &#125;</span><br><span class="line">            ENDCG</span><br><span class="line">        &#125;</span><br><span class="line">         </span><br><span class="line">    &#125;</span><br><span class="line">    Fallback &quot;Diffuse&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>但是结果全黑</p>
-<p><img src="/2022/10/28/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter6/uTools_1660751437397.png" alt="uTools_1660751437397"></p>
-<p>在片元着色器计算结果更加平滑，但是光照不到的地方全黑；</p>
-<p>全黑可以通过添加环境光</p>
-<p>但是背光区却和向光区明暗一致，这时可以用<strong>半兰伯特模型</strong></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/27/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8105/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/1.jpg">
-      <meta itemprop="name" content="温蒂">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="不会美术的温蒂">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/10/27/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8105/" class="post-title-link" itemprop="url">unityshader精要5</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2022-10-27 23:54:11 / Modified: 23:56:50" itemprop="dateCreated datePublished" datetime="2022-10-27T23:54:11+08:00">2022-10-27</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/unity-shader/" itemprop="url" rel="index"><span itemprop="name">unity shader</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="UnityShader-05"><a href="#UnityShader-05" class="headerlink" title="UnityShader 05"></a>UnityShader 05</h3><h4 id="Unity中的基本光照"><a href="#Unity中的基本光照" class="headerlink" title="Unity中的基本光照"></a>Unity中的基本光照</h4><p>光线是如何产生的，光源发射光，一些物体与光交互，吸收一些光，散射一些光，而摄像机吸收一些光，形成了图像。</p>
-<p>在光学中，使用<strong>辐照度</strong>（irradiance)来量化光。</p>
-<p>那么如何计算辐照度呢？</p>
-<p>辐照度与照射到物体表面光线之间的距离<code>d/cosx</code>成反比。</p>
-<p>当光垂直下落<code>cosx=1</code>,那么距离为d</p>
-<p>当光与竖直方向呈x度角，距离为<code>d/cosx</code></p>
-<p>其中x可以由表面法线n和光源方向l的点积得到。</p>
-<h5 id="散射与吸收"><a href="#散射与吸收" class="headerlink" title="散射与吸收"></a>散射与吸收</h5><p>散射（scatering)只改变光线方向，不改变光线的密度和颜色。散射的光线一般有两种方向，一种是向物体内部折射（refraction)或透射（transmission);另一种是反射（reflection)到外部。</p>
-<p>为了区分两种散射，用<strong>高光反射</strong>（specular)和<strong>漫反射</strong>（diffuse)分别表示物体如何反射以及计算多少光线折射、吸收(absorption)、反射出表面。</p>
-<p>根据光线的入射方向和入射量可以得到出射度（exitance)</p>
-<h5 id="着色"><a href="#着色" class="headerlink" title="着色"></a>着色</h5><p>根据一系列的信息得到计算出射度的等式，也即光照模型。（lighting model )</p>
-<h5 id="标准光照模型"><a href="#标准光照模型" class="headerlink" title="标准光照模型"></a>标准光照模型</h5><ul>
-<li><p>自发光（emissive) 光线直接由光源进入摄像机，直接用材质的自发光颜色。</p>
-</li>
-<li><p>高光反射（specular)</p>
-</li>
-<li><p>漫反射（diffuse)</p>
-<p>漫反射光照符合兰伯特定律 (Lambert’s law): 反射光线的强度与表面法线和光源方向之间角的余弦值 成正比。因此， 漫反射部分的计算如下</p>
-<p><img src="/2022/10/27/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8105/image-20220715170258041.png" alt="image-20220715170258041"></p>
-<p>c light 和 m diffuse 分别表示光源颜色和漫反射颜色</p>
-</li>
-<li><p>环境光（ambient) 一般是全局变量</p>
-</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1351,7 +1375,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-count">20</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
