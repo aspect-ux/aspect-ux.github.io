@@ -32,8 +32,10 @@
 <meta property="og:image" content="http://example.com/2022/11/07/%E8%99%8E%E4%B9%A6/05/uTools_1667821796670.png">
 <meta property="og:image" content="http://example.com/2022/11/07/%E8%99%8E%E4%B9%A6/05/uTools_1667823244143.png">
 <meta property="og:image" content="http://example.com/2022/11/07/%E8%99%8E%E4%B9%A6/05/uTools_1667824528183.png">
+<meta property="og:image" content="http://example.com/2022/11/07/%E8%99%8E%E4%B9%A6/05/uTools_1667909557536.png">
+<meta property="og:image" content="http://example.com/2022/11/07/%E8%99%8E%E4%B9%A6/05/uTools_1667910750246.png">
 <meta property="article:published_time" content="2022-11-07T11:33:18.103Z">
-<meta property="article:modified_time" content="2022-11-07T12:45:54.674Z">
+<meta property="article:modified_time" content="2022-11-08T12:41:28.080Z">
 <meta property="article:author" content="温蒂">
 <meta property="article:tag" content="TA">
 <meta name="twitter:card" content="summary">
@@ -142,7 +144,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">20</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">22</span></a>
 
   </li>
         <li class="menu-item menu-item-schedule">
@@ -232,10 +234,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2022-11-07 19:33:18 / Modified: 20:45:54" itemprop="dateCreated datePublished" datetime="2022-11-07T19:33:18+08:00">2022-11-07</time>
+              <time title="Created: 2022-11-07 19:33:18" itemprop="dateCreated datePublished" datetime="2022-11-07T19:33:18+08:00">2022-11-07</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-11-08 20:41:28" itemprop="dateModified" datetime="2022-11-08T20:41:28+08:00">2022-11-08</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -290,7 +298,15 @@
 <p>(transform to screen),我们需要增加一一行和一列来存储z分量，不改变z分量</p>
 <p><img src="/2022/11/07/%E8%99%8E%E4%B9%A6/05/uTools_1667824528183.png" alt="uTools_1667824528183"></p>
 <p>最终这个投影到屏幕</p>
-<h3 id="正交投影矩阵变换"><a href="#正交投影矩阵变换" class="headerlink" title="正交投影矩阵变换"></a>正交投影矩阵变换</h3><h3 id="相机变换"><a href="#相机变换" class="headerlink" title="相机变换"></a>相机变换</h3><h2 id="投影变换"><a href="#投影变换" class="headerlink" title="投影变换"></a>投影变换</h2><h2 id="透视投影"><a href="#透视投影" class="headerlink" title="透视投影"></a>透视投影</h2>
+<h3 id="The-Orthographic-Projection-Transformation"><a href="#The-Orthographic-Projection-Transformation" class="headerlink" title="The Orthographic Projection Transformation"></a>The Orthographic Projection Transformation</h3><p>当然，我们通常想要在除了canonical view volume空间的一些区域渲染几何体。我们的第一步是生成视图，这个视图保持view dir,orrientation不变，looking alone -z with +y up. </p>
+<p>我们将在右边乘以另一个矩阵来增广这个矩阵。</p>
+<p><img src="/2022/11/07/%E8%99%8E%E4%B9%A6/05/uTools_1667909557536.png" alt="uTools_1667909557536"></p>
+<p>the six params are respectively left,right,bottom,top,near,far</p>
+<p>正交视图空间是在-z轴上，所以f是更小的负数</p>
+<p>在z轴上，这样近视图反而比远视图更大，这是非直觉性的(uninstuitive)</p>
+<p><img src="/2022/11/07/%E8%99%8E%E4%B9%A6/05/uTools_1667910750246.png" alt="uTools_1667910750246"></p>
+<p>omit …..</p>
+<h3 id="相机变换"><a href="#相机变换" class="headerlink" title="相机变换"></a>相机变换</h3><h2 id="投影变换"><a href="#投影变换" class="headerlink" title="投影变换"></a>投影变换</h2><h2 id="透视投影"><a href="#透视投影" class="headerlink" title="透视投影"></a>透视投影</h2>
     </div>
 
     
@@ -370,7 +386,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Viewing"><span class="nav-number">1.</span> <span class="nav-text">Viewing</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Viewing-Transformations"><span class="nav-number">1.1.</span> <span class="nav-text">Viewing Transformations</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#The-Viewport-Transformation"><span class="nav-number">1.1.1.</span> <span class="nav-text">The Viewport Transformation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E4%BA%A4%E6%8A%95%E5%BD%B1%E7%9F%A9%E9%98%B5%E5%8F%98%E6%8D%A2"><span class="nav-number">1.1.2.</span> <span class="nav-text">正交投影矩阵变换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B8%E6%9C%BA%E5%8F%98%E6%8D%A2"><span class="nav-number">1.1.3.</span> <span class="nav-text">相机变换</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%95%E5%BD%B1%E5%8F%98%E6%8D%A2"><span class="nav-number">1.2.</span> <span class="nav-text">投影变换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%8F%E8%A7%86%E6%8A%95%E5%BD%B1"><span class="nav-number">1.3.</span> <span class="nav-text">透视投影</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Viewing"><span class="nav-number">1.</span> <span class="nav-text">Viewing</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Viewing-Transformations"><span class="nav-number">1.1.</span> <span class="nav-text">Viewing Transformations</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#The-Viewport-Transformation"><span class="nav-number">1.1.1.</span> <span class="nav-text">The Viewport Transformation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#The-Orthographic-Projection-Transformation"><span class="nav-number">1.1.2.</span> <span class="nav-text">The Orthographic Projection Transformation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B8%E6%9C%BA%E5%8F%98%E6%8D%A2"><span class="nav-number">1.1.3.</span> <span class="nav-text">相机变换</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%95%E5%BD%B1%E5%8F%98%E6%8D%A2"><span class="nav-number">1.2.</span> <span class="nav-text">投影变换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%8F%E8%A7%86%E6%8A%95%E5%BD%B1"><span class="nav-number">1.3.</span> <span class="nav-text">透视投影</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -386,7 +402,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-count">22</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
