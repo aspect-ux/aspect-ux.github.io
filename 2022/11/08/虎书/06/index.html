@@ -32,8 +32,10 @@
 <meta property="og:image" content="http://example.com/2022/11/08/%E8%99%8E%E4%B9%A6/06/uTools_1667998615390.png">
 <meta property="og:image" content="http://example.com/2022/11/08/%E8%99%8E%E4%B9%A6/06/uTools_1668001076663.png">
 <meta property="og:image" content="http://example.com/2022/11/08/%E8%99%8E%E4%B9%A6/06/uTools_1668001688563.png">
+<meta property="og:image" content="http://example.com/2022/11/08/%E8%99%8E%E4%B9%A6/06/uTools_1668078483770.png">
+<meta property="og:image" content="http://example.com/2022/11/08/%E8%99%8E%E4%B9%A6/06/uTools_1668079789675.png">
 <meta property="article:published_time" content="2022-11-08T12:41:39.965Z">
-<meta property="article:modified_time" content="2022-11-09T14:03:16.623Z">
+<meta property="article:modified_time" content="2022-11-10T11:34:55.689Z">
 <meta property="article:author" content="温蒂">
 <meta property="article:tag" content="TA">
 <meta name="twitter:card" content="summary">
@@ -137,12 +139,12 @@
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">4</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">5</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">22</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">24</span></a>
 
   </li>
         <li class="menu-item menu-item-schedule">
@@ -240,7 +242,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-11-09 22:03:16" itemprop="dateModified" datetime="2022-11-09T22:03:16+08:00">2022-11-09</time>
+                <time title="Modified: 2022-11-10 19:34:55" itemprop="dateModified" datetime="2022-11-10T19:34:55+08:00">2022-11-10</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -322,6 +324,14 @@
 <p><img src="/2022/11/08/%E8%99%8E%E4%B9%A6/06/uTools_1668001688563.png" alt="uTools_1668001688563"></p>
 <p>所以我们真的确实需要裁定（award)具体哪一个像素，然后我们希望这个过程能够很简单。</p>
 <p>其中一个方法是，标记任意视线之外的点确定为公共边的一侧，并且指定这个边是要绘制的。</p>
+<h3 id="Perspective-Correct-Interpolation"><a href="#Perspective-Correct-Interpolation" class="headerlink" title="Perspective Correct Interpolation"></a>Perspective Correct Interpolation</h3><p>当interpolating quantities 插值大量的，例如纹理坐标或者3d坐标等需要在3d三角上线性改变</p>
+<p>的数据时</p>
+<p>在实现“纠正视觉透视”有一些subtleties(小方法，精妙的细节)</p>
+<p>当透视校正很重要时我们会使用纹理坐标作为一种数量的指标（example)</p>
+<p>3d空间线性值很重要是，上述考虑也适用于任何参数</p>
+<p>事情不会那么简单的原因是，单纯的屏幕空间纹理坐标插值，会导致不正确的图像。如下图</p>
+<p><img src="/2022/11/08/%E8%99%8E%E4%B9%A6/06/uTools_1668078483770.png" alt="uTools_1668078483770"></p>
+<p><img src="/2022/11/08/%E8%99%8E%E4%B9%A6/06/uTools_1668079789675.png" alt="uTools_1668079789675"></p>
 
     </div>
 
@@ -402,7 +412,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#The-Graphics-Pipeline"><span class="nav-number">1.</span> <span class="nav-text">The Graphics Pipeline</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Rasterization"><span class="nav-number">1.1.</span> <span class="nav-text">Rasterization</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Line-Drawing"><span class="nav-number">1.1.1.</span> <span class="nav-text">Line Drawing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Triangle-Rasterization"><span class="nav-number">1.1.2.</span> <span class="nav-text">Triangle Rasterization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dealing-with-Pixels-on-Triangle-Edges"><span class="nav-number">1.1.3.</span> <span class="nav-text">Dealing with Pixels on Triangle Edges</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#The-Graphics-Pipeline"><span class="nav-number">1.</span> <span class="nav-text">The Graphics Pipeline</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Rasterization"><span class="nav-number">1.1.</span> <span class="nav-text">Rasterization</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Line-Drawing"><span class="nav-number">1.1.1.</span> <span class="nav-text">Line Drawing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Triangle-Rasterization"><span class="nav-number">1.1.2.</span> <span class="nav-text">Triangle Rasterization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dealing-with-Pixels-on-Triangle-Edges"><span class="nav-number">1.1.3.</span> <span class="nav-text">Dealing with Pixels on Triangle Edges</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Perspective-Correct-Interpolation"><span class="nav-number">1.1.4.</span> <span class="nav-text">Perspective Correct Interpolation</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -418,14 +428,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-count">24</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
   </nav>

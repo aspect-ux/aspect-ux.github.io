@@ -129,12 +129,12 @@
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">4</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">5</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">22</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">24</span></a>
 
   </li>
         <li class="menu-item menu-item-schedule">
@@ -203,6 +203,264 @@
 	  </div>
 	</div>
 	<br>
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/31/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter7_1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/1.jpg">
+      <meta itemprop="name" content="温蒂">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="不会美术的温蒂">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/10/31/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter7_1/" class="post-title-link" itemprop="url">unityshader精要7-1</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-10-31 21:26:55 / Modified: 21:32:04" itemprop="dateCreated datePublished" datetime="2022-10-31T21:26:55+08:00">2022-10-31</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/unity-shader/" itemprop="url" rel="index"><span itemprop="name">unity shader</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Chapter7"><a href="#Chapter7" class="headerlink" title="Chapter7"></a>Chapter7</h2><h3 id="渐变纹理"><a href="#渐变纹理" class="headerlink" title="渐变纹理"></a>渐变纹理</h3><p>冷色调转暖色调，编写卡通风格Unity Shader（<em>记录：区别BlinnPhong和Phong高光计算</em>，另外如果计算新的漫反射albedo,就不用声明_Diffuse来计算diffuse）</p>
+<p><em>代码</em></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">fixed4 frag(v2f i) : SV_TARGET&#123;</span><br><span class="line">               fixed3 worldNormal = normalize(i.worldNormal);</span><br><span class="line">               fixed3 worldLightDir = normalize(UnityWorldSpaceLightDir(i.worldPos));</span><br><span class="line"></span><br><span class="line">               fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz;  //</span><br><span class="line"></span><br><span class="line">               //使用纹理来采样漫反射,使用半兰伯特模型</span><br><span class="line">               fixed halfLambert = 0.5 * dot(worldNormal,worldLightDir) + 0.5;</span><br><span class="line">               fixed3 diffuseColor = tex2D(_RampTex,fixed2(halfLambert,halfLambert)).rgb * _Color.rgb;</span><br><span class="line"></span><br><span class="line">               fixed3 diffuse = _LightColor0.rgb * diffuseColor;</span><br><span class="line"></span><br><span class="line">               //计算高光BlinnPhong模型</span><br><span class="line">               fixed3 viewDir = normalize(UnityWorldSpaceViewDir(i.worldPos));</span><br><span class="line">               fixed3 halfDir = normalize(worldLightDir + viewDir);</span><br><span class="line">               fixed3 specular = _LightColor0.rgb * _Specular.rgb * pow(max(0,dot(worldNormal,halfDir)),_Gloss);</span><br><span class="line">               </span><br><span class="line">               return fixed4(ambient + diffuse + specular,1.0);</span><br><span class="line">           &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>注意使用<code>fixed2(halfLambert,halfLambert)</code>会发生大于1的情况（1.0001）,这样映射到模型上会出现黑点</p>
+<p>此时需要将纹理的WrapMode从Repeat(重复，但是最左边是黑色的）换成Clamp(大于1取1)</p>
+<p><img src="/2022/10/31/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter7_1/UnityShader%E7%B2%BE%E8%A6%81Chapter7_1%5Cimage-20220820110835470.png" alt="image-20220820110835470"></p>
+<h3 id="遮罩纹理"><a href="#遮罩纹理" class="headerlink" title="遮罩纹理"></a>遮罩纹理</h3><p>使用高光遮罩纹理，遮罩纹理用于更加细致地控制高光反射光强度</p>
+<p>变量声明</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">fixed4 _Color;</span><br><span class="line">sampler2D _MainTex;</span><br><span class="line">float4 _MainTex_ST;</span><br><span class="line">sampler2D _BumpMap;</span><br><span class="line"><span class="comment">//float4 _BumpMap_ST;</span></span><br><span class="line"><span class="built_in">float</span> _BumpScale;</span><br><span class="line">sampler2D _SpecularMask;</span><br><span class="line"><span class="comment">//float4 _SpecularMask_ST;</span></span><br><span class="line"><span class="built_in">float</span> _SpecularScale;</span><br><span class="line">fixed4 _Specular;</span><br><span class="line"><span class="built_in">float</span> _Gloss;</span><br></pre></td></tr></table></figure>
+
+<p><em>这里 _ BumpMap、_ Specular和_MainTex共用一个ST</em></p>
+<p>如果每个纹理都需要不同的平铺系数和偏移系数，那么纹理数目增加顶点着色器中的插值寄存器会迅速被占满。</p>
+<p><strong>流程</strong></p>
+<p>1.该实验使用了三个纹理，分别是基本纹理，切线空间的法线纹理（凹凸贴图），高光遮罩纹理</p>
+<p>2.计算是逐像素计算，计算是在切线空间下进行（一定要明确在哪个空间下进行），diffuse用lambert模型</p>
+<p>specular用BlinnPhong模型</p>
+<p>3.<code>o.uv = TRANSFORM_TEX(v.texcoord, _MainTex;</code>三张纹理共用同一套uv</p>
+<p><strong>结果</strong></p>
+<p>加上遮罩贴图后高光更加暗淡和谐</p>
+<p><img src="/2022/10/31/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter7_1/UnityShader%E7%B2%BE%E8%A6%81Chapter7_1%5CuTools_1660974045813.png" alt="uTools_1660974045813"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/31/%E8%99%8E%E4%B9%A6/03/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/1.jpg">
+      <meta itemprop="name" content="温蒂">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="不会美术的温蒂">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/10/31/%E8%99%8E%E4%B9%A6/03/" class="post-title-link" itemprop="url">Computer Graphics 03</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-10-31 19:21:15" itemprop="dateCreated datePublished" datetime="2022-10-31T19:21:15+08:00">2022-10-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-11-02 20:33:39" itemprop="dateModified" datetime="2022-11-02T20:33:39+08:00">2022-11-02</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Fundamental-of-Computer-Graphics/" itemprop="url" rel="index"><span itemprop="name">Fundamental of Computer Graphics</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Ray-Tracing"><a href="#Ray-Tracing" class="headerlink" title="Ray Tracing"></a>Ray Tracing</h1><p><strong>Why Ray Tracing?</strong></p>
+<ul>
+<li>rasterization : real-time,ray tracing: offline</li>
+<li>ray tracing is accurate,but is very slow</li>
+</ul>
+<p><strong>Whitted-Style Ray Tracing</strong></p>
+<p><img src="/2022/10/31/%E8%99%8E%E4%B9%A6/03/uTools_1667388590899.png" alt="uTools_1667388590899"></p>
+<p>渲染3d物体时计算机图形的工作之一。</p>
+<p>同一场景的物体渲染需要考虑每个物体贡献的像素。</p>
+<p>有两种常规的方法来考虑</p>
+<ul>
+<li>object-order rendering ,通过找物体来计算对应像素</li>
+<li>image-order rendering，通过找像素来判断物体，然后计算像素</li>
+</ul>
+<p>差别可以这么来看</p>
+<p>前者双重循环外循环是物体，后者则是像素</p>
+<p>宽泛来说，image-order rendering 是更加简单和灵活的，一般来说也会有更长的执行事件来制造同样的图片。</p>
+<p><strong>Ray Tracing 就是image-order algorithm</strong>因为这样不需要像前者一样用数学器械就能实现光线追踪器。</p>
+<h2 id="The-Basic-Ray-Tracing-Algorithm"><a href="#The-Basic-Ray-Tracing-Algorithm" class="headerlink" title="The Basic Ray-Tracing Algorithm"></a>The Basic Ray-Tracing Algorithm</h2><p>基本的光线追踪器有三个部分</p>
+<p>某种意义上，在引擎中，可以认为“眼睛发光”</p>
+<ol>
+<li><p>ray generation. 计算每个像素的view射线的来源和方向</p>
+</li>
+<li><p>ray intersection. 计算与view射线相交的最近物体</p>
+</li>
+<li><p>shading. 在原有的射线相交的基础上进行着色</p>
+<p><img src="/2022/10/31/%E8%99%8E%E4%B9%A6/03/uTools_1667218571247.png" alt="uTools_1667218571247"></p>
+</li>
+</ol>
+<h2 id="Perspective"><a href="#Perspective" class="headerlink" title="Perspective"></a>Perspective</h2><p>标准的方法来为计算机图形，艺术和照片制作图片，是使用linear perspective(线性透视)</p>
+<p>parallel projection(平行投影)是最简单的投影方式，平移。一般用于机械和建筑</p>
+<p>如果image plane和视线方向垂直，成为orthograph(正交投影)  orthonormal(正交的)</p>
+<h2 id="Compute-View-Ray"><a href="#Compute-View-Ray" class="headerlink" title="Compute View Ray"></a>Compute View Ray</h2><p>phase 1</p>
+<p>为了生成ray,我们首先需要一个数学表达</p>
+<p><code>p(t) = e + t(s- e)</code></p>
+<p>e is eye,    s is image plane point</p>
+<p><img src="/2022/10/31/%E8%99%8E%E4%B9%A6/03/uTools_1667219704846.png" alt="uTools_1667219704846"></p>
+<p>在代码中</p>
+<p><img src="/2022/10/31/%E8%99%8E%E4%B9%A6/03/uTools_1667219881824.png" alt="uTools_1667219881824"></p>
+<p>详情见P84</p>
+<h3 id="Orthographic-Views"><a href="#Orthographic-Views" class="headerlink" title="Orthographic Views"></a>Orthographic Views</h3><p>对于正交投影view ray,</p>
+<p>ray generation 使用相机的框架，</p>
+<ol>
+<li><p>正交投影从image plane的一个像素的位置开始，并且全部共享相同的方向—-view direction.</p>
+</li>
+<li><p>而透视投影则是选择一个view point 开始，方向则是view point 到image plane的点的位置。</p>
+</li>
+</ol>
+<p><strong>要将nx  ny 的像素投射到(r - l) x (t - b)的矩形上</strong></p>
+<p>其中l,r分别是片元，pixel的左右边界坐标，b和t则是下、上边界坐标</p>
+<p><img src="/2022/10/31/%E8%99%8E%E4%B9%A6/03/uTools_1667220608282.png" alt="uTools_1667220608282"></p>
+<p>详情见P86</p>
+<h3 id="Perspective-Views"><a href="#Perspective-Views" class="headerlink" title="Perspective Views"></a>Perspective Views</h3><h2 id="Ray-Object-Intersection"><a href="#Ray-Object-Intersection" class="headerlink" title="Ray-Object Intersection"></a>Ray-Object Intersection</h2><p>phase 2</p>
+<h3 id="Ray-Sphere-Intersection"><a href="#Ray-Sphere-Intersection" class="headerlink" title="Ray-Sphere Intersection"></a>Ray-Sphere Intersection</h3><p>使用implicit surface</p>
+<p>隐式表达式f(p(t)) = 0或者f(e + td) = 0</p>
+<p>对于一个球来说，设中心点为c</p>
+<p><code>(p - c)(p - c) - R^2 = 0</code></p>
+<p><strong>注意，当满足上式，说明p对应的点已经在球上，也即intersection</strong></p>
+<p><code>(e + t d - c)(e + td - c) - R^2 = 0</code></p>
+<p>只有t未知</p>
+<p>展开得到quadratic 二次方程，判别式b^2 - 4ac</p>
+<p><img src="/2022/10/31/%E8%99%8E%E4%B9%A6/03/uTools_1667222501427.png" alt="uTools_1667222501427"></p>
+<h2 id="Shading"><a href="#Shading" class="headerlink" title="Shading"></a>Shading</h2><p>Here we will discuss how a ray tracer computes the inputs to shading</p>
+<p>1.从点光源和直线光计算着色需要具体的几何信息。当viewing ray 确定与表面相交，我们需要决定以下4个向量。</p>
+<ul>
+<li>着色点x可以通过估算viewing ray 以t的值相交</li>
+<li>表面的法线向量n</li>
+<li>光源方向l</li>
+<li>视觉射线viewing direction 是viewing ray的反方向（v = -d/|d|)</li>
+</ul>
+<p>2.coding</p>
+<p>3.一旦你已经在光线追踪器上有基本的着色后，光线和点阴影添加会很容易</p>
+<p><img src="/2022/10/31/%E8%99%8E%E4%B9%A6/03/uTools_1667389464606.png" alt="uTools_1667389464606"></p>
+<p>使用directional light 的阴影与点光源类似，但是t=无穷，也即距离无穷，环境光不进行阴影测试（shadow test)</p>
+<p>4.Mirror Reflection(镜面反射)</p>
+<p>为光线追踪程序添加镜面发射（or specular reflection) 很直接。</p>
+<p>由视线计算反射光向量，<strong>易得</strong></p>
+<p><code>r = d - 2(d*n)*n</code></p>
+<p>其中r是反射向量，d是view(视线)入射的向量</p>
+<p><strong>在现实世界中，当光线从表面反射出去，一定会有能量损失</strong></p>
+<p>由于光线颜色不同，损失也会不一样，这里使用递归算法(recursive)</p>
+<p>调用shader-ray函数。</p>
+<p><code>color c = c + k * shader-ray(Ray(p,r),t,infinity)</code></p>
+<p>k是specular rgb color, 并且t = infinity,和shadow一样。因为并不想让光线反射到光源上</p>
+<h2 id="Frequently-Asked"><a href="#Frequently-Asked" class="headerlink" title="Frequently Asked"></a>Frequently Asked</h2><ul>
+<li><p>为什么ray tracing 中没有透视矩阵</p>
+</li>
+<li><p>可以实现交互式光线追踪吗</p>
+<p>对于充分小的模型和图片，任何现代pc都足以支持可交互式光线追踪。现实中，对于全屏的实现，多cpu共享帧缓存区是需要的。</p>
+<p>计算机算力进步比屏幕分辨率更快，让传统pc在屏幕分辨率下实现复杂场景光线追踪只不过是时间问题。</p>
+</li>
+<li><p>ray tracing在硬件图形程序中有用吗</p>
+<p>光线追踪经常用于<strong>采集</strong>，当用户点击鼠标3d图形程序的像素，程序需要决定哪个物体的显示。</p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -986,224 +1244,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/21/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/1.jpg">
-      <meta itemprop="name" content="温蒂">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="不会美术的温蒂">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/10/21/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/" class="post-title-link" itemprop="url">unityshader精要1</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2022-10-21 23:45:10" itemprop="dateCreated datePublished" datetime="2022-10-21T23:45:10+08:00">2022-10-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-10-22 07:10:56" itemprop="dateModified" datetime="2022-10-22T07:10:56+08:00">2022-10-22</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/unity-shader/" itemprop="url" rel="index"><span itemprop="name">unity shader</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="Unity-Shader01"><a href="#Unity-Shader01" class="headerlink" title="Unity Shader01"></a>Unity Shader01</h3><h4 id="什么是渲染流水线？"><a href="#什么是渲染流水线？" class="headerlink" title="什么是渲染流水线？"></a>什么是渲染流水线？</h4><p>流水线的概念早已学过，那么渲染流水线又是什么。首先要区别于GPU（硬件)流水线。</p>
-<p>分为三个概念上的阶段，每个阶段又有子流水线。</p>
-<p>应用阶段：开发者支配的阶段，输入场景、贴图、摄像机、光源等等；输出点、线、三角面等渲染图元。</p>
-<p>几何阶段（geometry): 这个阶段主要决定渲染哪些图元，以及将这些图元映射到二维平面上，包括着色，深度值，坐标。</p>
-<p>光栅化阶段（rasterization): 这个阶段同上一个阶段都是在GPU上进行，利用上一阶段的数据绘制出像素。先是逐顶点处理，然后是像素处理。</p>
-<h4 id="CPU与GPU之间"><a href="#CPU与GPU之间" class="headerlink" title="CPU与GPU之间"></a>CPU与GPU之间</h4><p>CPU控制数据从HDD(硬盘)中加载到显卡的显存（VRAM)中，数据包括位置、顶点着色、法线方向等。</p>
-<p>指定渲染状态，例如使用哪个顶点/片元着色器，使用哪个光源属性、材质。</p>
-<p>准备好后CPU发起Draw Call命令，GPU开始渲染。</p>
-<p>对应上面三个阶段。</p>
-<h4 id="GPU流水线"><a href="#GPU流水线" class="headerlink" title="GPU流水线"></a>GPU流水线</h4><p>已知几何与光栅化阶段在GPU上进行。</p>
-<p><img src="/2022/10/21/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/image-20220712135412678.png" alt="image-20220712135412678"></p>
-<p>—-几何阶段</p>
-<p><strong>顶点着色器（Vertex Shader)</strong> 负责顶点几何变换和顶点着色</p>
-<p><img src="/2022/10/21/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/image-20220712141429317.png" alt="image-20220712141429317"></p>
-<p>曲面细分、几何着色器均为可选着色器，分别用来细分图元和产生图元（增加）。</p>
-<p><strong>裁剪</strong></p>
-<p>位置分为完全在相机内，部分在相机内，完全不在相机内</p>
-<p>裁剪用来处理部分在相机内的部分，将与相机交点替代相机外的部分。</p>
-<p>需要注意的是顶点着色器是可编程的，但裁剪却是不可编程的，是硬件上的固定操作。</p>
-<p><strong>屏幕映射</strong></p>
-<p>输入三维坐标，映射二维，z不做处理</p>
-<p><img src="/2022/10/21/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/image-20220712142739290.png" alt="image-20220712142739290"></p>
-<p>——光栅化阶段</p>
-<p>三角形设置</p>
-<p>已知顶点着色器不会记录点与点之间的关系</p>
-<p>该过程用来得到三角形边界表达方式，计算像素覆盖情况。</p>
-<p><strong>三角形遍历</strong></p>
-<p>（Triangle Traversal)</p>
-<p>找到覆盖的像素，生成片元。</p>
-<p>一个片元并不是真正意义上的像素，而是包含了很多状态的集合 这些状态用于计算每个像素的最终颜色</p>
-<p>对三个顶点进行插值，然后三角形内部颜色由三点渐变(gradient)混合而成。</p>
-<p><strong>片元着色器</strong></p>
-<p>DX中又称为像素着色器（Pixel Shader),不过片元不是真正意义上的像素</p>
-<p>可编程</p>
-<p>纹理采样，对三个顶点插值后，就可以得到片元的纹理坐标，仅可以影响单个片元，无法传递给邻居</p>
-<p><strong>逐片元操作</strong></p>
-<p>为OpenGL的说法，DX</p>
-<p>具体较复杂</p>
-<p><img src="/2022/10/21/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/image-20220712145900074.png" alt="image-20220712145900074"></p>
-<p>片元着色器执行后，进行模板测试，再开始深度测试</p>
-<p>深度测试在坐标屏幕进行，屏幕空间坐标与glViewport所定义的视口大小相关</p>
-<p>可用glFragCoord(x,y,z)访问屏幕坐标，z为深度值</p>
-<p>现代GPU硬件特性，深度测试可以在片着之前，但是不能同时。</p>
-<p>参照<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/371245442">深度测试 - 知乎 (zhihu.com)</a></p>
-<h4 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h4><p>OpenGL、DX是CPU和GPU之间的桥梁，图形接口（api)</p>
-<p>显卡中除了图形处理单元GPU,还有显存(VRAM)。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/21/buildWebsiteBasedonGithub/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/1.jpg">
-      <meta itemprop="name" content="温蒂">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="不会美术的温蒂">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/10/21/buildWebsiteBasedonGithub/" class="post-title-link" itemprop="url">搭建静态网页</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2022-10-21 22:20:57" itemprop="dateCreated datePublished" datetime="2022-10-21T22:20:57+08:00">2022-10-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-10-22 07:10:44" itemprop="dateModified" datetime="2022-10-22T07:10:44+08:00">2022-10-22</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%9A%8F%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">随记</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="搭建静态网页"><a href="#搭建静态网页" class="headerlink" title="搭建静态网页"></a>搭建静态网页</h1><h2 id="Part1"><a href="#Part1" class="headerlink" title="Part1"></a>Part1</h2><ul>
-<li><p>创建仓库,命名为<code>aspect-ux.github.io</code>,找到Pages,发现site 是显示了。</p>
-</li>
-<li><p>安装node.js 参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/chanyeolchichi/article/details/121348541">(26条消息) Node.js详细安装教程（2021）_cheerileeyoki的博客-CSDN博客_node安装教程</a></p>
-</li>
-<li><p>安装hexo,报错有可能是权限，删去c盘下的.npmrc???</p>
-<p>大抵是nodejs版本太高了</p>
-<p>主要参考<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Yb411a7ty/?from=search&seid=6808372371406518307&vd_source=2b3a7e4dffb44c07076538fe075cb1cf">手把手教你从0开始搭建自己的个人博客 |无坑版视频教程| hexo_哔哩哔哩_bilibili</a></p>
-</li>
-<li><p>配置<code>_config.yml</code></p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Deployment</span></span><br><span class="line"><span class="comment">## Docs: https://hexo.io/docs/deployment.html</span></span><br><span class="line"><span class="attr">deploy:</span></span><br><span class="line"> 		<span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">		<span class="attr">repo:</span> <span class="string">https://github.com/aspect-ux/aspect-ux.github.io.git</span></span><br><span class="line"> 		<span class="attr">branch:</span> <span class="string">main</span></span><br></pre></td></tr></table></figure></li>
-</ul>
-<p>然后</p>
-<ul>
-<li><p>更改主题git clone <a target="_blank" rel="noopener" href="https://github.com/litten/hexo-theme-yilia.git">https://github.com/litten/hexo-theme-yilia.git</a> themes/yilia </p>
-<p>更改yml文件</p>
-<p>主题配置参照：<a target="_blank" rel="noopener" href="https://blog.csdn.net/wugenqiang/article/details/88373990">(26条消息) 使用 Github 空间搭建 Hexo 技术博客——使用NexT优化博客（五）_WuGenQiang的博客-CSDN博客</a></p>
-</li>
-</ul>
-<p>hexo c<br>hexo g<br>hexo d</p>
-<ul>
-<li><p>值得注意的是，传统的markdown语法无法显示图片</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">post_asset_folder: false` 修改为 `post_asset_folder: true</span><br></pre></td></tr></table></figure></li>
-</ul>
-<p><code>npm install https://github.com/7ym0n/hexo-asset-image --save</code></p>
-<p>最后需要新建与文章同名的文件夹存放图片</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1275,14 +1315,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-count">24</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
   </nav>
