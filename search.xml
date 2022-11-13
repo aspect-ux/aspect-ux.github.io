@@ -995,4 +995,13 @@
         <category>Games101</category>
       </categories>
   </entry>
+  <entry>
+    <title>软链接c盘</title>
+    <url>/2022/11/12/%E9%9A%8F%E8%AE%B0/%E8%BD%AF%E9%93%BE%E6%8E%A5c%E7%9B%98/</url>
+    <content><![CDATA[<h1 id="软链接c盘"><a href="#软链接c盘" class="headerlink" title="软链接c盘"></a>软链接c盘</h1><p>c盘文件链接到d盘，减小c盘占用<br>将指定文件夹Adobe剪切_到d盘，管理员身份打开cmd，输入以下软链接<br>mklink /D “C:\Program Files\Adobe” “D:\MySoftware\Adobe”</p>
+]]></content>
+      <categories>
+        <category>随记</category>
+      </categories>
+  </entry>
 </search>
