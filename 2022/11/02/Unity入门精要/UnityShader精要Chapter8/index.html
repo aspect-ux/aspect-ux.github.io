@@ -1,32 +1,181 @@
-extends includes/layout.pug
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>unityshader精要8 | 技术美术学习记录</title><meta name="author" content="Aspect"><meta name="copyright" content="Aspect"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Chapter8 透明效果实现透明的方法unity中通常使用两种方式实现透明效果 1.透明度测试(alpha test),（无法实现真正的半透明） 2.透明度混合(alpha blending) 使用深度测试，可以不考虑渲染顺序，但是使用透明度混合时，需要关闭*ZWrite*，关闭了深度写入 虽然透明度测试不需要关闭，但是它的机制是如果透明度不满足某个阈值（通常小于），直接舍弃该片元。  为什么关">
+<meta property="og:type" content="article">
+<meta property="og:title" content="unityshader精要8">
+<meta property="og:url" content="http://example.com/2022/11/02/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter8/index.html">
+<meta property="og:site_name" content="技术美术学习记录">
+<meta property="og:description" content="Chapter8 透明效果实现透明的方法unity中通常使用两种方式实现透明效果 1.透明度测试(alpha test),（无法实现真正的半透明） 2.透明度混合(alpha blending) 使用深度测试，可以不考虑渲染顺序，但是使用透明度混合时，需要关闭*ZWrite*，关闭了深度写入 虽然透明度测试不需要关闭，但是它的机制是如果透明度不满足某个阈值（通常小于），直接舍弃该片元。  为什么关">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+<meta property="article:published_time" content="2022-11-02T13:00:26.665Z">
+<meta property="article:modified_time" content="2022-11-02T13:02:04.351Z">
+<meta property="article:author" content="Aspect">
+<meta property="article:tag" content="TA">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2022/11/02/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter8/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'unityshader精要8',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-11-02 21:02:04'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
 
-block content
-  #post
-    if top_img === false
-      include includes/header/post-info.pug
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
 
-    article#article-container.post-content!=page.content
-    include includes/post/post-copyright.pug
-    .tag_share
-      if (theme.post_meta.post.tags)
-        .post-meta__tag-list
-          each item, index in page.tags.data
-            a(href=url_for(item.path)).post-meta__tags #[=item.name]
-      include includes/third-party/share/index.pug
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
         
-    if theme.reward.enable && theme.reward.QR_code
-      !=partial('includes/post/reward', {}, {cache: true})
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="技术美术学习记录" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">5</div></a></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">技术美术学习记录</a></span><div id="menus"><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">unityshader精要8</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2022-11-02T13:00:26.665Z" title="Created 2022-11-02 21:00:26">2022-11-02</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2022-11-02T13:02:04.351Z" title="Updated 2022-11-02 21:02:04">2022-11-02</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/unity-shader/">unity shader</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="unityshader精要8"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="Chapter8-透明效果"><a href="#Chapter8-透明效果" class="headerlink" title="Chapter8 透明效果"></a>Chapter8 透明效果</h2><h3 id="实现透明的方法"><a href="#实现透明的方法" class="headerlink" title="实现透明的方法"></a>实现透明的方法</h3><p>unity中通常使用两种方式实现透明效果</p>
+<p>1.透明度测试(alpha test),（无法实现真正的半透明）</p>
+<p>2.透明度混合(alpha blending)</p>
+<p><strong>使用深度测试，可以不考虑渲染顺序</strong>，但是使用透明度混合时，需要关闭*<code>ZWrite</code>*，关闭了深度写入</p>
+<p>虽然<em>透明度测试</em>不需要关闭，但是它的机制是如果透明度不满足某个阈值（通常小于），直接舍弃该片元。</p>
+<ul>
+<li>为什么关闭<code>ZWrite</code>?</li>
+</ul>
+<p><em>由于深度测试丢弃远处被遮挡部分，但是透明物体的机制是”可以透过并看见远处的物体”。</em></p>
+<p>关闭了ZWrite，渲染顺序则成了问题。</p>
+<p><strong>流程</strong></p>
+<p>1.渲染时，会进行深度测试，如果先渲染后面的不透明b，将b写入颜色缓冲和深度缓冲；然后渲染前面的透明a,a写入颜色缓冲，会发生透明混合，显示正确。</p>
+<p>2.如果先渲染a,进行深度测试，写入颜色缓冲，但是关闭了ZWrite，无法写入深度值，然后渲染b，写入深度值，写入颜色缓冲，b的颜色<strong>覆盖</strong>a,只能看见b。</p>
+<p>3.半透明物体之间亦然。</p>
+<h3 id="Alpha-Test"><a href="#Alpha-Test" class="headerlink" title="Alpha Test"></a>Alpha Test</h3><p>Unity Shader解决方案为SubShader 中的Tags</p>
+<p>以下为透明度测试alpha test示例</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">SubShader&#123;</span><br><span class="line">       Tags&#123;<span class="string">&quot;Queue&quot;</span>=<span class="string">&quot;AlphaTest&quot;</span> <span class="string">&quot;IgnoreProjector&quot;</span> = <span class="string">&quot;True&quot;</span> <span class="string">&quot;RenderType&quot;</span> = <span class="string">&quot;TransparentCutout&quot;</span>&#125;</span><br><span class="line">       Pass&#123;</span><br><span class="line">           Tags&#123;<span class="string">&quot;LightMode&quot;</span> = <span class="string">&quot;ForwardBase&quot;</span>&#125;</span><br><span class="line">           ...</span><br><span class="line">            <span class="comment">//alpha test</span></span><br><span class="line">               clip(texColor.a - _Cutoff);</span><br><span class="line">               <span class="comment">// Equal to </span></span><br><span class="line">               <span class="comment">// if (( exColor - _Cutoff) &lt; 0 . 0) &#123; </span></span><br><span class="line">               <span class="comment">// discard; &#125;</span></span><br><span class="line">           	...</span><br><span class="line">           &#125;</span><br><span class="line">           ...</span><br><span class="line">         &#125;  </span><br></pre></td></tr></table></figure>
 
-    //- ad
-    if theme.ad && theme.ad.post
-      .ads-wrap!=theme.ad.post
+<p>每块的透明度都不同，根据面板调整_Cutoff可以看出哪个更低，低的那个会直接被剔除</p>
+<p>结果图</p>
+<p><img src="/2022/11/02/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter8/uTools_1660983793621.png" alt="uTools_1660983793621"></p>
+<h3 id="Alpha-Blend"><a href="#Alpha-Blend" class="headerlink" title="Alpha Blend"></a>Alpha Blend</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SubShader&#123;</span><br><span class="line">       //alpha blend</span><br><span class="line">       Tags&#123;&quot;Queue&quot;=/*&quot;AlphaTest&quot;*/&quot;Transparent&quot; &quot;IgnoreProjector&quot; = &quot;True&quot; &quot;RenderType&quot; = &quot;TransparentCutout&quot;&#125;</span><br><span class="line">       Pass&#123;</span><br><span class="line">           Tags&#123;&quot;LightMode&quot; = &quot;ForwardBase&quot;&#125;</span><br><span class="line">           ZWrite Off</span><br><span class="line">           Blend SrcAlpha OneMinusSrcAlpha  //P170</span><br><span class="line">           ...</span><br><span class="line">           &#125;</span><br><span class="line">           //去掉clip</span><br></pre></td></tr></table></figure>
 
-    if theme.post_pagination
-      include includes/pagination.pug
-    if theme.related_post && theme.related_post.enable
-      != related_posts(page,site.posts)
+<h3 id="解决排序问题"><a href="#解决排序问题" class="headerlink" title="解决排序问题"></a>解决排序问题</h3><p><strong>一般先开启深度测试、写入，先渲染不透明物体，然后关闭写入，对不透明物体排序，先渲染后面的物体</strong></p>
+<ul>
+<li><strong>但是仍然存在很大问题。</strong></li>
+</ul>
+<p>比如一个物体，各个部分互相遮挡，又或者多个物体，相互遮挡，而深度排序是像素级别的。</p>
+<p><strong>问题在于</strong></p>
+<p>现在开启ZWrite</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> Pass&#123;</span><br><span class="line"> ZWrite On </span><br><span class="line"> ColorMask 0//ColorMask RGB 、 A 、 0 、其他任何rgba的组合</span><br><span class="line"> //0表示不写入任何颜色通道，即只写入深度缓存，不输出颜色</span><br><span class="line"> 	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    if page.comments !== false && theme.comments && theme.comments.use
-      - var commentsJsLoad = true
-      !=partial('includes/third-party/comments/index', {}, {cache: true})
-      
+<p>新添加一个Pass通道。该Pass专门用来写入深度缓冲，并且先执行。</p>
+<p>Pass通道中加上<code>//Cull Front/Back/Off 需要双面渲染时关闭剔除</code></p>
+<p>注意如果关闭了深度写入，此时再双面渲染就会出现半透明错误渲染</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="http://example.com">Aspect</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://example.com/2022/11/02/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter8/">http://example.com/2022/11/02/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter8/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/11/03/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter9/"><img class="prev-cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">unityshader精要9</div></div></a></div><div class="next-post pull-right"><a href="/2022/11/02/%E8%99%8E%E4%B9%A6/04/"><img class="next-cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">Computer Graphics 04</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Aspect</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">5</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Chapter8-%E9%80%8F%E6%98%8E%E6%95%88%E6%9E%9C"><span class="toc-number">1.</span> <span class="toc-text">Chapter8 透明效果</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E9%80%8F%E6%98%8E%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">1.1.</span> <span class="toc-text">实现透明的方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Alpha-Test"><span class="toc-number">1.2.</span> <span class="toc-text">Alpha Test</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Alpha-Blend"><span class="toc-number">1.3.</span> <span class="toc-text">Alpha Blend</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%8E%92%E5%BA%8F%E9%97%AE%E9%A2%98"><span class="toc-number">1.4.</span> <span class="toc-text">解决排序问题</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/12/01/%E8%99%8E%E4%B9%A6/07/" title="No title"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="No title"/></a><div class="content"><a class="title" href="/2022/12/01/%E8%99%8E%E4%B9%A6/07/" title="No title">No title</a><time datetime="2022-12-01T15:42:33.960Z" title="Created 2022-12-01 23:42:33">2022-12-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/12/01/Games%E7%B3%BB%E5%88%97/101/Lecture03%20Transformation/" title="No title"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="No title"/></a><div class="content"><a class="title" href="/2022/12/01/Games%E7%B3%BB%E5%88%97/101/Lecture03%20Transformation/" title="No title">No title</a><time datetime="2022-12-01T15:26:12.558Z" title="Created 2022-12-01 23:26:12">2022-12-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/11/13/Games%E7%B3%BB%E5%88%97/101/Homework/homework1/" title="No title"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="No title"/></a><div class="content"><a class="title" href="/2022/11/13/Games%E7%B3%BB%E5%88%97/101/Homework/homework1/" title="No title">No title</a><time datetime="2022-11-13T13:11:29.406Z" title="Created 2022-11-13 21:11:29">2022-11-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/11/13/Games%E7%B3%BB%E5%88%97/101/Lecture01%20Overview%20of%20Computer%20Graphics/" title="No title"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="No title"/></a><div class="content"><a class="title" href="/2022/11/13/Games%E7%B3%BB%E5%88%97/101/Lecture01%20Overview%20of%20Computer%20Graphics/" title="No title">No title</a><time datetime="2022-11-13T12:11:45.520Z" title="Created 2022-11-13 20:11:45">2022-11-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/11/12/%E9%9A%8F%E8%AE%B0/%E8%BD%AF%E9%93%BE%E6%8E%A5c%E7%9B%98/" title="软链接c盘"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="软链接c盘"/></a><div class="content"><a class="title" href="/2022/11/12/%E9%9A%8F%E8%AE%B0/%E8%BD%AF%E9%93%BE%E6%8E%A5c%E7%9B%98/" title="软链接c盘">软链接c盘</a><time datetime="2022-11-12T08:53:28.016Z" title="Created 2022-11-12 16:53:28">2022-11-12</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By Aspect</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>
