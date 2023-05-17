@@ -1,34 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Event System</title>
-    <url>/2022/11/06/Unity/EventSystem/</url>
-    <content><![CDATA[<h2 id="Event-System"><a href="#Event-System" class="headerlink" title="Event System"></a>Event System</h2><h3 id="方法1："><a href="#方法1：" class="headerlink" title="方法1："></a>方法1：</h3><p>两个文件</p>
-<p><a href="EventSystem/01/EventManager.cs">EventManager</a></p>
-<p><a href="EventSystem/01/IEventListener.cs">EventManager</a></p>
-<p><strong>用法</strong></p>
-<ul>
-<li>使用<code>interface IEventListener</code>注册事件，卸载事件</li>
-<li>注册具体方法使用<code>AddEventListener</code>,卸载使用<code>RemoveEventListener</code></li>
-<li>如果需要传多个参数，需要适当更新文件具体代码</li>
-</ul>
-<p><strong>综述</strong></p>
-<p>一件事情会有可能会有许多反馈，每当我们要检测一个事件，首先注册这个事件，不断+=添加方法（反馈）,这些都在start(awake)之类中进行，等到游戏结束再取消订阅。</p>
-<ul>
-<li>包含一个<code>static EventManager instance;</code>单一实例并用于外部访问成员数据和方法</li>
-<li>包含一个<code>interface IEventInfo</code>用于外部多态地实现方法</li>
-<li>包含一个字典<code>Dictionary&lt;string,IEventInfo&gt; actionDic</code> 用于存储事件，可以理解成”事件池”</li>
-<li>包含类<code>EventInfo&lt;T&gt;</code>继承自上述接口，用于添加单参数方法</li>
-<li>包含添加、移除、触发事件</li>
-</ul>
-<h3 id="方法2："><a href="#方法2：" class="headerlink" title="方法2："></a>方法2：</h3><p>文件</p>
-<p><a href="EventSystem/02/EventHandler.cs">EventHandler</a></p>
-<p>原理与方法一是一样的，使用方法也大差不差。</p>
-<p>方法一将事件加入字典，不用每次添加都往一个文件里跑，并且结构也清晰一些。</p>
-<p>方法二代码量相对少？好像也没少…。</p>
-]]></content>
-  </entry>
-  <entry>
     <title>软链接c盘</title>
     <url>/2022/11/12/%E9%9A%8F%E8%AE%B0/%E8%BD%AF%E9%93%BE%E6%8E%A5c%E7%9B%98/</url>
     <content><![CDATA[<h1 id="软链接c盘"><a href="#软链接c盘" class="headerlink" title="软链接c盘"></a>软链接c盘</h1><p>c盘文件链接到d盘，减小c盘占用<br>将指定文件夹Adobe剪切_到d盘，管理员身份打开cmd，输入以下软链接<br>mklink /D “C:\Program Files\Adobe” “D:\MySoftware\Adobe”</p>
@@ -1101,6 +1073,23 @@
     <url>/2022/11/13/naive/Games%E7%B3%BB%E5%88%97/101/Homework/homework1/</url>
     <content><![CDATA[<h1 id="01"><a href="#01" class="headerlink" title="01"></a>01</h1><p>需要eigen和opencv</p>
 <p>注意include( ),下载地址<a href="https://www.raoyunsoft.com/opencv/opencv-4.5.2/">Index of /opencv/opencv-4.5.2/ (raoyunsoft.com)</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/2023/05/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/%E6%A6%82%E8%BF%B0/</url>
+    <content><![CDATA[<hr>
+<p>title:图形学概述<br>category:计算机图形学</p>
+<hr>
+<h1 id="图形学概述"><a href="#图形学概述" class="headerlink" title="图形学概述"></a>图形学概述</h1><h2 id="1-前言"><a href="#1-前言" class="headerlink" title="1. 前言"></a>1. 前言</h2><p>由于实在觉得有必要细致、全面、通透地学习一遍图形学相关基础理论知识，于是开了这个坑。</p>
+<p>但是，就我个人而言，该系列不会局限单纯的理论。目前的想法是，</p>
+<ul>
+<li><p>会添加一些引擎中的原理和实现，games系列闫令其老师101，202的作业，以及流行图形API如OpenGL的理论实践。</p>
+</li>
+<li><p>同时甚至于PBR,RTR等图形学进阶书籍阅读笔记。</p>
+</li>
+</ul>
+<p>总的来说，理论性会更强，实验性的记录和学习也会占相当一部分，包罗图形学及其相关应用。个人的意义算是这个方向的<strong>笔记或“个人百科全书”</strong>。后续也会不断完善。</p>
 ]]></content>
   </entry>
 </search>
