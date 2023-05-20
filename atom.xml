@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2023-05-17T15:40:11.345Z</updated>
+  <updated>2023-05-20T16:15:35.746Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -17,24 +17,45 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title></title>
+    <title>Transformation(变换)</title>
+    <link href="http://example.com/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/"/>
+    <id>http://example.com/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/</id>
+    <published>2023-05-17T16:09:51.767Z</published>
+    <updated>2023-05-20T16:15:35.746Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Transformation-变换"><a href="#Transformation-变换" class="headerlink" title="Transformation(变换)"></a>Transformation(变换)</h1><h2 id="0-变换的理论及推导"><a href="#0-变换的理论及推导" class="headerlink" title="0. 变换的理论及推导"></a>0. 变换的理论及推导</h2><h3 id="0-0-Why-Transformation"><a href="#0-0-Why-Transformation" class="headerlink" title="0.0 Why Transformation"></a>0.0 Why Transformation</h3><p><strong>Q1： 为什么要学习变换呢？</strong></p><p>A1： 动画的实现，光栅化图像变换投射进“人眼”。由于计算机最终的变换服务于数学世界，于是同一用矩阵来表示变换，线性代数中学过对应知识。</p><p><strong>Q2: 举例有哪些变换？</strong></p><p>A2： Scale Matrix，缩放；Reflection Matrix,对称(镜像)；</p><p>Shear Matrix,切变(有称”错切“，”斜切“)；</p><p>Rotate Matrix…</p><p>旋转矩阵推导</p><img src="/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/推导旋转矩阵.jpg" alt="image-20230518004250114" style="zoom: 67%;"><p>到目前为止的变换，我们都可以对(x,y…)进行线性变换(Liner transformation)得到变换结果(x’,y’)</p><p><strong>但是平移变换不行？</strong></p><p>试想一下，如果对x平移一个单位，那么变换矩阵</p><img src="/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/平移变换.jpg" alt="image-20230518005707401" style="zoom:80%;"><p>无法用一个矩阵就解决变换，（上面的变换形式引出仿射变换(Affine Transformation)的概念），同时进行线性和平移变换</p><p>接下来</p><h3 id="0-1-Homogeneous-coordinates-齐次坐标"><a href="#0-1-Homogeneous-coordinates-齐次坐标" class="headerlink" title="0.1 Homogeneous coordinates(齐次坐标)"></a>0.1 Homogeneous coordinates(齐次坐标)</h3><p>要想用一个矩阵表示所有变换</p><p>这里引入了齐次坐标的概念，以二维举例，引入第三维度</p><p>设点的第三维度为1，向量为0.</p><ul><li>之所以向量为0，是因为向量具有方向不变性，假设进行平移变换，我们希望这个向量前后不变的；但是如果但三维度不是0，那么结果就有可能出现向量方向的变化。</li><li>之所以点为1，是因为这样就解决了<strong>平移问题</strong>，通过增加维度，使得一个矩阵同时表示平移和线性变换。</li></ul><p>另外</p><p><img src="/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/%E7%82%B9%E4%B8%8E%E5%90%91%E9%87%8F%E7%9A%84%E5%85%B3%E7%B3%BB.png" alt="image-20230518012256246"></p><p>在齐次坐标系下，不难推导出，点+点等于中点，只需同时除以w=2,使得w回归为1</p><p>最后放一张仿射变换的图片和常见变换公式的图片</p><p><img src="/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/affineTransformation.png" alt="image-20230518012637415"></p><p><img src="/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230518013201379.png" alt="image-20230518013201379"></p><h3 id="0-2-Composing-Transform-变换组合"><a href="#0-2-Composing-Transform-变换组合" class="headerlink" title="0.2 Composing Transform(变换组合)"></a>0.2 Composing Transform(变换组合)</h3><ul><li><p>我们需要知道，复杂的一连串的变换是可以组合的，因为虽然变换越多，矩阵越多，但是由于都是乘法，根据矩阵结合律可以最终合成一个</p></li><li><p>平移和旋转具有严格先后顺序，毕竟先加后乘，与先乘后加结果不一样；具体来说是先乘后加，先变换后平移</p></li></ul><p><strong>Decomposing complex transform(解构复杂变换)</strong></p><p><img src="/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230518014414740.png" alt="image-20230518014414740"></p><p>由图知，直接从图一到图四其实并不方便。</p><p>我们先把物体的旋转中心移平移回原点，然后旋转，最后平移回去。（因为我们只能做原点为旋转中心的旋转，不然就无法用之前的固定结论）。</p><p><strong>如果不以原点为旋转中心，以某个轴为旋转中心轴</strong></p><p>绕z轴旋转(本来二维的扩展成三维后等价绕z轴旋转)</p><ul><li>绕哪个轴，哪个轴的坐标为位置不变</li></ul><p><img src="/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230518205820940.png" alt="image-20230518205820940"></p><p><strong>拓展到3d transformation也是一样</strong></p><p><img src="/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230518210227508.png" alt="image-20230518210227508"></p><p><strong>ps:</strong> 按照直觉可能会觉得绕y轴的旋转矩阵有问题，其实是因为该图表示的是右手坐标系的变换；已知<code>x.crossproduct(z) = -z.crossproduct(x)</code>(右手法则)，这里XxZ = -Y,所以需要对α取反。</p><p><strong>Rodrigues’s Rotation Formula</strong></p><p>描述了绕任意轴旋转任意角度的变换矩阵</p><p><img src="/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230518213219770.png" alt="image-20230518213219770"></p><p>下面来推导一下这个公式同时引入四元数的学习</p><p>参考：<a href="https://www.zhihu.com/tardis/zm/art/78987582?source_id=1005">四元数和旋转(Quaternion &amp; rotation) (zhihu.com)</a></p><p>前提：axis n是一个单位向量，并且n过原点(如果不过原点，参考前面的方法先平移回原点)</p><p><img src="/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230520235749777.png" alt="image-20230520235749777"></p><p><strong>有关四元数</strong></p><p>定义：</p><p><img src="/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230521000033200.png" alt="image-20230521000033200"></p><h2 id="1-MVP-Transformation-视图变换"><a href="#1-MVP-Transformation-视图变换" class="headerlink" title="1. MVP Transformation(视图变换)"></a>1. MVP Transformation(视图变换)</h2><p>拍照过程</p><ol><li>摆放好待拍摄的物品，或者人物。（model transformation)</li><li>调整好拍摄(相机)角度。(view transformation)</li><li>调整焦距,拍摄。(projection transformation)</li></ol><p>也就是常说的MVP变换</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;Transformation-变换&quot;&gt;&lt;a href=&quot;#Transformation-变换&quot; class=&quot;headerlink&quot; title=&quot;Transformation(变换)&quot;&gt;&lt;/a&gt;Transformation(变换)&lt;/h1&gt;&lt;h2 id=&quot;0-变</summary>
+      
+    
+    
+    
+    <category term="计算机图形学" scheme="http://example.com/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>从零开始的图形学概述</title>
     <link href="http://example.com/2023/05/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/%E6%A6%82%E8%BF%B0/"/>
     <id>http://example.com/2023/05/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/%E6%A6%82%E8%BF%B0/</id>
     <published>2023-05-17T15:21:24.887Z</published>
-    <updated>2023-05-17T15:40:11.345Z</updated>
+    <updated>2023-05-17T16:12:47.353Z</updated>
     
-    <content type="html"><![CDATA[<hr><p>title:图形学概述<br>category:计算机图形学</p><hr><h1 id="图形学概述"><a href="#图形学概述" class="headerlink" title="图形学概述"></a>图形学概述</h1><h2 id="1-前言"><a href="#1-前言" class="headerlink" title="1. 前言"></a>1. 前言</h2><p>由于实在觉得有必要细致、全面、通透地学习一遍图形学相关基础理论知识，于是开了这个坑。</p><p>但是，就我个人而言，该系列不会局限单纯的理论。目前的想法是，</p><ul><li><p>会添加一些引擎中的原理和实现，games系列闫令其老师101，202的作业，以及流行图形API如OpenGL的理论实践。</p></li><li><p>同时甚至于PBR,RTR等图形学进阶书籍阅读笔记。</p></li></ul><p>总的来说，理论性会更强，实验性的记录和学习也会占相当一部分，包罗图形学及其相关应用。个人的意义算是这个方向的<strong>笔记或“个人百科全书”</strong>。后续也会不断完善。</p>]]></content>
+    <content type="html"><![CDATA[<h1 id="图形学概述"><a href="#图形学概述" class="headerlink" title="图形学概述"></a>图形学概述</h1><h2 id="1-前言"><a href="#1-前言" class="headerlink" title="1. 前言"></a>1. 前言</h2><p>由于实在觉得有必要细致、全面、通透地学习一遍图形学相关基础理论知识，于是开了这个坑。</p><p>但是，就我个人而言，该系列不会局限单纯的理论。目前的想法是，除开基础理论推导</p><ul><li><p>会添加一些引擎中的原理和实现，games系列闫令其老师101，202的作业，以及流行图形API如OpenGL的理论实践。</p></li><li><p>同时PBR,RTR等图形学进阶书籍阅读笔记也可能会不定期更新。</p></li></ul><p>总的来说，理论性会更强，实验性的记录和学习也会占相当一部分，包罗图形学及其相关应用。个人的意义算是这个方向的<strong>笔记或“个人百科全书”</strong>。后续也会不断完善。</p><h2 id="2-Overview-of-Computer-Graphics"><a href="#2-Overview-of-Computer-Graphics" class="headerlink" title="2. Overview of Computer Graphics"></a>2. Overview of Computer Graphics</h2><p>这里借games101开个头</p><h3 id="2-1-Why-Study-CG"><a href="#2-1-Why-Study-CG" class="headerlink" title="2.1 Why Study CG"></a>2.1 Why Study CG</h3><ul><li><p>Fundamental Intellectual Challenges: </p><ul><li>Creates and interacts with realistic virtual world(与虚拟交互)</li><li>Require understanding of all aspects of physical world(了解物理世界)</li><li>New computing methods,displays,technologies(新技术，方法)</li></ul></li><li><p>Technical Challenges:</p><ul><li>Math of(perspective) projections,curves,surfaces(数学)</li><li>Physics of lighting and shading(物理)</li><li>Representing / operating shapes in 3D(图形/3d)</li><li>Animation / simulation(动画/模拟)</li><li>3D graphics software programming and hardware(3d编程/硬件)</li></ul></li><li><p>Forget about the previous reason: <strong>Graphics is awesome!</strong></p></li></ul><p><strong>总而言之，图形学真的很有趣！！！</strong></p><h3 id="2-2-What-will-be-in-the-corner"><a href="#2-2-What-will-be-in-the-corner" class="headerlink" title="2.2 What will be in the corner"></a>2.2 What will be in the corner</h3><ul><li><p>Mathematics theories</p></li><li><p>Rasterization</p></li><li><p>Curves and Meshes</p></li><li><p>Ray Tracing</p><p>and so on…</p></li></ul>]]></content>
     
     
       
       
-    <summary type="html">&lt;hr&gt;
-&lt;p&gt;title:图形学概述&lt;br&gt;category:计算机图形学&lt;/p&gt;
-&lt;hr&gt;
-&lt;h1 id=&quot;图形学概述&quot;&gt;&lt;a href=&quot;#图形学概述&quot; class=&quot;headerlink&quot; title=&quot;图形学概述&quot;&gt;&lt;/a&gt;图形学概述&lt;/h1&gt;&lt;h2 id=&quot;1-前言&quot;</summary>
+    <summary type="html">&lt;h1 id=&quot;图形学概述&quot;&gt;&lt;a href=&quot;#图形学概述&quot; class=&quot;headerlink&quot; title=&quot;图形学概述&quot;&gt;&lt;/a&gt;图形学概述&lt;/h1&gt;&lt;h2 id=&quot;1-前言&quot;&gt;&lt;a href=&quot;#1-前言&quot; class=&quot;headerlink&quot; title=&quot;1. 前言</summary>
       
     
     
+    
+    <category term="计算机图形学" scheme="http://example.com/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/"/>
     
     
   </entry>
@@ -428,28 +449,6 @@
     
     
     <category term="unity shader" scheme="http://example.com/categories/unity-shader/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Computer Graphics 02</title>
-    <link href="http://example.com/2022/10/28/naive/%E8%99%8E%E4%B9%A6/02/"/>
-    <id>http://example.com/2022/10/28/naive/%E8%99%8E%E4%B9%A6/02/</id>
-    <published>2022-10-28T15:27:51.188Z</published>
-    <updated>2022-11-03T15:45:36.297Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="02"><a href="#02" class="headerlink" title="02"></a>02</h1><h2 id="Raster-Images"><a href="#Raster-Images" class="headerlink" title="Raster Images"></a>Raster Images</h2><ul><li><p>光栅以矩形像素数组的形式展示图片</p></li><li><p>光栅在需要图片的输入设备中也很流行。电子相机包含一个图片传感器，这个传感器由一个光敏像素网格组成。每个像素记录颜色和照在上面的光强。</p></li><li><p>光栅图片常用于存储和处理图片。光栅图片是一个简单的二维数组，存储每个像素的像素值。</p></li><li><p>除了光栅图片，还有vector image 用于存储描述形状，颜色范围，存储直线和曲线。</p></li></ul><p><strong>以下讨论raster image的基础和展示，特别关注于标准显示的非线性。其中像素值如何关联光强将会是很重要的</strong></p><h2 id="Raster-Device"><a href="#Raster-Device" class="headerlink" title="Raster Device"></a>Raster Device</h2><p>当今的显示器，包括电视，数字电影投影仪和电脑的显示器和投影仪一样，几乎都是基于固定像素数组。</p><p>他们可以被分为<strong>放射显示器</strong>（利用像素直接放射可控量的光）</p><p>和<strong>透射显示器</strong>（自己不发光，但是其他光源能够透过），需要一个lamp照射到screen上</p><h2 id="Images-Pixels-and-Geometry"><a href="#Images-Pixels-and-Geometry" class="headerlink" title="Images,Pixels,and Geometry"></a>Images,Pixels,and Geometry</h2><p><strong>首先我们要知道gamma校正</strong>，见本文末“补充”</p><p>然后</p><p>设定一个处于黑和白中间的强度 <code>0.5 = a ^ gamma</code></p><p>1.一个黑像素与白像素像交替的图片</p><p>2.一张灰色像素的图片</p><p>如果你是近视的，从远处看，这两张图会差不多</p><p>=&gt;根据这个道理</p><p>我们可以得到<code>a‘ = a^(1/gamma)</code></p><p>其中a为输入值，a’是输出值，由于有8bits的存储量</p><p>=&gt;a可能的值为{0/255，1/255，…,255/255} ^ gamma</p><h2 id="RGB-Color"><a href="#RGB-Color" class="headerlink" title="RGB Color"></a>RGB Color</h2><p><img src="/2022/10/28/naive/%E8%99%8E%E4%B9%A6/02/image-20221028231837391.png" alt="image-20221028231837391"></p><p>大部分计算机图像都是用rgb来定义颜色</p><p>颜色叠加公式</p><p>详情见P75</p><h2 id="Image-Storage"><a href="#Image-Storage" class="headerlink" title="Image Storage"></a>Image Storage</h2><p>大部分rgb格式的图片,为三个通道，每个分配8bit</p><p>并且大部分格式的图片支持压缩（compression)</p><p>压缩又分为有损压缩和无损压缩</p><p><strong>为什么不让monitor(显示器)变成线性的，来避免gamma校正呢？</strong></p><blockquote><p>Ideally, the 256 possible intensities of a monitor should <em>look</em> evenly spaced as</p><p>opposed to being linearly spaced in energy. Because human perception of in</p><p>tensity is itself nonlinear, a gamma between 1.5 and 3 (depending on viewing</p><p>conditions) will make the intensities approximately uniform in a subjective sense.</p><p>In this way, gamma is a feature. Otherwise, the manufacturers would make the</p><p>monitors linear.</p></blockquote><p>理想情况下，256种强度的显示器应该是看起来能量均匀分布而不是线性分布。</p><p>因为人类感知本来就不是线性的。一个1.5到3的gamma值可以几乎让人从主观的感觉区分每种强度。</p><h3 id="补充"><a href="#补充" class="headerlink" title="补充"></a><font jump="补充">补充</font></h3><p><strong>根据百度</strong>：</p><p><code>Gamma源于CRT（显示器/电视机）的响应曲线，即其亮度与输入电压的非线性关系。</code></p><ul><li><p><strong>为什么显示器要Gamma校正</strong> 因为人眼对亮度的感知与物理功率不成正比，而是幂函数的关系，这个指数通常是2.2，称为Gamma值。</p></li><li><p>例如，功率为50%的灰色，人眼实际感知亮度为<code>pow(0.5,1/2.2) * 100% = 72.97%</code></p><p>但是人眼认为的50%的灰色，实际功率为<code>pow(0.5,2.2) * 100% = 21.76%</code></p><p><img src="/2022/10/28/naive/%E8%99%8E%E4%B9%A6/02/uTools_1667052564080.png" alt="uTools_1667052564080"></p><p><img src="/2022/10/28/naive/%E8%99%8E%E4%B9%A6/02/uTools_1667052057309.png" alt="uTools_1667052057309"></p></li></ul><h3 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h3><p>Gamma校正的应用之一，就是明度和灰度计算公式。</p><p><strong>RGB明度计算公式：</strong></p><p><img src="https://bkimg.cdn.bcebos.com/formula/6e778b35764a65eed7a22fa000b7dcf4.svg" alt="img"></p><p>L取值范围为0~1</p><p><strong>RGB灰度计算公式：</strong></p><p><img src="https://bkimg.cdn.bcebos.com/formula/61b798fe6cddb99adc44b1aae1c92c22.svg" alt="img"></p><p><strong>注意这里的2.2次方和2.2次方根，RGB颜色值不能简单直接相加，而是必须用2.2次方换算成物理光功率。</strong>因为RGB值与功率并非简单的线性关系，而是幂函数关系，这个函数的指数称为Gamma值，一般为2.2，而这个换算过程，称为Gamma校正。</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h1 id=&quot;02&quot;&gt;&lt;a href=&quot;#02&quot; class=&quot;headerlink&quot; title=&quot;02&quot;&gt;&lt;/a&gt;02&lt;/h1&gt;&lt;h2 id=&quot;Raster-Images&quot;&gt;&lt;a href=&quot;#Raster-Images&quot; class=&quot;headerlink&quot; title=</summary>
-      
-    
-    
-    
-    <category term="Fundamental of Computer Graphics" scheme="http://example.com/categories/Fundamental-of-Computer-Graphics/"/>
     
     
   </entry>
