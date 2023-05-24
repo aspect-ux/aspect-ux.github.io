@@ -6,7 +6,7 @@
   <link href="https://github.com/aspect-ux/atom.xml" rel="self"/>
   
   <link href="https://github.com/aspect-ux/"/>
-  <updated>2023-05-23T15:42:17.079Z</updated>
+  <updated>2023-05-24T06:28:16.211Z</updated>
   <id>https://github.com/aspect-ux/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Visual Studio下Cpp的配置</title>
+    <link href="https://github.com/aspect-ux/2023/05/24/%E9%9A%8F%E8%AE%B0/VSCPP%E9%85%8D%E7%BD%AE%E8%AE%B0%E5%BD%95/"/>
+    <id>https://github.com/aspect-ux/2023/05/24/%E9%9A%8F%E8%AE%B0/VSCPP%E9%85%8D%E7%BD%AE%E8%AE%B0%E5%BD%95/</id>
+    <published>2023-05-24T06:18:26.100Z</published>
+    <updated>2023-05-24T06:28:16.211Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="VS-CPP-配置"><a href="#VS-CPP-配置" class="headerlink" title="VS CPP 配置"></a>VS CPP 配置</h1><p>在VS上编写cpp程序时，经常出现少了xx库或者xx undefined</p><p>分为静态和动态配置方法</p><ol><li><p>下载对应资源包</p></li><li><p>认识配置方法</p><p><img src="/aspect-ux/aspect-ux/2023/05/24/%E9%9A%8F%E8%AE%B0/VSCPP%E9%85%8D%E7%BD%AE%E8%AE%B0%E5%BD%95/image-20230524142140450.png" alt="image-20230524142140450"></p></li></ol><p>属性面板有三个选项，</p><p><strong>动态载入：</strong> ①对于下载的include 在”C/C++”下配置；②lib在linker下配置，具体lib文件在linker-&gt;input下配置；③dll一般放在根目录（或者32dll放在Win64,64dll放在system32下）</p><p><strong>静态载入：</strong> 前两步和之前一样，但是第三步变成在linker-&gt;proprocessor中加入对应宏</p><p>注意对应版本文件夹</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;VS-CPP-配置&quot;&gt;&lt;a href=&quot;#VS-CPP-配置&quot; class=&quot;headerlink&quot; title=&quot;VS CPP 配置&quot;&gt;&lt;/a&gt;VS CPP 配置&lt;/h1&gt;&lt;p&gt;在VS上编写cpp程序时，经常出现少了xx库或者xx undefined&lt;/p&gt;
+&lt;</summary>
+      
+    
+    
+    
+    <category term="随记" scheme="https://github.com/aspect-ux/categories/%E9%9A%8F%E8%AE%B0/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>Rasterization(光栅化)</title>
@@ -426,28 +449,6 @@
     
     
     <category term="unity shader" scheme="https://github.com/aspect-ux/categories/unity-shader/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Computer Graphics 03</title>
-    <link href="https://github.com/aspect-ux/2022/10/31/naive/%E8%99%8E%E4%B9%A6/03/"/>
-    <id>https://github.com/aspect-ux/2022/10/31/naive/%E8%99%8E%E4%B9%A6/03/</id>
-    <published>2022-10-31T11:21:15.666Z</published>
-    <updated>2022-11-02T12:33:39.949Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="Ray-Tracing"><a href="#Ray-Tracing" class="headerlink" title="Ray Tracing"></a>Ray Tracing</h1><p><strong>Why Ray Tracing?</strong></p><ul><li>rasterization : real-time,ray tracing: offline</li><li>ray tracing is accurate,but is very slow</li></ul><p><strong>Whitted-Style Ray Tracing</strong></p><p><img src="/2022/10/31/naive/%E8%99%8E%E4%B9%A6/03/uTools_1667388590899.png" alt="uTools_1667388590899"></p><p>渲染3d物体时计算机图形的工作之一。</p><p>同一场景的物体渲染需要考虑每个物体贡献的像素。</p><p>有两种常规的方法来考虑</p><ul><li>object-order rendering ,通过找物体来计算对应像素</li><li>image-order rendering，通过找像素来判断物体，然后计算像素</li></ul><p>差别可以这么来看</p><p>前者双重循环外循环是物体，后者则是像素</p><p>宽泛来说，image-order rendering 是更加简单和灵活的，一般来说也会有更长的执行事件来制造同样的图片。</p><p><strong>Ray Tracing 就是image-order algorithm</strong>因为这样不需要像前者一样用数学器械就能实现光线追踪器。</p><h2 id="The-Basic-Ray-Tracing-Algorithm"><a href="#The-Basic-Ray-Tracing-Algorithm" class="headerlink" title="The Basic Ray-Tracing Algorithm"></a>The Basic Ray-Tracing Algorithm</h2><p>基本的光线追踪器有三个部分</p><p>某种意义上，在引擎中，可以认为“眼睛发光”</p><ol><li><p>ray generation. 计算每个像素的view射线的来源和方向</p></li><li><p>ray intersection. 计算与view射线相交的最近物体</p></li><li><p>shading. 在原有的射线相交的基础上进行着色</p><p><img src="/2022/10/31/naive/%E8%99%8E%E4%B9%A6/03/uTools_1667218571247.png" alt="uTools_1667218571247"></p></li></ol><h2 id="Perspective"><a href="#Perspective" class="headerlink" title="Perspective"></a>Perspective</h2><p>标准的方法来为计算机图形，艺术和照片制作图片，是使用linear perspective(线性透视)</p><p>parallel projection(平行投影)是最简单的投影方式，平移。一般用于机械和建筑</p><p>如果image plane和视线方向垂直，成为orthograph(正交投影)  orthonormal(正交的)</p><h2 id="Compute-View-Ray"><a href="#Compute-View-Ray" class="headerlink" title="Compute View Ray"></a>Compute View Ray</h2><p>phase 1</p><p>为了生成ray,我们首先需要一个数学表达</p><p><code>p(t) = e + t(s- e)</code></p><p>e is eye,    s is image plane point</p><p><img src="/2022/10/31/naive/%E8%99%8E%E4%B9%A6/03/uTools_1667219704846.png" alt="uTools_1667219704846"></p><p>在代码中</p><p><img src="/2022/10/31/naive/%E8%99%8E%E4%B9%A6/03/uTools_1667219881824.png" alt="uTools_1667219881824"></p><p>详情见P84</p><h3 id="Orthographic-Views"><a href="#Orthographic-Views" class="headerlink" title="Orthographic Views"></a>Orthographic Views</h3><p>对于正交投影view ray,</p><p>ray generation 使用相机的框架，</p><ol><li><p>正交投影从image plane的一个像素的位置开始，并且全部共享相同的方向—-view direction.</p></li><li><p>而透视投影则是选择一个view point 开始，方向则是view point 到image plane的点的位置。</p></li></ol><p><strong>要将nx  ny 的像素投射到(r - l) x (t - b)的矩形上</strong></p><p>其中l,r分别是片元，pixel的左右边界坐标，b和t则是下、上边界坐标</p><p><img src="/2022/10/31/naive/%E8%99%8E%E4%B9%A6/03/uTools_1667220608282.png" alt="uTools_1667220608282"></p><p>详情见P86</p><h3 id="Perspective-Views"><a href="#Perspective-Views" class="headerlink" title="Perspective Views"></a>Perspective Views</h3><h2 id="Ray-Object-Intersection"><a href="#Ray-Object-Intersection" class="headerlink" title="Ray-Object Intersection"></a>Ray-Object Intersection</h2><p>phase 2</p><h3 id="Ray-Sphere-Intersection"><a href="#Ray-Sphere-Intersection" class="headerlink" title="Ray-Sphere Intersection"></a>Ray-Sphere Intersection</h3><p>使用implicit surface</p><p>隐式表达式f(p(t)) = 0或者f(e + td) = 0</p><p>对于一个球来说，设中心点为c</p><p><code>(p - c)(p - c) - R^2 = 0</code></p><p><strong>注意，当满足上式，说明p对应的点已经在球上，也即intersection</strong></p><p><code>(e + t d - c)(e + td - c) - R^2 = 0</code></p><p>只有t未知</p><p>展开得到quadratic 二次方程，判别式b^2 - 4ac</p><p><img src="/2022/10/31/naive/%E8%99%8E%E4%B9%A6/03/uTools_1667222501427.png" alt="uTools_1667222501427"></p><h2 id="Shading"><a href="#Shading" class="headerlink" title="Shading"></a>Shading</h2><p>Here we will discuss how a ray tracer computes the inputs to shading</p><p>1.从点光源和直线光计算着色需要具体的几何信息。当viewing ray 确定与表面相交，我们需要决定以下4个向量。</p><ul><li>着色点x可以通过估算viewing ray 以t的值相交</li><li>表面的法线向量n</li><li>光源方向l</li><li>视觉射线viewing direction 是viewing ray的反方向（v = -d/|d|)</li></ul><p>2.coding</p><p>3.一旦你已经在光线追踪器上有基本的着色后，光线和点阴影添加会很容易</p><p><img src="/2022/10/31/naive/%E8%99%8E%E4%B9%A6/03/uTools_1667389464606.png" alt="uTools_1667389464606"></p><p>使用directional light 的阴影与点光源类似，但是t=无穷，也即距离无穷，环境光不进行阴影测试（shadow test)</p><p>4.Mirror Reflection(镜面反射)</p><p>为光线追踪程序添加镜面发射（or specular reflection) 很直接。</p><p>由视线计算反射光向量，<strong>易得</strong></p><p><code>r = d - 2(d*n)*n</code></p><p>其中r是反射向量，d是view(视线)入射的向量</p><p><strong>在现实世界中，当光线从表面反射出去，一定会有能量损失</strong></p><p>由于光线颜色不同，损失也会不一样，这里使用递归算法(recursive)</p><p>调用shader-ray函数。</p><p><code>color c = c + k * shader-ray(Ray(p,r),t,infinity)</code></p><p>k是specular rgb color, 并且t = infinity,和shadow一样。因为并不想让光线反射到光源上</p><h2 id="Frequently-Asked"><a href="#Frequently-Asked" class="headerlink" title="Frequently Asked"></a>Frequently Asked</h2><ul><li><p>为什么ray tracing 中没有透视矩阵</p></li><li><p>可以实现交互式光线追踪吗</p><p>对于充分小的模型和图片，任何现代pc都足以支持可交互式光线追踪。现实中，对于全屏的实现，多cpu共享帧缓存区是需要的。</p><p>计算机算力进步比屏幕分辨率更快，让传统pc在屏幕分辨率下实现复杂场景光线追踪只不过是时间问题。</p></li><li><p>ray tracing在硬件图形程序中有用吗</p><p>光线追踪经常用于<strong>采集</strong>，当用户点击鼠标3d图形程序的像素，程序需要决定哪个物体的显示。</p></li></ul>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h1 id=&quot;Ray-Tracing&quot;&gt;&lt;a href=&quot;#Ray-Tracing&quot; class=&quot;headerlink&quot; title=&quot;Ray Tracing&quot;&gt;&lt;/a&gt;Ray Tracing&lt;/h1&gt;&lt;p&gt;&lt;strong&gt;Why Ray Tracing?&lt;/strong&gt;&lt;</summary>
-      
-    
-    
-    
-    <category term="Fundamental of Computer Graphics" scheme="https://github.com/aspect-ux/categories/Fundamental-of-Computer-Graphics/"/>
     
     
   </entry>
