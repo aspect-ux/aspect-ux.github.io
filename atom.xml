@@ -6,7 +6,7 @@
   <link href="https://github.com/aspect-ux/atom.xml" rel="self"/>
   
   <link href="https://github.com/aspect-ux/"/>
-  <updated>2023-05-24T14:05:09.353Z</updated>
+  <updated>2023-05-25T12:37:51.631Z</updated>
   <id>https://github.com/aspect-ux/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="https://github.com/aspect-ux/2023/05/24/%E9%9A%8F%E8%AE%B0/VSCppConfig/"/>
     <id>https://github.com/aspect-ux/2023/05/24/%E9%9A%8F%E8%AE%B0/VSCppConfig/</id>
     <published>2023-05-24T06:18:26.100Z</published>
-    <updated>2023-05-24T14:05:09.353Z</updated>
+    <updated>2023-05-25T12:37:51.631Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="VS-CPP-配置"><a href="#VS-CPP-配置" class="headerlink" title="VS CPP 配置"></a>VS CPP 配置</h1><p>在VS上编写cpp程序时，经常出现少了xx库或者xx undefined</p><p>分为静态和动态配置方法</p><ol><li><p>下载对应资源包</p></li><li><p>认识配置方法</p></li></ol><p>属性面板有三个选项，</p><p><img src="/aspect-ux/aspect-ux/2023/05/24/%E9%9A%8F%E8%AE%B0/VSCppConfig/image-20230524142140450.png" alt="image-20230524142140450"></p><p><strong>动态载入：</strong> ①对于下载的include 在”C/C++”下配置；②lib在linker下配置，具体lib文件在linker-&gt;input下配置；③dll一般放在根目录（或者32dll放在sysWOW64,64dll放在system32下）</p><p><strong>静态载入：</strong> 前两步和之前一样，但是第三步变成在linker-&gt;proprocessor中加入对应宏</p><p>注意对应版本文件夹</p>]]></content>
+    <content type="html"><![CDATA[<h1 id="VS-CPP-配置"><a href="#VS-CPP-配置" class="headerlink" title="VS CPP 配置"></a>VS CPP 配置</h1><p>在VS上编写cpp程序时，经常出现少了xx库或者xx undefined</p><p>分为静态和动态配置方法</p><ol><li><p>下载对应资源包</p></li><li><p>认识配置方法</p></li></ol><p>属性面板有三个选项，</p><p><img src="/aspect-ux/aspect-ux/2023/05/24/%E9%9A%8F%E8%AE%B0/VSCppConfig/1.png" alt="image-20230524142140450"></p><p><strong>动态载入：</strong> ①对于下载的include 在”C/C++”下配置；②lib在linker下配置，具体lib文件在linker-&gt;input下配置；③dll一般放在根目录（或者32dll放在sysWOW64,64dll放在system32下）</p><p><strong>静态载入：</strong> 前两步和之前一样，但是第三步变成在linker-&gt;proprocessor中加入对应宏</p><p>注意对应版本文件夹</p>]]></content>
     
     
       
