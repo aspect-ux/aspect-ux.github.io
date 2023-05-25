@@ -153,15 +153,18 @@
 <p><code>lerp(y1,y2,weight) = y1 + (y2-y1)*weight;</code></p>
 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">fixed3 reflection = texCUBE(_CubeMap,i.worldRefl).rgb * _Reflection.rgb;<span class="comment">//在立体纹理中采样</span></span><br><span class="line"></span><br><span class="line">UNITY_LIGHT_ATTENUATION(atten,i,i.worldPos);</span><br><span class="line">float3 color = ambient + lerp(diffuse,reflection,_ReflectionAmount) *atten;<span class="comment">//有反射，无高光</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="/2022/11/07/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter10/uTools_1661213048053.png" alt="uTools_1661213048053"></p>
+<img src="/aspect-ux/2022/11/07/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter10/uTools_1661213048053.png" class title="uTools_1661213048053">
+
 <ul>
 <li>折射(Refraction)</li>
 </ul>
 <p>​    计算折射</p>
-<p><img src="/2022/11/07/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter10/uTools_1661213306951.png" alt="uTools_1661213306951"></p>
+<img src="/aspect-ux/2022/11/07/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter10/uTools_1661213306951.png" class title="uTools_1661213306951">
+
 <p>**斯涅尔定律(Snell’s law)**，m1 *sin(a) = m2 * sin(a2)，m1,m2 分别为折射率。真空折射率是1，玻璃的折射率是1.5</p>
 <p>玻璃一般分为两次折射，但第二次折射较复杂，一般只模拟第一次折射。</p>
-<p><img src="/2022/11/07/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter10/uTools_1661218211269.png" alt="uTools_1661218211269"></p>
+<img src="/aspect-ux/2022/11/07/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter10/uTools_1661218211269.png" class title="uTools_1661218211269">
+
 <p><strong>菲涅耳反射</strong></p>
 <p>（Fresnel Reflection)</p>
 <p>比如看远处的水会反光，这就是菲涅耳反射；不仅透明物体，很多不透明物体或多或少都存在菲涅耳反射。</p>

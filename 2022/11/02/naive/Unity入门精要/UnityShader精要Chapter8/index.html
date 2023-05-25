@@ -163,7 +163,10 @@
 
 <p>每块的透明度都不同，根据面板调整_Cutoff可以看出哪个更低，低的那个会直接被剔除</p>
 <p>结果图</p>
-<p><img src="/2022/11/02/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter8/uTools_1660983793621.png" alt="uTools_1660983793621"></p>
+<img src="/aspect-ux/2022/11/02/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter8/uTools_1660983793621.png" class title="uTools_1660983793621">
+
+
+
 <h3 id="Alpha-Blend"><a href="#Alpha-Blend" class="headerlink" title="Alpha Blend"></a>Alpha Blend</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SubShader&#123;</span><br><span class="line">       //alpha blend</span><br><span class="line">       Tags&#123;&quot;Queue&quot;=/*&quot;AlphaTest&quot;*/&quot;Transparent&quot; &quot;IgnoreProjector&quot; = &quot;True&quot; &quot;RenderType&quot; = &quot;TransparentCutout&quot;&#125;</span><br><span class="line">       Pass&#123;</span><br><span class="line">           Tags&#123;&quot;LightMode&quot; = &quot;ForwardBase&quot;&#125;</span><br><span class="line">           ZWrite Off</span><br><span class="line">           Blend SrcAlpha OneMinusSrcAlpha  //P170</span><br><span class="line">           ...</span><br><span class="line">           &#125;</span><br><span class="line">           //去掉clip</span><br></pre></td></tr></table></figure>
 
 <h3 id="解决排序问题"><a href="#解决排序问题" class="headerlink" title="解决排序问题"></a>解决排序问题</h3><p><strong>一般先开启深度测试、写入，先渲染不透明物体，然后关闭写入，对不透明物体排序，先渲染后面的物体</strong></p>

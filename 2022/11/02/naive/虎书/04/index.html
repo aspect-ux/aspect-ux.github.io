@@ -151,7 +151,10 @@
 <p>the irradiance E is  <code>E = P/4PI * 1/pow(r,2)</code></p>
 <p>the quantity I = P/4PI,是光强(amount of light)，后者是factor</p>
 <p>更普遍地，<code>E = I * cos(theta) / pow(r,2)</code>,其中<code>cos(theta) = n * l</code></p>
-<p><img src="/2022/11/02/naive/%E8%99%8E%E4%B9%A6/04/uTools_1667393710823.png" alt="uTools_1667393710823"></p>
+<img src="/aspect-ux/2022/11/02/naive/%E8%99%8E%E4%B9%A6/04/uTools_1667393710823.png" class title="uTools_1667393710823">
+
+
+
 <h3 id="Directional-illumination"><a href="#Directional-illumination" class="headerlink" title="Directional illumination"></a>Directional illumination</h3><p>不同于点光源，由于方向光是由很远的点光源产生，这就导致I/(r^2)的占比很小，这里设为一个常数H</p>
 <p><code>E = H * cos(theta)</code></p>
 <p>其中常量H被称为法向辐射（normal irradiance)</p>
@@ -172,7 +175,8 @@
 <p>其中<code>h = normalize(l + v)</code></p>
 <p>注意phong模型与BlinnPhong的区别（v*r)</p>
 <p>一般将高光和漫反射相加统筹</p>
-<p><img src="/2022/11/02/naive/%E8%99%8E%E4%B9%A6/04/uTools_1667567665544.png" alt="uTools_1667567665544"></p>
+<img src="/aspect-ux/2022/11/02/naive/%E8%99%8E%E4%B9%A6/04/uTools_1667567665544.png" class title="uTools_1667567665544">
+
 <p><strong>生成因子k的表达式叫做双向反射分布函数（BRDF)</strong></p>
 <p>因为它反映了反射光随l,v两个向量的改变而改变</p>
 <p>对于lambertian的brdf是常量（constant)</p>
@@ -180,10 +184,12 @@
 <h3 id="Caculating-shading"><a href="#Caculating-shading" class="headerlink" title="Caculating shading"></a>Caculating shading</h3><ul>
 <li>光的入射向量<code>l = lightPosition - modelVertex</code></li>
 </ul>
-<p><img src="/2022/11/02/naive/%E8%99%8E%E4%B9%A6/04/uTools_1667568753509.png" alt="uTools_1667568753509"></p>
+<img src="/aspect-ux/2022/11/02/naive/%E8%99%8E%E4%B9%A6/04/uTools_1667568753509.png" class title="uTools_1667568753509">
+
 <h2 id="Ambient-illumination"><a href="#Ambient-illumination" class="headerlink" title="Ambient illumination"></a>Ambient illumination</h2><p>点光源是非常局部性的光源</p>
 <p><code>ambient = UNITY_LIGHTMODE_AMBIENT.rgb * albedo</code></p>
-<p><img src="/2022/11/02/naive/%E8%99%8E%E4%B9%A6/04/uTools_1667819295698.png" alt="uTools_1667819295698"></p>
+<img src="/aspect-ux/2022/11/02/naive/%E8%99%8E%E4%B9%A6/04/uTools_1667819295698.png" class title="uTools_1667819295698">
+
 <p>环境光着色是一个有点hack的手段，因为大型扩展光源发出的光是不同的，在角落和凹陷区域都会更暗一些。</p>
 <p>但是它却是很重要的，因为它防止阴影变成完全的黑色，并且容易调整场景对比度。</p>
 <p>一些系统把环境光看作一种点光源或平行光。还有一些系统则是让环境光Intensity成为一个场景的参数，来模拟环境光。</p>

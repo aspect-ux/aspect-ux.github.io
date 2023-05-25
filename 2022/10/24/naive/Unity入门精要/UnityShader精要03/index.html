@@ -1,9 +1,9 @@
-<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>unityshader精要3 | 技术美术学习记录</title><meta name="author" content="Aspect"><meta name="copyright" content="Aspect"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Unity Shader03线性代数基础顶点的坐标空间变换模型空间 指的是模型物体前、上、右 裁剪空间 视锥体有六面，称为裁剪平面 其中又有两个平面特殊，分别为靠近摄像机的近裁剪平面和远离摄像机的远裁剪平面。 透视中视锥体呈金字塔状，正交中呈长方体 已知处于几何处理的阶段 现进行投影矩阵  总结 从模型空间到世界空间，再到观察空间，然后裁剪空间，最后屏幕映射到屏幕空间。需要许多变换矩阵。  flo">
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>unityshader精要3 | 技术美术学习记录</title><meta name="author" content="Aspect"><meta name="copyright" content="Aspect"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Unity Shader03线性代数基础顶点的坐标空间变换模型空间 指的是模型物体前、上、右 裁剪空间 视锥体有六面，称为裁剪平面 其中又有两个平面特殊，分别为靠近摄像机的近裁剪平面和远离摄像机的远裁剪平面。 透视中视锥体呈金字塔状，正交中呈长方体 已知处于几何处理的阶段 现进行投影矩阵     总结 从模型空间到世界空间，再到观察空间，然后裁剪空间，最后屏幕映射到屏幕空间。需要许多变换矩阵。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="unityshader精要3">
 <meta property="og:url" content="https://github.com/aspect-ux/2022/10/24/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8103/index.html">
 <meta property="og:site_name" content="技术美术学习记录">
-<meta property="og:description" content="Unity Shader03线性代数基础顶点的坐标空间变换模型空间 指的是模型物体前、上、右 裁剪空间 视锥体有六面，称为裁剪平面 其中又有两个平面特殊，分别为靠近摄像机的近裁剪平面和远离摄像机的远裁剪平面。 透视中视锥体呈金字塔状，正交中呈长方体 已知处于几何处理的阶段 现进行投影矩阵  总结 从模型空间到世界空间，再到观察空间，然后裁剪空间，最后屏幕映射到屏幕空间。需要许多变换矩阵。  flo">
+<meta property="og:description" content="Unity Shader03线性代数基础顶点的坐标空间变换模型空间 指的是模型物体前、上、右 裁剪空间 视锥体有六面，称为裁剪平面 其中又有两个平面特殊，分别为靠近摄像机的近裁剪平面和远离摄像机的远裁剪平面。 透视中视锥体呈金字塔状，正交中呈长方体 已知处于几何处理的阶段 现进行投影矩阵     总结 从模型空间到世界空间，再到观察空间，然后裁剪空间，最后屏幕映射到屏幕空间。需要许多变换矩阵。">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
 <meta property="article:published_time" content="2022-10-24T06:34:22.454Z">
@@ -151,10 +151,16 @@
 <p>透视中视锥体呈金字塔状，正交中呈长方体</p>
 <p>已知处于几何处理的阶段</p>
 <p>现进行投影矩阵</p>
-<p><img src="/2022/10/24/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8103/image-20220713173712165.png" alt="image-20220713173712165"></p>
+<img src="/aspect-ux/2022/10/24/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8103/image-20220713173712165.png" class title="image-20220713173712165">
+
+
+
 <p><strong>总结</strong></p>
 <p>从模型空间到世界空间，再到观察空间，然后裁剪空间，最后屏幕映射到屏幕空间。需要许多变换矩阵。</p>
-<p><img src="/2022/10/24/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8103/image-20220714095415512.png" alt="image-20220714095415512"></p>
+<img src="/aspect-ux/2022/10/24/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8103/image-20220714095415512.png" class title="image-20220714095415512">
+
+
+
 <p><code>float4 a = float4(1.0,1.0,1.0,1.0);</code>该变量是矩阵还是矢量取决于运算种类和位置。</p>
 <p>点积（dot)</p>
 <p>矩阵乘法(mul)</p>

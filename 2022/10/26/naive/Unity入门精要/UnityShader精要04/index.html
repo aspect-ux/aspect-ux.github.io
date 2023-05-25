@@ -167,7 +167,10 @@
 <h4 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h4><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Properties&#123;</span><br><span class="line">	_Color(<span class="string">&quot;Color Tint&quot;</span>,Color) = (<span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//需要注意的是，在CG代码中需要定义出名称类型都一致的变量</span></span><br><span class="line"></span><br><span class="line">SubShader&#123;</span><br><span class="line">    Pass&#123;</span><br><span class="line">        CGPROGRAM</span><br><span class="line">            fixed4 _Color;</span><br><span class="line">            ENDCG</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>区别ShaderLab和CG的变量</p>
-<p><img src="/2022/10/26/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8104/image-20220714112206997.png" alt="image-20220714112206997"></p>
+<img src="/aspect-ux/2022/10/26/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8104/image-20220714112206997.png" class title="image-20220714112206997">
+
+
+
 <h4 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h4><p>已知真正的Shader不是简单的一个<code>.shader</code>文件。</p>
 <p>UnityShader 的方便性使得不用开发者自己转换法线方向，处理光照阴影等。</p>
 <p>类似于C++的头文件,写在CG中，根据情况下载</p>

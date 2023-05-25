@@ -153,24 +153,32 @@
 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Shader <span class="string">&quot;ShaderName&quot;</span>&#123;</span><br><span class="line">    Properties&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    SubShader&#123;</span><br><span class="line">        <span class="comment">//显卡A</span></span><br><span class="line">    &#125;</span><br><span class="line">    SubShader&#123;</span><br><span class="line">        <span class="comment">//显卡B</span></span><br><span class="line">    &#125;</span><br><span class="line">    FallBack <span class="string">&quot;VertexLit&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><strong>Properties 声明</strong></p>
-<p><img src="/2022/10/22/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8102/image-20220713074058424.png" alt="image-20220713074058424"></p>
+<img src="/aspect-ux/2022/10/22/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8102/image-20220713074058424.png" class title="image-20220713074058424">
+
+
+
 <p>Properties 语义块的作用仅仅是为了让这些属性可以出现在材质面板中。</p>
 <p><strong>SubShader</strong></p>
 <p>Tags可以进行设置</p>
 <p><code>Tags&#123;&quot;Queue&quot; = &quot;Transparent&quot;&#125;</code>  设置渲染顺序</p>
 <p><strong>Pass</strong></p>
 <p>设置渲染状态</p>
-<p><img src="/2022/10/22/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8102/image-20220713090702796.png" alt="image-20220713090702796"></p>
+<img src="/aspect-ux/2022/10/22/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8102/image-20220713090702796.png" class title="image-20220713090702796">
+
 <p>首先Pass的命名<code>Name&quot;MyPassName&quot;</code></p>
 <p>调用其他Unity Shader中的Pass <code>UsePass &quot;MyShader/MyPassName&quot;</code></p>
 <p>Pass中的Tags与SubShader中的不一样</p>
-<p><img src="/2022/10/22/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8102/image-20220713091457211.png" alt="image-20220713091457211"></p>
+<img src="/aspect-ux/2022/10/22/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8102/image-20220713091457211.png" class title="image-20220713091457211">
+
+
+
 <p>有关FallBack</p>
 <p>FallBack “name”如果都没用，就用这个sub shader</p>
 <p>FallBack off 关闭，不管了</p>
 <p>FallBack “VertexLit” 调用内置的Shader中的Pass</p>
 <p><strong>结构</strong></p>
-<p><img src="/2022/10/22/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8102/image-20220713092133474.png" alt="image-20220713092133474"></p>
+<img src="/aspect-ux/2022/10/22/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8102/image-20220713092133474.png" class title="image-20220713092133474">
+
 <h4 id="各种着色器"><a href="#各种着色器" class="headerlink" title="各种着色器"></a>各种着色器</h4><p><strong>表面着色器</strong></p>
 <p>(Surface Shader)</p>
 <p>可以理解为顶点、片元着色器的进一步抽象，Unity中的Shader代码一般如上图所示。</p>

@@ -1,21 +1,277 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>软链接c盘</title>
-    <url>/aspect-ux/2022/11/12/%E9%9A%8F%E8%AE%B0/%E8%BD%AF%E9%93%BE%E6%8E%A5c%E7%9B%98/</url>
-    <content><![CDATA[<h1 id="软链接c盘"><a href="#软链接c盘" class="headerlink" title="软链接c盘"></a>软链接c盘</h1><p>c盘文件链接到d盘，减小c盘占用<br>将指定文件夹Adobe剪切_到d盘，管理员身份打开cmd，输入以下软链接<br>mklink /D “C:\Program Files\Adobe” “D:\MySoftware\Adobe”</p>
-<h1 id="Unity-Cache"><a href="#Unity-Cache" class="headerlink" title="Unity Cache"></a>Unity Cache</h1><p>参考<a href="https://blog.csdn.net/baidu_39447417/article/details/117829765">(36条消息) 修改Unity的Cache缓存位置_GA博客的博客-CSDN博客_unity缓存</a></p>
-<h1 id="SP字体太小"><a href="#SP字体太小" class="headerlink" title="SP字体太小"></a>SP字体太小</h1><p>QT_SCALE_FACTOR 1.3  用户变量</p>
-<p>但是有副作用</p>
+    <title>从零开始的图形学概述</title>
+    <url>/aspect-ux/2023/05/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/%E6%A6%82%E8%BF%B0/</url>
+    <content><![CDATA[<h1 id="图形学概述"><a href="#图形学概述" class="headerlink" title="图形学概述"></a>图形学概述</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>由于实在觉得有必要细致、全面、通透地学习一遍图形学相关基础理论知识，于是开了这个坑。</p>
+<p>但是，就我个人而言，该系列不会局限单纯的理论。目前的想法是，除开基础理论推导</p>
+<ul>
+<li><p>会添加一些引擎中的原理和实现，games系列闫令其老师101，202的作业，以及流行图形API如OpenGL的理论实践。</p>
+</li>
+<li><p>同时PBR,RTR等图形学进阶书籍阅读笔记也可能会不定期更新。</p>
+</li>
+</ul>
+<p>总的来说，理论性会更强，实验性的记录和学习也会占相当一部分，包罗图形学及其相关应用。个人的意义算是这个方向的<strong>笔记或“个人百科全书”</strong>。后续也会不断完善。</p>
+<h2 id="Overview-of-Computer-Graphics"><a href="#Overview-of-Computer-Graphics" class="headerlink" title="Overview of Computer Graphics"></a>Overview of Computer Graphics</h2><p>这里借games101开个头</p>
+<h3 id="Why-Study-CG"><a href="#Why-Study-CG" class="headerlink" title="Why Study CG"></a>Why Study CG</h3><ul>
+<li><p>Fundamental Intellectual Challenges: </p>
+<ul>
+<li>Creates and interacts with realistic virtual world(与虚拟交互)</li>
+<li>Require understanding of all aspects of physical world(了解物理世界)</li>
+<li>New computing methods,displays,technologies(新技术，方法)</li>
+</ul>
+</li>
+<li><p>Technical Challenges:</p>
+<ul>
+<li>Math of(perspective) projections,curves,surfaces(数学)</li>
+<li>Physics of lighting and shading(物理)</li>
+<li>Representing / operating shapes in 3D(图形/3d)</li>
+<li>Animation / simulation(动画/模拟)</li>
+<li>3D graphics software programming and hardware(3d编程/硬件)</li>
+</ul>
+</li>
+<li><p>Forget about the previous reason: <strong>Graphics is awesome!</strong></p>
+</li>
+</ul>
+<p><strong>总而言之，图形学真的很有趣！！！</strong></p>
+<h3 id="What-will-be-in-the-corner"><a href="#What-will-be-in-the-corner" class="headerlink" title="What will be in the corner"></a>What will be in the corner</h3><ul>
+<li><p>Mathematics theories</p>
+</li>
+<li><p>Rasterization</p>
+</li>
+<li><p>Curves and Meshes</p>
+</li>
+<li><p>Ray Tracing</p>
+<p>and so on…</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>计算机图形学</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Rasterization(光栅化)</title>
+    <url>/aspect-ux/2023/05/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Rasterization/</url>
+    <content><![CDATA[<h1 id="Rasterization-光栅化"><a href="#Rasterization-光栅化" class="headerlink" title="Rasterization(光栅化)"></a>Rasterization(光栅化)</h1><img src="/aspect-ux/2023/05/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Rasterization/1.png" class width="1">
+
+<h2 id="光栅化流程"><a href="#光栅化流程" class="headerlink" title="光栅化流程"></a>光栅化流程</h2><p>之前提到了MVP过程，在这之后,所有的物体都会停留在【-1，1】^3</p>
+<p>立方体(Canonical Cube)空间中，然后要进行光栅化。</p>
+<h3 id="Viewport-Transformation-视口变换"><a href="#Viewport-Transformation-视口变换" class="headerlink" title="Viewport Transformation(视口变换)"></a>Viewport Transformation(视口变换)</h3><p>也就是将物体“画”到屏幕上，这里具体要做的是上图中的viewport mapping</p>
+<p><strong>即将【-1，1】拉伸(重映射remapping)到【width,height】的屏幕上</strong></p>
+<p>设置什么样的变换矩阵才能变换成功呢？</p>
+<p>（其实在半兰伯特光照模型中就有这个思路，先乘以1/2，然后加上1/2，就转换到【0，1】区间了。）</p>
+<p>根据这个思路得到转换矩阵</p>
+<img src="/aspect-ux/2023/05/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Rasterization/image-20230523205240615.png" class title="image-20230523205240615">
+
+<p>需要注意：这个变换与z值无关</p>
+<h3 id="Rasterizing-triangles-into-pixels"><a href="#Rasterizing-triangles-into-pixels" class="headerlink" title="Rasterizing triangles into pixels"></a>Rasterizing triangles into pixels</h3><p>上面只是说了光栅化是画物体到屏幕，具体来说，物体是由一个又一个多边形构成，最基本的元素是三角形，我们要做的是让这个三角行用像素画出来(或填充)，进而在屏幕上显示。</p>
+<p>具体实现算法就是通过遍历像素，判断像素中心是否在三角形内。</p>
+<p><strong>如何判断是否在三角形内</strong></p>
+<img src="/aspect-ux/aspect-ux/2023/05/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Rasterization/homework2_2-1684847841628-2.png" alt="homework2_2" style="zoom:80%;">
+
+<p>假设从ABC逆时针方向来看，</p>
+<p>我们发现一个规律，但凡P点在三角形内，一定满足</p>
+<p>n1 = AB x AP</p>
+<p>n2 = BC x BP</p>
+<p>n3 = CA x CP</p>
+<p>三个方向都是朝着纸面向上，也就是说z分量大于0(充要条件),否则，则不在三角形内。</p>
+<img src="/aspect-ux/2023/05/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Rasterization/homework2_3.png" class title="homework2_3">
+
+<p>这样就可以判断是否在三角形内</p>
+<p><strong>另外遍历像素很麻烦，这里引入包围盒(Bounding Box)</strong></p>
+<p> 引入axis-aligned bounding box(AABB)轴对齐包围盒</p>
+<p>每一行都根据三角形边界用一个包围盒，这样就不会浪费，从而实现光栅化的加速。</p>
+<p>但是并不简单。</p>
+<p>在这里如果要单纯光栅化一个三角形，我们只知道三个顶点的坐标，这里可以粗略地将三角形用方形框住，只遍历方形中的像素。</p>
+<h2 id="光栅化细节"><a href="#光栅化细节" class="headerlink" title="光栅化细节"></a>光栅化细节</h2><p>如果只是按照上述流程，结果其实并不理想。</p>
+<p>最明显的就是，像素是方形，那么填充三角形会产生锯齿Jaggies</p>
+<h3 id="Aliasing-走样"><a href="#Aliasing-走样" class="headerlink" title="Aliasing(走样)"></a>Aliasing(走样)</h3><p>sample artifacts</p>
+]]></content>
+      <categories>
+        <category>计算机图形学</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Visual Studio下Cpp的配置</title>
+    <url>/aspect-ux/2023/05/24/%E9%9A%8F%E8%AE%B0/VSCppConfig/</url>
+    <content><![CDATA[<h1 id="VS-CPP-配置"><a href="#VS-CPP-配置" class="headerlink" title="VS CPP 配置"></a>VS CPP 配置</h1><p>在VS上编写cpp程序时，经常出现少了xx库或者xx undefined</p>
+<p>分为静态和动态配置方法</p>
+<ol>
+<li><p>下载对应资源包</p>
+</li>
+<li><p>认识配置方法</p>
+</li>
+</ol>
+<p>属性面板有三个选项，</p>
+<img src="/aspect-ux/2023/05/24/%E9%9A%8F%E8%AE%B0/VSCppConfig/1.png" class title="image-20230524142140450">
+
+<p><strong>动态载入：</strong> ①对于下载的include 在”C/C++”下配置；②lib在linker下配置，具体lib文件在linker-&gt;input下配置；③dll一般放在根目录（或者32dll放在sysWOW64,64dll放在system32下）</p>
+<p><strong>静态载入：</strong> 前两步和之前一样，但是第三步变成在linker-&gt;proprocessor中加入对应宏</p>
+<p>注意对应版本文件夹</p>
 ]]></content>
       <categories>
         <category>随记</category>
       </categories>
   </entry>
   <entry>
-    <title>我的第一篇文章</title>
-    <url>/aspect-ux/2022/10/21/%E9%9A%8F%E8%AE%B0/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/</url>
-    <content><![CDATA[]]></content>
+    <title>Transformation(变换)</title>
+    <url>/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/</url>
+    <content><![CDATA[<h1 id="Transformation-变换"><a href="#Transformation-变换" class="headerlink" title="Transformation(变换)"></a>Transformation(变换)</h1><h2 id="变换的理论及推导"><a href="#变换的理论及推导" class="headerlink" title="变换的理论及推导"></a>变换的理论及推导</h2><h3 id="Why-Transformation"><a href="#Why-Transformation" class="headerlink" title="Why Transformation"></a>Why Transformation</h3><p><strong>Q1： 为什么要学习变换呢？</strong></p>
+<p>A1： 动画的实现，光栅化图像变换投射进“人眼”。由于计算机最终的变换服务于数学世界，于是同一用矩阵来表示变换，线性代数中学过对应知识。</p>
+<p><strong>Q2: 举例有哪些变换？</strong></p>
+<p>A2： Scale Matrix，缩放；Reflection Matrix,对称(镜像)；</p>
+<p>Shear Matrix,切变(有称”错切“，”斜切“)；</p>
+<p>Rotate Matrix…</p>
+<p>旋转矩阵推导</p>
+<img src="/aspect-ux/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/推导旋转矩阵.jpg" alt="image-20230518004250114" style="zoom: 67%;">
+
+<p>到目前为止的变换，我们都可以对(x,y…)进行线性变换(Liner transformation)得到变换结果(x’,y’)</p>
+<p><strong>但是平移变换不行？</strong></p>
+<p>试想一下，如果对x平移一个单位，那么变换矩阵</p>
+<img src="/aspect-ux/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/平移变换.jpg" alt="image-20230518005707401" style="zoom:80%;">
+
+<p>无法用一个矩阵就解决变换，（上面的变换形式引出仿射变换(Affine Transformation)的概念），同时进行线性和平移变换</p>
+<p>接下来</p>
+<h3 id="Homogeneous-coordinates-齐次坐标"><a href="#Homogeneous-coordinates-齐次坐标" class="headerlink" title="Homogeneous coordinates(齐次坐标)"></a>Homogeneous coordinates(齐次坐标)</h3><p>要想用一个矩阵表示所有变换</p>
+<p>这里引入了齐次坐标的概念，以二维举例，引入第三维度</p>
+<p>设点的第三维度为1，向量为0.</p>
+<ul>
+<li>之所以向量为0，是因为向量具有方向不变性，假设进行平移变换，我们希望这个向量前后不变的；但是如果但三维度不是0，那么结果就有可能出现向量方向的变化。</li>
+<li>之所以点为1，是因为这样就解决了<strong>平移问题</strong>，通过增加维度，使得一个矩阵同时表示平移和线性变换。</li>
+</ul>
+<p>另外</p>
+<img src="/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/%E7%82%B9%E4%B8%8E%E5%90%91%E9%87%8F%E7%9A%84%E5%85%B3%E7%B3%BB.png" class title="image-20230518012256246">
+
+<p>在齐次坐标系下，不难推导出，点+点等于中点，只需同时除以w=2,使得w回归为1</p>
+<p>最后放一张仿射变换的图片和常见变换公式的图片</p>
+<img src="/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/affineTransformation.png" class title="image-20230518012637415">
+
+
+
+<img src="/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230518013201379.png" class title="image-20230518013201379">
+
+<h3 id="Composing-Transform-变换组合"><a href="#Composing-Transform-变换组合" class="headerlink" title="Composing Transform(变换组合)"></a>Composing Transform(变换组合)</h3><ul>
+<li><p>我们需要知道，复杂的一连串的变换是可以组合的，因为虽然变换越多，矩阵越多，但是由于都是乘法，根据矩阵结合律可以最终合成一个</p>
+</li>
+<li><p>平移和旋转具有严格先后顺序，毕竟先加后乘，与先乘后加结果不一样；具体来说是先乘后加，先变换后平移</p>
+</li>
+</ul>
+<p><strong>Decomposing complex transform(解构复杂变换)</strong></p>
+<img src="/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230518014414740.png" class title="image-20230518014414740">
+
+<p>由图知，直接从图一到图四其实并不方便。</p>
+<p>我们先把物体的旋转中心移平移回原点，然后旋转，最后平移回去。（因为我们只能做原点为旋转中心的旋转，不然就无法用之前的固定结论）。</p>
+<p><strong>如果不以原点为旋转中心，以某个轴为旋转中心轴</strong></p>
+<p>绕z轴旋转(本来二维的扩展成三维后等价绕z轴旋转)</p>
+<ul>
+<li>绕哪个轴，哪个轴的坐标为位置不变</li>
+</ul>
+<img src="/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230518205820940.png" class title="image-20230518205820940">
+
+<p><strong>拓展到3d transformation也是一样</strong></p>
+<img src="/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230518210227508.png" class title="image-20230518210227508">
+
+<p><strong>ps:</strong> 按照直觉可能会觉得绕y轴的旋转矩阵有问题，其实是因为该图表示的是右手坐标系的变换；已知<code>x.crossproduct(z) = -z.crossproduct(x)</code>(右手法则)，这里XxZ = -Y,所以需要对α取反。</p>
+<p><strong>Rodrigues’s Rotation Formula</strong></p>
+<p>描述了绕任意轴旋转任意角度的变换矩阵</p>
+<img src="/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230518213219770.png" class title="image-20230518213219770">
+
+<p>下面来推导一下这个公式同时引入四元数的学习</p>
+<p>参考：<a href="https://www.zhihu.com/tardis/zm/art/78987582?source_id=1005">四元数和旋转(Quaternion &amp; rotation) (zhihu.com)</a></p>
+<p>前提：axis n是一个单位向量，并且n过原点(如果不过原点，参考前面的方法先平移回原点)</p>
+<img src="/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230520235749777.png" class title="image-20230520235749777">
+
+<p><strong>有关四元数</strong></p>
+<p>定义：</p>
+<img src="/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230521000033200.png" class title="image-20230521000033200">
+
+<h2 id="MVP-Transformation"><a href="#MVP-Transformation" class="headerlink" title="MVP Transformation"></a>MVP Transformation</h2><p>拍照过程</p>
+<ol>
+<li>摆放好待拍摄的物品，或者人物。（model transformation)</li>
+<li>调整好拍摄(相机)角度。(view transformation)</li>
+<li>调整焦距,拍摄。(projection transformation)</li>
+</ol>
+<p>也就是常说的MVP变换</p>
+<p><strong>这里Viewing Transformation包括了View Transformation(视图变换)和Projection Transformation(投影变换)</strong></p>
+<h3 id="View-Camera-Transformation-视图变换"><a href="#View-Camera-Transformation-视图变换" class="headerlink" title="View/Camera Transformation(视图变换)"></a>View/Camera Transformation(视图变换)</h3><p>视图变换就是把相机放好。把相机移回原点，相机的三个向量分别和世界坐标的三个轴对齐。先平移后旋转</p>
+<ul>
+<li>平移回原点</li>
+<li>旋转对齐轴</li>
+</ul>
+<img src="/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230523214954945.png" class title="image-20230523214954945">
+
+<p>平移矩阵很好得到</p>
+<img src="/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230523215056433.png" class title="image-20230523215056433">
+
+<p>然后是旋转矩阵</p>
+<p>但是要想将相机三向量t,g,x转换到世界坐标轴XYZ(单位向量)上，其实不好算，所以这里反过来算</p>
+<p>所以首先明确目标矩阵(1 0 0 0；0 1 0 0； 0 0 1 0； 0 0 0 1)，由于反过来算，所以变成了起始矩阵</p>
+<p><strong>细节:</strong> g to -Z,相机对准Z的负方向，t to Y, gxt to X，x由g、t叉乘得到</p>
+<p>R(view)的逆矩阵很好得到，毕竟（0，0，1）旋转到一个位置很好做</p>
+<img src="/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230523215450184.png" class title="image-20230523215450184">
+
+<p>至此实现了从世界坐标轴到相机坐标轴的旋转，只要额外再取个逆，就能得到R(view)</p>
+<h3 id="Projection-Transformation"><a href="#Projection-Transformation" class="headerlink" title="Projection Transformation"></a>Projection Transformation</h3><h4 id="Orthographic-projection"><a href="#Orthographic-projection" class="headerlink" title="Orthographic projection"></a>Orthographic projection</h4><p>正交投影假设物体和相机无限远，这样物体通过视锥体投影到相机没有近大远小</p>
+<p>以下这张图解释了这个过程(<strong>先平移后缩放</strong>)</p>
+<img src="/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230523221856008.png" class title="image-20230523221856008">
+
+<p><strong>注意：这里是右手系，相机往-z方向看</strong>，OpenGL就是右手坐标系。</p>
+<p>但是unity 和 dx都是左手坐标系</p>
+<p>再这样的前提下|f|要比|n|要小</p>
+<p>由此得到正交变换的变换矩阵</p>
+<img src="/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230523222223893.png" class title="image-20230523222223893">
+
+<p>如何理解r,l,b,n,f,t这些东西，可以理解成物体左右上下前后的“坐标”，</p>
+<p>平移矩阵好理解，缩放矩阵本质上是用【2/左右距离】作为缩放倍数，最后结果为2，使得物体缩放到【-1，1】的cube中。</p>
+<p>至此正交投影结束</p>
+<h4 id="Perspective-projection"><a href="#Perspective-projection" class="headerlink" title="Perspective projection"></a>Perspective projection</h4><p>视锥体原平面投影到近平面就能产生透视效果</p>
+<p><strong>这里做透视投影的过程是，先将视锥体squish(挤)成cuboid(长方体）再做正交投影</strong></p>
+<img src="/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230523224143182.png" class title="image-20230523224143182">
+
+<p>由远近平面的关系，我们可以根据相似三角形得到比例关系</p>
+<p><code>y&#39; = (n/z)y</code></p>
+<p>首先明确我们的目标是将(x,y,z)变换到(x’,y’,z’)</p>
+<img src="/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230523224929643.png" class title="image-20230523224929643">
+
+<p>进而在齐次坐标上是</p>
+<img src="/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230523225031775.png" class title="image-20230523225031775">
+
+<p>从透视投影到正交投影的矩阵可以写成</p>
+<img src="/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230523225322150.png" class title="image-20230523225322150">
+
+<img src="/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230523225545132.png" class title="image-20230523225545132">
+
+<p>这里我们要具体推导一下第三行的值</p>
+<p>本质上就是用远近平面上的点带入，完成二元方程组，进而推导出第三行</p>
+<img src="/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230523233910281.png" class title="image-20230523233910281">
+
+<p>最后合成透视矩阵</p>
+<img src="/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230523233933492.png" class title="image-20230523233933492">
+
+<p>推导结束</p>
+]]></content>
+      <categories>
+        <category>计算机图形学</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/aspect-ux/2022/10/21/%E9%9A%8F%E8%AE%B0/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
   </entry>
   <entry>
     <title>搭建静态网页</title>
@@ -52,41 +308,116 @@
       </categories>
   </entry>
   <entry>
-    <title>Hello World</title>
-    <url>/aspect-ux/2022/10/21/%E9%9A%8F%E8%AE%B0/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
+    <title>我的第一篇文章</title>
+    <url>/aspect-ux/2022/10/21/%E9%9A%8F%E8%AE%B0/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>unityshader精要3</title>
-    <url>/aspect-ux/2022/10/24/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8103/</url>
-    <content><![CDATA[<h3 id="Unity-Shader03"><a href="#Unity-Shader03" class="headerlink" title="Unity Shader03"></a>Unity Shader03</h3><h4 id="线性代数基础"><a href="#线性代数基础" class="headerlink" title="线性代数基础"></a>线性代数基础</h4><h4 id="顶点的坐标空间变换"><a href="#顶点的坐标空间变换" class="headerlink" title="顶点的坐标空间变换"></a>顶点的坐标空间变换</h4><p><strong>模型空间</strong></p>
-<p>指的是模型物体前、上、右</p>
-<p><strong>裁剪空间</strong></p>
-<p>视锥体有六面，称为裁剪平面</p>
-<p>其中又有两个平面特殊，分别为靠近摄像机的近裁剪平面和远离摄像机的远裁剪平面。</p>
-<p>透视中视锥体呈金字塔状，正交中呈长方体</p>
-<p>已知处于几何处理的阶段</p>
-<p>现进行投影矩阵</p>
-<p><img src="/2022/10/24/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8103/image-20220713173712165.png" alt="image-20220713173712165"></p>
-<p><strong>总结</strong></p>
-<p>从模型空间到世界空间，再到观察空间，然后裁剪空间，最后屏幕映射到屏幕空间。需要许多变换矩阵。</p>
-<p><img src="/2022/10/24/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8103/image-20220714095415512.png" alt="image-20220714095415512"></p>
-<p><code>float4 a = float4(1.0,1.0,1.0,1.0);</code>该变量是矩阵还是矢量取决于运算种类和位置。</p>
-<p>点积（dot)</p>
-<p>矩阵乘法(mul)</p>
+    <title>软链接c盘</title>
+    <url>/aspect-ux/2022/11/12/%E9%9A%8F%E8%AE%B0/%E8%BD%AF%E9%93%BE%E6%8E%A5c%E7%9B%98/</url>
+    <content><![CDATA[<h1 id="软链接c盘"><a href="#软链接c盘" class="headerlink" title="软链接c盘"></a>软链接c盘</h1><p>c盘文件链接到d盘，减小c盘占用<br>将指定文件夹Adobe剪切_到d盘，管理员身份打开cmd，输入以下软链接<br>mklink /D “C:\Program Files\Adobe” “D:\MySoftware\Adobe”</p>
+<h1 id="Unity-Cache"><a href="#Unity-Cache" class="headerlink" title="Unity Cache"></a>Unity Cache</h1><p>参考<a href="https://blog.csdn.net/baidu_39447417/article/details/117829765">(36条消息) 修改Unity的Cache缓存位置_GA博客的博客-CSDN博客_unity缓存</a></p>
+<h1 id="SP字体太小"><a href="#SP字体太小" class="headerlink" title="SP字体太小"></a>SP字体太小</h1><p>QT_SCALE_FACTOR 1.3  用户变量</p>
+<p>但是有副作用</p>
+]]></content>
+      <categories>
+        <category>随记</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Event System</title>
+    <url>/aspect-ux/2022/11/06/naive/Unity/EventSystem/</url>
+    <content><![CDATA[<h2 id="Event-System"><a href="#Event-System" class="headerlink" title="Event System"></a>Event System</h2><h3 id="方法1："><a href="#方法1：" class="headerlink" title="方法1："></a>方法1：</h3><p>两个文件</p>
+<p><a href="EventSystem/01/EventManager.cs">EventManager</a></p>
+<p><a href="EventSystem/01/IEventListener.cs">EventManager</a></p>
+<p><strong>用法</strong></p>
+<ul>
+<li>使用<code>interface IEventListener</code>注册事件，卸载事件</li>
+<li>注册具体方法使用<code>AddEventListener</code>,卸载使用<code>RemoveEventListener</code></li>
+<li>如果需要传多个参数，需要适当更新文件具体代码</li>
+</ul>
+<p><strong>综述</strong></p>
+<p>一件事情会有可能会有许多反馈，每当我们要检测一个事件，首先注册这个事件，不断+=添加方法（反馈）,这些都在start(awake)之类中进行，等到游戏结束再取消订阅。</p>
+<ul>
+<li>包含一个<code>static EventManager instance;</code>单一实例并用于外部访问成员数据和方法</li>
+<li>包含一个<code>interface IEventInfo</code>用于外部多态地实现方法</li>
+<li>包含一个字典<code>Dictionary&lt;string,IEventInfo&gt; actionDic</code> 用于存储事件，可以理解成”事件池”</li>
+<li>包含类<code>EventInfo&lt;T&gt;</code>继承自上述接口，用于添加单参数方法</li>
+<li>包含添加、移除、触发事件</li>
+</ul>
+<h3 id="方法2："><a href="#方法2：" class="headerlink" title="方法2："></a>方法2：</h3><p>文件</p>
+<p><a href="EventSystem/02/EventHandler.cs">EventHandler</a></p>
+<p>原理与方法一是一样的，使用方法也大差不差。</p>
+<p>方法一将事件加入字典，不用每次添加都往一个文件里跑，并且结构也清晰一些。</p>
+<p>方法二代码量相对少？好像也没少…。</p>
+]]></content>
+      <categories>
+        <category>Game system with uniy</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>unityshader精要1</title>
+    <url>/aspect-ux/2022/10/21/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/</url>
+    <content><![CDATA[<h3 id="Unity-Shader01"><a href="#Unity-Shader01" class="headerlink" title="Unity Shader01"></a>Unity Shader01</h3><h4 id="什么是渲染流水线？"><a href="#什么是渲染流水线？" class="headerlink" title="什么是渲染流水线？"></a>什么是渲染流水线？</h4><p>流水线的概念早已学过，那么渲染流水线又是什么。首先要区别于GPU（硬件)流水线。</p>
+<p>分为三个概念上的阶段，每个阶段又有子流水线。</p>
+<p>应用阶段：开发者支配的阶段，输入场景、贴图、摄像机、光源等等；输出点、线、三角面等渲染图元。</p>
+<p>几何阶段（geometry): 这个阶段主要决定渲染哪些图元，以及将这些图元映射到二维平面上，包括着色，深度值，坐标。</p>
+<p>光栅化阶段（rasterization): 这个阶段同上一个阶段都是在GPU上进行，利用上一阶段的数据绘制出像素。先是逐顶点处理，然后是像素处理。</p>
+<h4 id="CPU与GPU之间"><a href="#CPU与GPU之间" class="headerlink" title="CPU与GPU之间"></a>CPU与GPU之间</h4><p>CPU控制数据从HDD(硬盘)中加载到显卡的显存（VRAM)中，数据包括位置、顶点着色、法线方向等。</p>
+<p>指定渲染状态，例如使用哪个顶点/片元着色器，使用哪个光源属性、材质。</p>
+<p>准备好后CPU发起Draw Call命令，GPU开始渲染。</p>
+<p>对应上面三个阶段。</p>
+<h4 id="GPU流水线"><a href="#GPU流水线" class="headerlink" title="GPU流水线"></a>GPU流水线</h4><p>已知几何与光栅化阶段在GPU上进行。</p>
+<img src="/aspect-ux/2022/10/21/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/image-20220712135412678.png" class title="image-20220712135412678">
+
+<p>—-几何阶段</p>
+<p><strong>顶点着色器（Vertex Shader)</strong> 负责顶点几何变换和顶点着色</p>
+<img src="/aspect-ux/2022/10/21/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/image-20220712141429317.png" class title="image-20220712141429317">
+
+
+
+
+
+
+
+<p>曲面细分、几何着色器均为可选着色器，分别用来细分图元和产生图元（增加）。</p>
+<p><strong>裁剪</strong></p>
+<p>位置分为完全在相机内，部分在相机内，完全不在相机内</p>
+<p>裁剪用来处理部分在相机内的部分，将与相机交点替代相机外的部分。</p>
+<p>需要注意的是顶点着色器是可编程的，但裁剪却是不可编程的，是硬件上的固定操作。</p>
+<p><strong>屏幕映射</strong></p>
+<p>输入三维坐标，映射二维，z不做处理</p>
+<img src="/aspect-ux/2022/10/21/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/image-20220712142739290.png" class title="image-20220712142739290">
+
+
+
+<p>——光栅化阶段</p>
+<p>三角形设置</p>
+<p>已知顶点着色器不会记录点与点之间的关系</p>
+<p>该过程用来得到三角形边界表达方式，计算像素覆盖情况。</p>
+<p><strong>三角形遍历</strong></p>
+<p>（Triangle Traversal)</p>
+<p>找到覆盖的像素，生成片元。</p>
+<p>一个片元并不是真正意义上的像素，而是包含了很多状态的集合 这些状态用于计算每个像素的最终颜色</p>
+<p>对三个顶点进行插值，然后三角形内部颜色由三点渐变(gradient)混合而成。</p>
+<p><strong>片元着色器</strong></p>
+<p>DX中又称为像素着色器（Pixel Shader),不过片元不是真正意义上的像素</p>
+<p>可编程</p>
+<p>纹理采样，对三个顶点插值后，就可以得到片元的纹理坐标，仅可以影响单个片元，无法传递给邻居</p>
+<p><strong>逐片元操作</strong></p>
+<p>为OpenGL的说法，DX</p>
+<p>具体较复杂</p>
+<img src="/aspect-ux/2022/10/21/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/image-20220712145900074.png" class title="image-20220712145900074">
+
+
+
+<p>片元着色器执行后，进行模板测试，再开始深度测试</p>
+<p>深度测试在坐标屏幕进行，屏幕空间坐标与glViewport所定义的视口大小相关</p>
+<p>可用glFragCoord(x,y,z)访问屏幕坐标，z为深度值</p>
+<p>现代GPU硬件特性，深度测试可以在片着之前，但是不能同时。</p>
+<p>参照<a href="https://zhuanlan.zhihu.com/p/371245442">深度测试 - 知乎 (zhihu.com)</a></p>
+<h4 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h4><p>OpenGL、DX是CPU和GPU之间的桥梁，图形接口（api)</p>
+<p>显卡中除了图形处理单元GPU,还有显存(VRAM)。</p>
 ]]></content>
       <categories>
         <category>unity shader</category>
@@ -105,24 +436,32 @@
 <figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">Shader <span class="string">&quot;ShaderName&quot;</span>&#123;</span><br><span class="line">    Properties&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    SubShader&#123;</span><br><span class="line">        <span class="comment">//显卡A</span></span><br><span class="line">    &#125;</span><br><span class="line">    SubShader&#123;</span><br><span class="line">        <span class="comment">//显卡B</span></span><br><span class="line">    &#125;</span><br><span class="line">    FallBack <span class="string">&quot;VertexLit&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><strong>Properties 声明</strong></p>
-<p><img src="/2022/10/22/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8102/image-20220713074058424.png" alt="image-20220713074058424"></p>
+<img src="/aspect-ux/2022/10/22/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8102/image-20220713074058424.png" class title="image-20220713074058424">
+
+
+
 <p>Properties 语义块的作用仅仅是为了让这些属性可以出现在材质面板中。</p>
 <p><strong>SubShader</strong></p>
 <p>Tags可以进行设置</p>
 <p><code>Tags&#123;&quot;Queue&quot; = &quot;Transparent&quot;&#125;</code>  设置渲染顺序</p>
 <p><strong>Pass</strong></p>
 <p>设置渲染状态</p>
-<p><img src="/2022/10/22/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8102/image-20220713090702796.png" alt="image-20220713090702796"></p>
+<img src="/aspect-ux/2022/10/22/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8102/image-20220713090702796.png" class title="image-20220713090702796">
+
 <p>首先Pass的命名<code>Name&quot;MyPassName&quot;</code></p>
 <p>调用其他Unity Shader中的Pass <code>UsePass &quot;MyShader/MyPassName&quot;</code></p>
 <p>Pass中的Tags与SubShader中的不一样</p>
-<p><img src="/2022/10/22/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8102/image-20220713091457211.png" alt="image-20220713091457211"></p>
+<img src="/aspect-ux/2022/10/22/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8102/image-20220713091457211.png" class title="image-20220713091457211">
+
+
+
 <p>有关FallBack</p>
 <p>FallBack “name”如果都没用，就用这个sub shader</p>
 <p>FallBack off 关闭，不管了</p>
 <p>FallBack “VertexLit” 调用内置的Shader中的Pass</p>
 <p><strong>结构</strong></p>
-<p><img src="/2022/10/22/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8102/image-20220713092133474.png" alt="image-20220713092133474"></p>
+<img src="/aspect-ux/2022/10/22/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8102/image-20220713092133474.png" class title="image-20220713092133474">
+
 <h4 id="各种着色器"><a href="#各种着色器" class="headerlink" title="各种着色器"></a>各种着色器</h4><p><strong>表面着色器</strong></p>
 <p>(Surface Shader)</p>
 <p>可以理解为顶点、片元着色器的进一步抽象，Unity中的Shader代码一般如上图所示。</p>
@@ -141,54 +480,29 @@
       </categories>
   </entry>
   <entry>
-    <title>unityshader精要1</title>
-    <url>/aspect-ux/2022/10/21/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/</url>
-    <content><![CDATA[<h3 id="Unity-Shader01"><a href="#Unity-Shader01" class="headerlink" title="Unity Shader01"></a>Unity Shader01</h3><h4 id="什么是渲染流水线？"><a href="#什么是渲染流水线？" class="headerlink" title="什么是渲染流水线？"></a>什么是渲染流水线？</h4><p>流水线的概念早已学过，那么渲染流水线又是什么。首先要区别于GPU（硬件)流水线。</p>
-<p>分为三个概念上的阶段，每个阶段又有子流水线。</p>
-<p>应用阶段：开发者支配的阶段，输入场景、贴图、摄像机、光源等等；输出点、线、三角面等渲染图元。</p>
-<p>几何阶段（geometry): 这个阶段主要决定渲染哪些图元，以及将这些图元映射到二维平面上，包括着色，深度值，坐标。</p>
-<p>光栅化阶段（rasterization): 这个阶段同上一个阶段都是在GPU上进行，利用上一阶段的数据绘制出像素。先是逐顶点处理，然后是像素处理。</p>
-<h4 id="CPU与GPU之间"><a href="#CPU与GPU之间" class="headerlink" title="CPU与GPU之间"></a>CPU与GPU之间</h4><p>CPU控制数据从HDD(硬盘)中加载到显卡的显存（VRAM)中，数据包括位置、顶点着色、法线方向等。</p>
-<p>指定渲染状态，例如使用哪个顶点/片元着色器，使用哪个光源属性、材质。</p>
-<p>准备好后CPU发起Draw Call命令，GPU开始渲染。</p>
-<p>对应上面三个阶段。</p>
-<h4 id="GPU流水线"><a href="#GPU流水线" class="headerlink" title="GPU流水线"></a>GPU流水线</h4><p>已知几何与光栅化阶段在GPU上进行。</p>
-<p><img src="/2022/10/21/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/image-20220712135412678.png" alt="image-20220712135412678"></p>
-<p>—-几何阶段</p>
-<p><strong>顶点着色器（Vertex Shader)</strong> 负责顶点几何变换和顶点着色</p>
-<p><img src="/2022/10/21/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/image-20220712141429317.png" alt="image-20220712141429317"></p>
-<p>曲面细分、几何着色器均为可选着色器，分别用来细分图元和产生图元（增加）。</p>
-<p><strong>裁剪</strong></p>
-<p>位置分为完全在相机内，部分在相机内，完全不在相机内</p>
-<p>裁剪用来处理部分在相机内的部分，将与相机交点替代相机外的部分。</p>
-<p>需要注意的是顶点着色器是可编程的，但裁剪却是不可编程的，是硬件上的固定操作。</p>
-<p><strong>屏幕映射</strong></p>
-<p>输入三维坐标，映射二维，z不做处理</p>
-<p><img src="/2022/10/21/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/image-20220712142739290.png" alt="image-20220712142739290"></p>
-<p>——光栅化阶段</p>
-<p>三角形设置</p>
-<p>已知顶点着色器不会记录点与点之间的关系</p>
-<p>该过程用来得到三角形边界表达方式，计算像素覆盖情况。</p>
-<p><strong>三角形遍历</strong></p>
-<p>（Triangle Traversal)</p>
-<p>找到覆盖的像素，生成片元。</p>
-<p>一个片元并不是真正意义上的像素，而是包含了很多状态的集合 这些状态用于计算每个像素的最终颜色</p>
-<p>对三个顶点进行插值，然后三角形内部颜色由三点渐变(gradient)混合而成。</p>
-<p><strong>片元着色器</strong></p>
-<p>DX中又称为像素着色器（Pixel Shader),不过片元不是真正意义上的像素</p>
-<p>可编程</p>
-<p>纹理采样，对三个顶点插值后，就可以得到片元的纹理坐标，仅可以影响单个片元，无法传递给邻居</p>
-<p><strong>逐片元操作</strong></p>
-<p>为OpenGL的说法，DX</p>
-<p>具体较复杂</p>
-<p><img src="/2022/10/21/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/image-20220712145900074.png" alt="image-20220712145900074"></p>
-<p>片元着色器执行后，进行模板测试，再开始深度测试</p>
-<p>深度测试在坐标屏幕进行，屏幕空间坐标与glViewport所定义的视口大小相关</p>
-<p>可用glFragCoord(x,y,z)访问屏幕坐标，z为深度值</p>
-<p>现代GPU硬件特性，深度测试可以在片着之前，但是不能同时。</p>
-<p>参照<a href="https://zhuanlan.zhihu.com/p/371245442">深度测试 - 知乎 (zhihu.com)</a></p>
-<h4 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h4><p>OpenGL、DX是CPU和GPU之间的桥梁，图形接口（api)</p>
-<p>显卡中除了图形处理单元GPU,还有显存(VRAM)。</p>
+    <title>unityshader精要3</title>
+    <url>/aspect-ux/2022/10/24/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8103/</url>
+    <content><![CDATA[<h3 id="Unity-Shader03"><a href="#Unity-Shader03" class="headerlink" title="Unity Shader03"></a>Unity Shader03</h3><h4 id="线性代数基础"><a href="#线性代数基础" class="headerlink" title="线性代数基础"></a>线性代数基础</h4><h4 id="顶点的坐标空间变换"><a href="#顶点的坐标空间变换" class="headerlink" title="顶点的坐标空间变换"></a>顶点的坐标空间变换</h4><p><strong>模型空间</strong></p>
+<p>指的是模型物体前、上、右</p>
+<p><strong>裁剪空间</strong></p>
+<p>视锥体有六面，称为裁剪平面</p>
+<p>其中又有两个平面特殊，分别为靠近摄像机的近裁剪平面和远离摄像机的远裁剪平面。</p>
+<p>透视中视锥体呈金字塔状，正交中呈长方体</p>
+<p>已知处于几何处理的阶段</p>
+<p>现进行投影矩阵</p>
+<img src="/aspect-ux/2022/10/24/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8103/image-20220713173712165.png" class title="image-20220713173712165">
+
+
+
+<p><strong>总结</strong></p>
+<p>从模型空间到世界空间，再到观察空间，然后裁剪空间，最后屏幕映射到屏幕空间。需要许多变换矩阵。</p>
+<img src="/aspect-ux/2022/10/24/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8103/image-20220714095415512.png" class title="image-20220714095415512">
+
+
+
+<p><code>float4 a = float4(1.0,1.0,1.0,1.0);</code>该变量是矩阵还是矢量取决于运算种类和位置。</p>
+<p>点积（dot)</p>
+<p>矩阵乘法(mul)</p>
 ]]></content>
       <categories>
         <category>unity shader</category>
@@ -221,7 +535,10 @@
 <h4 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h4><figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">Properties&#123;</span><br><span class="line">	_Color(<span class="string">&quot;Color Tint&quot;</span>,Color) = (<span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//需要注意的是，在CG代码中需要定义出名称类型都一致的变量</span></span><br><span class="line"></span><br><span class="line">SubShader&#123;</span><br><span class="line">    Pass&#123;</span><br><span class="line">        CGPROGRAM</span><br><span class="line">            fixed4 _Color;</span><br><span class="line">            ENDCG</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>区别ShaderLab和CG的变量</p>
-<p><img src="/2022/10/26/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8104/image-20220714112206997.png" alt="image-20220714112206997"></p>
+<img src="/aspect-ux/2022/10/26/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8104/image-20220714112206997.png" class title="image-20220714112206997">
+
+
+
 <h4 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h4><p>已知真正的Shader不是简单的一个<code>.shader</code>文件。</p>
 <p>UnityShader 的方便性使得不用开发者自己转换法线方向，处理光照阴影等。</p>
 <p>类似于C++的头文件,写在CG中，根据情况下载</p>
@@ -259,12 +576,54 @@
 </li>
 <li><p>漫反射（diffuse)</p>
 <p>漫反射光照符合兰伯特定律 (Lambert’s law): 反射光线的强度与表面法线和光源方向之间角的余弦值 成正比。因此， 漫反射部分的计算如下</p>
-<p><img src="/2022/10/27/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8105/image-20220715170258041.png" alt="image-20220715170258041"></p>
+<img src="/aspect-ux/2022/10/27/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8105/image-20220715170258041.png" class title="image-20220715170258041">
+
 <p>c light 和 m diffuse 分别表示光源颜色和漫反射颜色</p>
 </li>
 <li><p>环境光（ambient) 一般是全局变量</p>
 </li>
 </ul>
+]]></content>
+      <categories>
+        <category>unity shader</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>unityshader精要7</title>
+    <url>/aspect-ux/2022/10/29/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter7/</url>
+    <content><![CDATA[<h2 id="纹理"><a href="#纹理" class="headerlink" title="纹理"></a>纹理</h2><p>我们通常用一张纹理代替物体漫反射</p>
+<h3 id="单纹理贴图"><a href="#单纹理贴图" class="headerlink" title="单纹理贴图"></a>单纹理贴图</h3><p><em>代码</em></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// Upgrade NOTE: replaced &#x27;mul(UNITY_MATRIX_MVP,*)&#x27; with &#x27;UnityObjectToClipPos(*)&#x27;</span><br><span class="line"></span><br><span class="line">// Upgrade NOTE: replaced &#x27;_Object2World&#x27; with &#x27;unity_ObjectToWorld&#x27;</span><br><span class="line"></span><br><span class="line">Shader &quot;Unity Shaders Book/Chapter7/SingleTexture&quot;&#123;</span><br><span class="line"></span><br><span class="line">    Properties&#123;</span><br><span class="line">        _Color(&quot;Color Tint&quot;,Color) = (1,1,1,1)</span><br><span class="line">        _MainTex(&quot;Main Tex&quot;,2D) = &quot;white&quot;&#123;&#125;</span><br><span class="line">        _Specular(&quot;Specular&quot;,Color) = (1,1,1,1)</span><br><span class="line">        _Gloss(&quot;Gloss&quot;,Range(8.0,256)) = 20</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    SubShader&#123;</span><br><span class="line">        Pass&#123;</span><br><span class="line">            Tags&#123;&quot;LightMode&quot; = &quot;ForwardBase&quot;&#125;</span><br><span class="line"></span><br><span class="line">            CGPROGRAM</span><br><span class="line">            #pragma vertex vert</span><br><span class="line">            #pragma fragment frag</span><br><span class="line">            #include &quot;Lighting.cginc&quot;</span><br><span class="line"></span><br><span class="line">            fixed3 _Color;</span><br><span class="line">            sampler2D _MainTex;</span><br><span class="line">            float4 _MainTex_ST; //TRANSFORM_TEX主要作用是拿顶点的uv去和材质球的tiling和offset作运算， 确保材质球里的缩//放和偏移设置是正确的。 （v.texcoord就是顶点的uv）</span><br><span class="line">            fixed4 _Specular;</span><br><span class="line">            float _Gloss;</span><br><span class="line"></span><br><span class="line">            struct a2v&#123;</span><br><span class="line">                float4 vertex :POSITION;</span><br><span class="line">                float3 normal :NORMAL;</span><br><span class="line">                float4 texcoord : TEXCOORD0;</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            struct v2f&#123;</span><br><span class="line">                float4 pos : SV_POSITION;</span><br><span class="line">                float3 worldNormal : TEXCOORD0;</span><br><span class="line">                float3 worldPos : TEXCOORD1;</span><br><span class="line">                float2 uv : TEXCOORD2;</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            v2f vert(a2v v)&#123;</span><br><span class="line">                v2f o;</span><br><span class="line">                o.pos = UnityObjectToClipPos(v.vertex);</span><br><span class="line"></span><br><span class="line">                o.worldNormal = UnityObjectToWorldNormal(v.normal);</span><br><span class="line">                o.worldPos = mul(unity_ObjectToWorld,v.vertex).xyz;</span><br><span class="line"></span><br><span class="line">                o.uv = v.texcoord.xy + _MainTex_ST.xy + _MainTex_ST.zw;</span><br><span class="line">                o.uv = TRANSFORM_TEX(v.texcoord,_MainTex);</span><br><span class="line">                return o;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            fixed4 frag(v2f i) : SV_TARGET&#123;</span><br><span class="line">                //get normal</span><br><span class="line">                fixed3 worldNormal = normalize(i.worldNormal);</span><br><span class="line">                //get lightdir</span><br><span class="line">                fixed3 worldLightDir = normalize(UnityWorldSpaceLightDir(i.worldPos)); //输入世界坐标，返回该点到光源方向</span><br><span class="line">                //拿采样结果和color的乘积作为反射率</span><br><span class="line">                fixed3 albedo = tex2D(_MainTex,i.uv).rgb * _Color.rgb;</span><br><span class="line"></span><br><span class="line">                //计算环境光</span><br><span class="line">                fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz * albedo;</span><br><span class="line"></span><br><span class="line">                //计算漫反射</span><br><span class="line">                fixed3 diffuse =  _LightColor0.rgb * albedo.rgb * max(0,dot(worldNormal,worldLightDir));</span><br><span class="line"></span><br><span class="line">                //朝向光源</span><br><span class="line">                fixed3 viewDir = normalize(UnityWorldSpaceViewDir(i.worldPos));//_WorldCameraPos - o.wroldPos(not normalized)</span><br><span class="line">                //halfDir代替出射光,worldLightDir指向交点</span><br><span class="line">                fixed3 halfDir = normalize(worldLightDir + viewDir);</span><br><span class="line">                //计算高光,发现reflect*viewDir 变成了normal*halfDir</span><br><span class="line">                fixed3 specular = _LightColor0.rgb * _Specular.rgb * pow(max(0,dot(worldNormal , halfDir)),_Gloss);</span><br><span class="line"></span><br><span class="line">                return fixed4(ambient + diffuse + specular,1.0);</span><br><span class="line">            &#125;</span><br><span class="line">            ENDCG</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Fallback &quot;Specular&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<img src="/aspect-ux/2022/10/29/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter7/uTools_1660877749523.png" class>
+
+<p>中间由于将halfDir 、diffuse声明为fixed，导致高光方向错误</p>
+<p><code>o.uv = v.texcoord.xy * _MainTex_ST.xy + _MainTex_ST.zw;</code></p>
+<p>tilling 和 offset==&gt; 平铺和偏移系数</p>
+<h3 id="凹凸映射"><a href="#凹凸映射" class="headerlink" title="凹凸映射"></a>凹凸映射</h3><p><em>分为高度贴图和法线贴图；前者记录深度值，后者记录法线</em>，一般法线映射认为是凹凸贴图的等价（实际不然）</p>
+<p>而法线纹理中，又分为模型空间下的和切线空间下的，一般用切线空间下的法线贴图更方便</p>
+<p><strong>切线空间指的是以某点切线、副切线、法线为三个坐标轴的空间（副切线有时也称为Binormal)</strong></p>
+<h4 id="切线空间下的光照模型的计算"><a href="#切线空间下的光照模型的计算" class="headerlink" title="切线空间下的光照模型的计算"></a>切线空间下的光照模型的计算</h4><p><em>计算副法线Binormal</em></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// Compute the binormal </span><br><span class="line">//float3 binormal = cross (normalize (v . normal), normalize (v. tangent. xyz )) * </span><br><span class="line">v . tangent.w; </span><br><span class="line">//Cons rue matrix which transform vectors from object space to tangent spac e </span><br><span class="line">//float3x3 rotation= float3x3(v . tangent . xyz , binormal, no mal)</span><br><span class="line">//Or just use the built-in macro </span><br><span class="line">TANGENT SPACE ROTATION;</span><br></pre></td></tr></table></figure>
+
+<p>如果再法线纹理中没有设置为Normal Map,需要再代码中手动设置；这是为了方便Unity优化法线纹理的存储压缩</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Or mark the texture as &quot;Noramal Map&quot;</span></span><br><span class="line">tangentNormal = UnpackNormal(packedNormal);</span><br><span class="line">tangentNormal.xy *= _BumpScale; <span class="comment">//控制凹凸程度</span></span><br><span class="line">tangentNormal.z = sqrt(<span class="number">1.0</span>-saturate(dot(tangentNormal.xy,tangentNormal.xy)));<span class="comment">//由于是单位矢量，直接计算出z</span></span><br></pre></td></tr></table></figure>
+
+<p>使用tex2D返回_BumpMap的采样</p>
+<p><code> fixed4 packedNormal = tex2D(_BumpMap,i.uv.zw);</code></p>
+<p><strong>结果</strong></p>
+
+
+
+
+<h4 id="世界空间下计算光照"><a href="#世界空间下计算光照" class="headerlink" title="世界空间下计算光照"></a>世界空间下计算光照</h4><p>插值寄存器只能存放最大float4,无法存放矩阵，所以声明三个float4</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"> struct v2f&#123;</span><br><span class="line">                float4 pos : SV_POSITION;</span><br><span class="line">                float4 uv : TEXCOORD0;</span><br><span class="line">                // float3 lightDir : TEXCOORD1;</span><br><span class="line">                // float3 viewDir : TEXCOORD2;</span><br><span class="line"></span><br><span class="line">                //WorldSpace</span><br><span class="line">                float4 TtoW0 : TEXCOORD1;</span><br><span class="line">                float4 TtoW1 : TEXCOORD2;</span><br><span class="line">                Float4 TtoW2 : TEXCOORD3;</span><br><span class="line">            &#125;;</span><br><span class="line">v2f vert(a2v v)&#123;</span><br><span class="line">                v2f o;</span><br><span class="line">                o.pos = UnityObjectToClipPos(v.vertex);</span><br><span class="line">                //一个uv存两张图</span><br><span class="line">                o.uv.xy = v.texcoord.xy * _MainTex_ST.xy + _MainTex_ST.zw;</span><br><span class="line">                o.uv.zw = v.texcoord.xy * _BumpMap_ST.xy + _BumpMap_ST.zw; </span><br><span class="line"></span><br><span class="line">                //WorldSpace-----------</span><br><span class="line">                fixed3 worldPos = mul(unity_ObjectToWorld,v.vertex).xyz;</span><br><span class="line">                fixed3 worldNormal = UnityObjectToWorldNormal(v.normal);</span><br><span class="line">                fixed3 worldTangent = UnityObjectToWorldDir(v.tangent.xyz);</span><br><span class="line">                fixed3 worldBinormal = cross(worldNormal,worldTangent) * v.tangent.w;//叉乘</span><br><span class="line">                </span><br><span class="line">                //Compute transform matrix</span><br><span class="line">                o.TtoW0 = float4(worldTangent.x,worldBinormal.x,worldNormal.x,worldPos.x);</span><br><span class="line">                o.TtoW1 = float4(worldTangent.y,worldBinormal.y,worldNormal.y,worldPos.y);</span><br><span class="line">                o.TtoW2 = float4(worldTangent.z,worldBinormal.z,worldNormal.z,worldPos.z);</span><br><span class="line"></span><br><span class="line">                //---------------------</span><br><span class="line">                // //计算副法线</span><br><span class="line">                // TANGENT_SPACE_ROTATION;</span><br><span class="line"></span><br><span class="line">                // //将模型空间的光线变换到切线空间中</span><br><span class="line">                // o.lightDir = mul(rotation,ObjSpaceLightDir(v.vertex).xyz);</span><br><span class="line">                // //同时将视角方向传递到切线空间</span><br><span class="line">                // o.viewDir = mul(rotation,ObjSpaceViewDir(v.vertex).xyz);</span><br><span class="line">                return o;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            fixed4 frag(v2f i) : SV_Target&#123;</span><br><span class="line">                </span><br><span class="line">                //get worldpos</span><br><span class="line">                fixed3 worldPos = float3(i.TtoW0.w,i.TtoW1.w,i.TtoW2.w);</span><br><span class="line"></span><br><span class="line">                //compute light and view dir</span><br><span class="line">                fixed3 lightDir = normalize(UnityWorldSpaceLightDir(worldPos));</span><br><span class="line">                fixed3 viewDir = normalize(UnityWorldSpaceViewDir(worldPos));</span><br><span class="line"></span><br><span class="line">                </span><br><span class="line">                fixed3 bump= UnpackNormal(tex2D(_BumpMap, i.uv.zw));</span><br><span class="line">                bump.xy *= _BumpScale ; </span><br><span class="line">                bump.z = sqrt(1.0- saturate(dot(bump.xy, bump.xy))); </span><br><span class="line">                // Transform the normal from tangent space to wo ld space </span><br><span class="line">                bump = normalize(half3(dot(i.TtoW0.xyz, bump), dot(i.TtoW1.xyz,bump), </span><br><span class="line">                dot(i.TtoW2.xyz, bump)));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                //-------------</span><br><span class="line">                 //tex2d 返回float4,普通纹理返回颜色值 bump则是法向量</span><br><span class="line">                fixed3 albedo = tex2D(_MainTex,i.uv).rgb * _Color.rgb;</span><br><span class="line"></span><br><span class="line">                fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz * albedo;</span><br><span class="line"></span><br><span class="line">                fixed3 diffuse = _LightColor0.rgb * albedo * max(0,dot(bump,lightDir));</span><br><span class="line"></span><br><span class="line">                fixed3 halfDir = normalize(lightDir + viewDir);</span><br><span class="line"></span><br><span class="line">                fixed3 specular = _LightColor0.rgb * _Specular.rgb * pow(max(0,dot(bump,halfDir)),_Gloss);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                return fixed4(ambient + diffuse + specular,1.0);</span><br><span class="line">            &#125;  </span><br></pre></td></tr></table></figure>
+
+<img src="/aspect-ux/2022/10/29/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter7/image-20220820083553612.png" class title="image-20220820083553612">
+
+
+
+<p><strong>CreateFromGrayscale</strong> 用高度图生成切线空间法线纹理</p>
 ]]></content>
       <categories>
         <category>unity shader</category>
@@ -290,49 +649,17 @@
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">//右乘mv逆矩阵</span><br><span class="line">fixed3 worldNormal = normalize(mul(v.normal,(float3x3)_World2Object));</span><br><span class="line">//因为左乘逆转置矩阵，</span><br><span class="line">//it为逆转置，其实对于正交来说，等于原来变换矩阵，但不是正交矩阵，会出现上述法线问题</span><br></pre></td></tr></table></figure>
 
 <p>2.一个矩阵可以左乘达成mv变换，那么它的逆矩阵就可以达成vm变换；逆=换方向，转=换位置</p>
-<p><img src="/2022/10/28/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter6/uTools_1660737217984.png" alt="uTools_1660737217984"></p>
+<img src="/aspect-ux/2022/10/28/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter6/uTools_1660737217984.png" class title="uTools_1660737217984">
+
 <h3 id="逐像素计算漫反射"><a href="#逐像素计算漫反射" class="headerlink" title="逐像素计算漫反射"></a>逐像素计算漫反射</h3><p>类似于顶点</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Shader &quot;Unity Shaders Books/Chapter6/Pixel_Level&quot;&#123;</span><br><span class="line">     Properties&#123;</span><br><span class="line">        //初始化Color属性,得到并控制漫反射颜色,设置为白色</span><br><span class="line">        _Diffuse(&quot;Diffuse&quot;,Color)=(1,1,1,1)</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    SubShader&#123;</span><br><span class="line">        // Tags &#123; &quot;RenderType&quot;=&quot;Opaque&quot; &#125;</span><br><span class="line">        //顶点片元着色器代码要写在pass通道中</span><br><span class="line">        Pass&#123;</span><br><span class="line">            //正确定义lightmode才可以得到unity内置光照变量，该Tag用于定义pass的角色</span><br><span class="line">            Tags&#123;&quot;LightMode&quot; = &quot;ForwardBase&quot;&#125;</span><br><span class="line"></span><br><span class="line">            CGPROGRAM</span><br><span class="line">            #pragma vertex vert</span><br><span class="line">            #pragma fragment frag</span><br><span class="line">            #include &quot;Lighting.cginc&quot;</span><br><span class="line">            //获取properties中的变量</span><br><span class="line">            fixed4 _Diffuse;</span><br><span class="line"></span><br><span class="line">            //定义顶点着色器的输入输出结构体,同时输出也是片元的输入</span><br><span class="line">            struct a2v&#123;</span><br><span class="line">                float4 vertex : POSITION;</span><br><span class="line">                float3 normal :NORMAL;  //将模型顶点法线信息保存</span><br><span class="line">            &#125;;</span><br><span class="line">            </span><br><span class="line">            struct v2f&#123;</span><br><span class="line">                float4 pos : SV_POSITION;</span><br><span class="line">                fixed3 worldNormal : TEXCOORD0;  //将光照颜色传递给片元着色器，也可以用 XCOORDO 语义。</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            //顶点着色器代码,由于顶点着色器不参加计算，只要获取到坐标和世界法线</span><br><span class="line">            v2f vert(a2v v)&#123;</span><br><span class="line">                v2f o;   //用于输出</span><br><span class="line"></span><br><span class="line">                //将顶点信息从模型空间传递到投影空间</span><br><span class="line">                o.pos = UnityObjectToClipPos(v.vertex);</span><br><span class="line">                // //获取环境光</span><br><span class="line">                // fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz;</span><br><span class="line">                //将法线从模型空间传递到世界空间</span><br><span class="line">                fixed3 worldNormal = normalize(mul(v.normal,(float3x3)unity_WorldToObject));</span><br><span class="line">                // //获取世界空间的光照方向</span><br><span class="line">                // fixed3 worldLight = normalize(_WorldSpaceLightPos0.xyz); //只有一个光源且为平行光才有用</span><br><span class="line">                // //计算漫反射  saturate：饱和</span><br><span class="line">                // fixed3 diffuse = _LightColor0.rgb * _Diffuse.rgb * saturate(dot(worldNormal,worldLight));</span><br><span class="line">                // o.color = ambient + diffuse;</span><br><span class="line"></span><br><span class="line">                return o;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            //逐像素计算</span><br><span class="line">            fixed4 frag(v2f i) :SV_TARGET&#123;</span><br><span class="line">                fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz;</span><br><span class="line"></span><br><span class="line">                //法线</span><br><span class="line">                fixed3 worldNormal = normalize(i.worldNormal);</span><br><span class="line">                //获取光照方向</span><br><span class="line">                fixed3 worldLightDir = normalize(_WorldSpaceLightPos0.xyz);</span><br><span class="line"></span><br><span class="line">                //计算漫反射</span><br><span class="line">                fixed3 diffuse = _LightColor0.rgb * _Diffuse.rgb * saturate(dot(worldNormal,worldLightDir));</span><br><span class="line">                fixed3 color = ambient + diffuse;</span><br><span class="line">                </span><br><span class="line">                return fixed4(color,1.0);</span><br><span class="line">            &#125;</span><br><span class="line">            ENDCG</span><br><span class="line">        &#125;</span><br><span class="line">         </span><br><span class="line">    &#125;</span><br><span class="line">    Fallback &quot;Diffuse&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>但是结果全黑</p>
-<p><img src="/2022/10/28/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter6/uTools_1660751437397.png" alt="uTools_1660751437397"></p>
+<img src="/aspect-ux/2022/10/28/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter6/uTools_1660751437397.png" class title="uTools_1660751437397">
+
 <p>在片元着色器计算结果更加平滑，但是光照不到的地方全黑；</p>
 <p>全黑可以通过添加环境光</p>
 <p>但是背光区却和向光区明暗一致，这时可以用<strong>半兰伯特模型</strong></p>
-]]></content>
-      <categories>
-        <category>unity shader</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>unityshader精要7</title>
-    <url>/aspect-ux/2022/10/29/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter7/</url>
-    <content><![CDATA[<h2 id="纹理"><a href="#纹理" class="headerlink" title="纹理"></a>纹理</h2><p>我们通常用一张纹理代替物体漫反射</p>
-<h3 id="单纹理贴图"><a href="#单纹理贴图" class="headerlink" title="单纹理贴图"></a>单纹理贴图</h3><p><em>代码</em></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// Upgrade NOTE: replaced &#x27;mul(UNITY_MATRIX_MVP,*)&#x27; with &#x27;UnityObjectToClipPos(*)&#x27;</span><br><span class="line"></span><br><span class="line">// Upgrade NOTE: replaced &#x27;_Object2World&#x27; with &#x27;unity_ObjectToWorld&#x27;</span><br><span class="line"></span><br><span class="line">Shader &quot;Unity Shaders Book/Chapter7/SingleTexture&quot;&#123;</span><br><span class="line"></span><br><span class="line">    Properties&#123;</span><br><span class="line">        _Color(&quot;Color Tint&quot;,Color) = (1,1,1,1)</span><br><span class="line">        _MainTex(&quot;Main Tex&quot;,2D) = &quot;white&quot;&#123;&#125;</span><br><span class="line">        _Specular(&quot;Specular&quot;,Color) = (1,1,1,1)</span><br><span class="line">        _Gloss(&quot;Gloss&quot;,Range(8.0,256)) = 20</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    SubShader&#123;</span><br><span class="line">        Pass&#123;</span><br><span class="line">            Tags&#123;&quot;LightMode&quot; = &quot;ForwardBase&quot;&#125;</span><br><span class="line"></span><br><span class="line">            CGPROGRAM</span><br><span class="line">            #pragma vertex vert</span><br><span class="line">            #pragma fragment frag</span><br><span class="line">            #include &quot;Lighting.cginc&quot;</span><br><span class="line"></span><br><span class="line">            fixed3 _Color;</span><br><span class="line">            sampler2D _MainTex;</span><br><span class="line">            float4 _MainTex_ST; //TRANSFORM_TEX主要作用是拿顶点的uv去和材质球的tiling和offset作运算， 确保材质球里的缩//放和偏移设置是正确的。 （v.texcoord就是顶点的uv）</span><br><span class="line">            fixed4 _Specular;</span><br><span class="line">            float _Gloss;</span><br><span class="line"></span><br><span class="line">            struct a2v&#123;</span><br><span class="line">                float4 vertex :POSITION;</span><br><span class="line">                float3 normal :NORMAL;</span><br><span class="line">                float4 texcoord : TEXCOORD0;</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            struct v2f&#123;</span><br><span class="line">                float4 pos : SV_POSITION;</span><br><span class="line">                float3 worldNormal : TEXCOORD0;</span><br><span class="line">                float3 worldPos : TEXCOORD1;</span><br><span class="line">                float2 uv : TEXCOORD2;</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            v2f vert(a2v v)&#123;</span><br><span class="line">                v2f o;</span><br><span class="line">                o.pos = UnityObjectToClipPos(v.vertex);</span><br><span class="line"></span><br><span class="line">                o.worldNormal = UnityObjectToWorldNormal(v.normal);</span><br><span class="line">                o.worldPos = mul(unity_ObjectToWorld,v.vertex).xyz;</span><br><span class="line"></span><br><span class="line">                o.uv = v.texcoord.xy + _MainTex_ST.xy + _MainTex_ST.zw;</span><br><span class="line">                o.uv = TRANSFORM_TEX(v.texcoord,_MainTex);</span><br><span class="line">                return o;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            fixed4 frag(v2f i) : SV_TARGET&#123;</span><br><span class="line">                //get normal</span><br><span class="line">                fixed3 worldNormal = normalize(i.worldNormal);</span><br><span class="line">                //get lightdir</span><br><span class="line">                fixed3 worldLightDir = normalize(UnityWorldSpaceLightDir(i.worldPos)); //输入世界坐标，返回该点到光源方向</span><br><span class="line">                //拿采样结果和color的乘积作为反射率</span><br><span class="line">                fixed3 albedo = tex2D(_MainTex,i.uv).rgb * _Color.rgb;</span><br><span class="line"></span><br><span class="line">                //计算环境光</span><br><span class="line">                fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz * albedo;</span><br><span class="line"></span><br><span class="line">                //计算漫反射</span><br><span class="line">                fixed3 diffuse =  _LightColor0.rgb * albedo.rgb * max(0,dot(worldNormal,worldLightDir));</span><br><span class="line"></span><br><span class="line">                //朝向光源</span><br><span class="line">                fixed3 viewDir = normalize(UnityWorldSpaceViewDir(i.worldPos));//_WorldCameraPos - o.wroldPos(not normalized)</span><br><span class="line">                //halfDir代替出射光,worldLightDir指向交点</span><br><span class="line">                fixed3 halfDir = normalize(worldLightDir + viewDir);</span><br><span class="line">                //计算高光,发现reflect*viewDir 变成了normal*halfDir</span><br><span class="line">                fixed3 specular = _LightColor0.rgb * _Specular.rgb * pow(max(0,dot(worldNormal , halfDir)),_Gloss);</span><br><span class="line"></span><br><span class="line">                return fixed4(ambient + diffuse + specular,1.0);</span><br><span class="line">            &#125;</span><br><span class="line">            ENDCG</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Fallback &quot;Specular&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2022/10/29/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter7/uTools_1660877749523.png"></p>
-<p>中间由于将halfDir 、diffuse声明为fixed，导致高光方向错误</p>
-<p><code>o.uv = v.texcoord.xy * _MainTex_ST.xy + _MainTex_ST.zw;</code></p>
-<p>tilling 和 offset==&gt; 平铺和偏移系数</p>
-<h3 id="凹凸映射"><a href="#凹凸映射" class="headerlink" title="凹凸映射"></a>凹凸映射</h3><p><em>分为高度贴图和法线贴图；前者记录深度值，后者记录法线</em>，一般法线映射认为是凹凸贴图的等价（实际不然）</p>
-<p>而法线纹理中，又分为模型空间下的和切线空间下的，一般用切线空间下的法线贴图更方便</p>
-<p><strong>切线空间指的是以某点切线、副切线、法线为三个坐标轴的空间（副切线有时也称为Binormal)</strong></p>
-<h4 id="切线空间下的光照模型的计算"><a href="#切线空间下的光照模型的计算" class="headerlink" title="切线空间下的光照模型的计算"></a>切线空间下的光照模型的计算</h4><p><em>计算副法线Binormal</em></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// Compute the binormal </span><br><span class="line">//float3 binormal = cross (normalize (v . normal), normalize (v. tangent. xyz )) * </span><br><span class="line">v . tangent.w; </span><br><span class="line">//Cons rue matrix which transform vectors from object space to tangent spac e </span><br><span class="line">//float3x3 rotation= float3x3(v . tangent . xyz , binormal, no mal)</span><br><span class="line">//Or just use the built-in macro </span><br><span class="line">TANGENT SPACE ROTATION;</span><br></pre></td></tr></table></figure>
-
-<p>如果再法线纹理中没有设置为Normal Map,需要再代码中手动设置；这是为了方便Unity优化法线纹理的存储压缩</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Or mark the texture as &quot;Noramal Map&quot;</span></span><br><span class="line">tangentNormal = UnpackNormal(packedNormal);</span><br><span class="line">tangentNormal.xy *= _BumpScale; <span class="comment">//控制凹凸程度</span></span><br><span class="line">tangentNormal.z = sqrt(<span class="number">1.0</span>-saturate(dot(tangentNormal.xy,tangentNormal.xy)));<span class="comment">//由于是单位矢量，直接计算出z</span></span><br></pre></td></tr></table></figure>
-
-<p>使用tex2D返回_BumpMap的采样</p>
-<p><code> fixed4 packedNormal = tex2D(_BumpMap,i.uv.zw);</code></p>
-<p><strong>结果</strong></p>
-<p><img src="/2022/10/29/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter7/uTools_1660905878189.png" alt="uTools_1660905878189"></p>
-<h4 id="世界空间下计算光照"><a href="#世界空间下计算光照" class="headerlink" title="世界空间下计算光照"></a>世界空间下计算光照</h4><p>插值寄存器只能存放最大float4,无法存放矩阵，所以声明三个float4</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"> struct v2f&#123;</span><br><span class="line">                float4 pos : SV_POSITION;</span><br><span class="line">                float4 uv : TEXCOORD0;</span><br><span class="line">                // float3 lightDir : TEXCOORD1;</span><br><span class="line">                // float3 viewDir : TEXCOORD2;</span><br><span class="line"></span><br><span class="line">                //WorldSpace</span><br><span class="line">                float4 TtoW0 : TEXCOORD1;</span><br><span class="line">                float4 TtoW1 : TEXCOORD2;</span><br><span class="line">                Float4 TtoW2 : TEXCOORD3;</span><br><span class="line">            &#125;;</span><br><span class="line">v2f vert(a2v v)&#123;</span><br><span class="line">                v2f o;</span><br><span class="line">                o.pos = UnityObjectToClipPos(v.vertex);</span><br><span class="line">                //一个uv存两张图</span><br><span class="line">                o.uv.xy = v.texcoord.xy * _MainTex_ST.xy + _MainTex_ST.zw;</span><br><span class="line">                o.uv.zw = v.texcoord.xy * _BumpMap_ST.xy + _BumpMap_ST.zw; </span><br><span class="line"></span><br><span class="line">                //WorldSpace-----------</span><br><span class="line">                fixed3 worldPos = mul(unity_ObjectToWorld,v.vertex).xyz;</span><br><span class="line">                fixed3 worldNormal = UnityObjectToWorldNormal(v.normal);</span><br><span class="line">                fixed3 worldTangent = UnityObjectToWorldDir(v.tangent.xyz);</span><br><span class="line">                fixed3 worldBinormal = cross(worldNormal,worldTangent) * v.tangent.w;//叉乘</span><br><span class="line">                </span><br><span class="line">                //Compute transform matrix</span><br><span class="line">                o.TtoW0 = float4(worldTangent.x,worldBinormal.x,worldNormal.x,worldPos.x);</span><br><span class="line">                o.TtoW1 = float4(worldTangent.y,worldBinormal.y,worldNormal.y,worldPos.y);</span><br><span class="line">                o.TtoW2 = float4(worldTangent.z,worldBinormal.z,worldNormal.z,worldPos.z);</span><br><span class="line"></span><br><span class="line">                //---------------------</span><br><span class="line">                // //计算副法线</span><br><span class="line">                // TANGENT_SPACE_ROTATION;</span><br><span class="line"></span><br><span class="line">                // //将模型空间的光线变换到切线空间中</span><br><span class="line">                // o.lightDir = mul(rotation,ObjSpaceLightDir(v.vertex).xyz);</span><br><span class="line">                // //同时将视角方向传递到切线空间</span><br><span class="line">                // o.viewDir = mul(rotation,ObjSpaceViewDir(v.vertex).xyz);</span><br><span class="line">                return o;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            fixed4 frag(v2f i) : SV_Target&#123;</span><br><span class="line">                </span><br><span class="line">                //get worldpos</span><br><span class="line">                fixed3 worldPos = float3(i.TtoW0.w,i.TtoW1.w,i.TtoW2.w);</span><br><span class="line"></span><br><span class="line">                //compute light and view dir</span><br><span class="line">                fixed3 lightDir = normalize(UnityWorldSpaceLightDir(worldPos));</span><br><span class="line">                fixed3 viewDir = normalize(UnityWorldSpaceViewDir(worldPos));</span><br><span class="line"></span><br><span class="line">                </span><br><span class="line">                fixed3 bump= UnpackNormal(tex2D(_BumpMap, i.uv.zw));</span><br><span class="line">                bump.xy *= _BumpScale ; </span><br><span class="line">                bump.z = sqrt(1.0- saturate(dot(bump.xy, bump.xy))); </span><br><span class="line">                // Transform the normal from tangent space to wo ld space </span><br><span class="line">                bump = normalize(half3(dot(i.TtoW0.xyz, bump), dot(i.TtoW1.xyz,bump), </span><br><span class="line">                dot(i.TtoW2.xyz, bump)));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                //-------------</span><br><span class="line">                 //tex2d 返回float4,普通纹理返回颜色值 bump则是法向量</span><br><span class="line">                fixed3 albedo = tex2D(_MainTex,i.uv).rgb * _Color.rgb;</span><br><span class="line"></span><br><span class="line">                fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz * albedo;</span><br><span class="line"></span><br><span class="line">                fixed3 diffuse = _LightColor0.rgb * albedo * max(0,dot(bump,lightDir));</span><br><span class="line"></span><br><span class="line">                fixed3 halfDir = normalize(lightDir + viewDir);</span><br><span class="line"></span><br><span class="line">                fixed3 specular = _LightColor0.rgb * _Specular.rgb * pow(max(0,dot(bump,halfDir)),_Gloss);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                return fixed4(ambient + diffuse + specular,1.0);</span><br><span class="line">            &#125;  </span><br></pre></td></tr></table></figure>
-
-<p><img src="/2022/10/29/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter7/image-20220820083553612.png" alt="image-20220820083553612"></p>
-<p><strong>CreateFromGrayscale</strong> 用高度图生成切线空间法线纹理</p>
 ]]></content>
       <categories>
         <category>unity shader</category>
@@ -349,7 +676,7 @@
 
 <p>注意使用<code>fixed2(halfLambert,halfLambert)</code>会发生大于1的情况（1.0001）,这样映射到模型上会出现黑点</p>
 <p>此时需要将纹理的WrapMode从Repeat(重复，但是最左边是黑色的）换成Clamp(大于1取1)</p>
-<p><img src="/2022/10/31/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter7_1/UnityShader%E7%B2%BE%E8%A6%81Chapter7_1%5Cimage-20220820110835470.png" alt="image-20220820110835470"></p>
+<p><img src="/aspect-ux/aspect-ux/2022/10/31/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter7_1/UnityShader%E7%B2%BE%E8%A6%81Chapter7_1%5Cimage-20220820110835470.png" alt="image-20220820110835470"></p>
 <h3 id="遮罩纹理"><a href="#遮罩纹理" class="headerlink" title="遮罩纹理"></a>遮罩纹理</h3><p>使用高光遮罩纹理，遮罩纹理用于更加细致地控制高光反射光强度</p>
 <p>变量声明</p>
 <figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">fixed4 _Color;</span><br><span class="line">sampler2D _MainTex;</span><br><span class="line">float4 _MainTex_ST;</span><br><span class="line">sampler2D _BumpMap;</span><br><span class="line"><span class="comment">//float4 _BumpMap_ST;</span></span><br><span class="line"><span class="built_in">float</span> _BumpScale;</span><br><span class="line">sampler2D _SpecularMask;</span><br><span class="line"><span class="comment">//float4 _SpecularMask_ST;</span></span><br><span class="line"><span class="built_in">float</span> _SpecularScale;</span><br><span class="line">fixed4 _Specular;</span><br><span class="line"><span class="built_in">float</span> _Gloss;</span><br></pre></td></tr></table></figure>
@@ -363,7 +690,7 @@
 <p>3.<code>o.uv = TRANSFORM_TEX(v.texcoord, _MainTex;</code>三张纹理共用同一套uv</p>
 <p><strong>结果</strong></p>
 <p>加上遮罩贴图后高光更加暗淡和谐</p>
-<p><img src="/2022/10/31/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter7_1/UnityShader%E7%B2%BE%E8%A6%81Chapter7_1%5CuTools_1660974045813.png" alt="uTools_1660974045813"></p>
+<p><img src="/aspect-ux/aspect-ux/2022/10/31/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter7_1/UnityShader%E7%B2%BE%E8%A6%81Chapter7_1%5CuTools_1660974045813.png" alt="uTools_1660974045813"></p>
 ]]></content>
       <categories>
         <category>unity shader</category>
@@ -392,7 +719,10 @@
 
 <p>每块的透明度都不同，根据面板调整_Cutoff可以看出哪个更低，低的那个会直接被剔除</p>
 <p>结果图</p>
-<p><img src="/2022/11/02/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter8/uTools_1660983793621.png" alt="uTools_1660983793621"></p>
+<img src="/aspect-ux/2022/11/02/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter8/uTools_1660983793621.png" class title="uTools_1660983793621">
+
+
+
 <h3 id="Alpha-Blend"><a href="#Alpha-Blend" class="headerlink" title="Alpha Blend"></a>Alpha Blend</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SubShader&#123;</span><br><span class="line">       //alpha blend</span><br><span class="line">       Tags&#123;&quot;Queue&quot;=/*&quot;AlphaTest&quot;*/&quot;Transparent&quot; &quot;IgnoreProjector&quot; = &quot;True&quot; &quot;RenderType&quot; = &quot;TransparentCutout&quot;&#125;</span><br><span class="line">       Pass&#123;</span><br><span class="line">           Tags&#123;&quot;LightMode&quot; = &quot;ForwardBase&quot;&#125;</span><br><span class="line">           ZWrite Off</span><br><span class="line">           Blend SrcAlpha OneMinusSrcAlpha  //P170</span><br><span class="line">           ...</span><br><span class="line">           &#125;</span><br><span class="line">           //去掉clip</span><br></pre></td></tr></table></figure>
 
 <h3 id="解决排序问题"><a href="#解决排序问题" class="headerlink" title="解决排序问题"></a>解决排序问题</h3><p><strong>一般先开启深度测试、写入，先渲染不透明物体，然后关闭写入，对不透明物体排序，先渲染后面的物体</strong></p>
@@ -425,15 +755,18 @@
 <p><code>lerp(y1,y2,weight) = y1 + (y2-y1)*weight;</code></p>
 <figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">fixed3 reflection = texCUBE(_CubeMap,i.worldRefl).rgb * _Reflection.rgb;<span class="comment">//在立体纹理中采样</span></span><br><span class="line"></span><br><span class="line">UNITY_LIGHT_ATTENUATION(atten,i,i.worldPos);</span><br><span class="line">float3 color = ambient + lerp(diffuse,reflection,_ReflectionAmount) *atten;<span class="comment">//有反射，无高光</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="/2022/11/07/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter10/uTools_1661213048053.png" alt="uTools_1661213048053"></p>
+<img src="/aspect-ux/2022/11/07/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter10/uTools_1661213048053.png" class title="uTools_1661213048053">
+
 <ul>
 <li>折射(Refraction)</li>
 </ul>
 <p>​    计算折射</p>
-<p><img src="/2022/11/07/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter10/uTools_1661213306951.png" alt="uTools_1661213306951"></p>
+<img src="/aspect-ux/2022/11/07/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter10/uTools_1661213306951.png" class title="uTools_1661213306951">
+
 <p>**斯涅尔定律(Snell’s law)**，m1 *sin(a) = m2 * sin(a2)，m1,m2 分别为折射率。真空折射率是1，玻璃的折射率是1.5</p>
 <p>玻璃一般分为两次折射，但第二次折射较复杂，一般只模拟第一次折射。</p>
-<p><img src="/2022/11/07/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter10/uTools_1661218211269.png" alt="uTools_1661218211269"></p>
+<img src="/aspect-ux/2022/11/07/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter10/uTools_1661218211269.png" class title="uTools_1661218211269">
+
 <p><strong>菲涅耳反射</strong></p>
 <p>（Fresnel Reflection)</p>
 <p>比如看远处的水会反光，这就是菲涅耳反射；不仅透明物体，很多不透明物体或多或少都存在菲涅耳反射。</p>
@@ -467,7 +800,8 @@
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">//frac函数返回标量或每个矢量中各分量的小数部分。return v - floor(v);</span><br><span class="line">o.uv.xy = TRANSFORM_TEX(v.texcoord,_MainTex) + frac(float2(_ScrollX,0.0)*_Time.y);</span><br><span class="line">o.uv.zw = TRANSFORM_TEX(v.texcoord,_DetailTex) + frac(float2(_Scroll2X,0.0)*_Time.y);</span><br><span class="line">//可以发现当x乘上一个小于1的值时，系数越小，呈现的图像结果会越稀疏</span><br></pre></td></tr></table></figure>
 
 <p>函数如下图</p>
-<p><img src="/2022/11/09/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter11/uTools_1661861601610.png" alt="uTools_1661861601610"></p>
+<img src="/aspect-ux/2022/11/09/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter11/uTools_1661861601610.png" class title="uTools_1661861601610">
+
 <p>frac(float)等价上图</p>
 <p>frac(float2())则等价于以圆心为原点，以这个点为起点的线为半径，每过v的长度，为一个周期。最后构成多重圆环。而横坐标</p>
 <p>的倍率则影响密度。倍率大于1，噪声越大，间隔小，密度大。</p>
@@ -498,7 +832,8 @@
 
 
 
-<p><img src="/2022/11/09/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter11/uTools_1661943292280.png" alt="uTools_1661943292280"></p>
+<img src="/aspect-ux/2022/11/09/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter11/uTools_1661943292280.png" class title="uTools_1661943292280">
+
 ]]></content>
       <categories>
         <category>unity shader</category>
@@ -506,6 +841,74 @@
       <tags>
         <tag>shader动画</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>Computer Graphics 01</title>
+    <url>/aspect-ux/2022/10/27/naive/%E8%99%8E%E4%B9%A6/01/</url>
+    <content><![CDATA[<h1 id="Computer-Graphics-01"><a href="#Computer-Graphics-01" class="headerlink" title="Computer Graphics 01"></a>Computer Graphics 01</h1><h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><h3 id="Efficiency"><a href="#Efficiency" class="headerlink" title="Efficiency"></a>Efficiency</h3><p><code>However, for the foreseeable future, a good heuristic is that programmers</code></p>
+<p><code>should pay more attention to memory access patterns than to operation counts.</code></p>
+<p>因为内存的速度跟不上处理器的速度</p>
+<h2 id="Miscellaneous-Math"><a href="#Miscellaneous-Math" class="headerlink" title="Miscellaneous Math"></a>Miscellaneous Math</h2><p>2.1 集合和映射</p>
+<p>2.2 解决二次等式</p>
+<p>2.3 三角学（trigonometry) 勾股，三角函数，角</p>
+<p>…</p>
+<p>2.4.4 叉乘（cross product)</p>
+<p><strong>a</strong> x <strong>b</strong> = |ab| sin (theta)</p>
+<p>…</p>
+<h4 id="Curve-and-Surface"><a href="#Curve-and-Surface" class="headerlink" title="Curve and Surface"></a>Curve and Surface</h4><p>从1d 到3d的积分，参数方程</p>
+<h4 id="Linear-Interpolation"><a href="#Linear-Interpolation" class="headerlink" title="Linear Interpolation"></a>Linear Interpolation</h4><p><code>p = (1 - t)a + tb</code></p>
+<p>barycentric 重心坐标</p>
+<p>cardinality 集合基数</p>
+]]></content>
+      <categories>
+        <category>Fundamental of Computer Graphics</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>unityshader精要9</title>
+    <url>/aspect-ux/2022/11/03/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter9/</url>
+    <content><![CDATA[<h2 id="Complex-Light-Chapter9"><a href="#Complex-Light-Chapter9" class="headerlink" title="Complex Light - Chapter9"></a>Complex Light - Chapter9</h2><h3 id="渲染路径（Rendering-Path"><a href="#渲染路径（Rendering-Path" class="headerlink" title="渲染路径（Rendering Path)"></a>渲染路径（Rendering Path)</h3><p><strong>分为前向渲染路径，延迟渲染路径(更新），顶点渲染路径（弃用）</strong></p>
+<p>1.前向渲染路径，如果深度测试不过关，该片元不可见，反之可见，就进行光照计算</p>
+<p>2.如果物体受到多个光源照射，就要写多个Pass,然后在帧缓冲中将这些光照结果混合。</p>
+<p>3.前向渲染中，光照类型（平行光parallel light或其他）+光照渲染模式（important)决定了处理光照（照亮物体）的方式。</p>
+<p>而处理方式分为逐像素，逐顶点、sh计算。</p>
+<p>参见P182</p>
+<h3 id="Unity光源类型"><a href="#Unity光源类型" class="headerlink" title="Unity光源类型"></a>Unity光源类型</h3><p>1.平行光、点光源、<em>面光源</em>和<em>聚光灯</em>，面光源只在烘焙时才会产生作用</p>
+<p>2.当RenderMode是Auto,Unity自动判断哪些光源逐像素，哪些顶点、sh计算。</p>
+<p>3.最亮的平行光是按照逐像素计算，而Auto状态下最多除平行光源外4个逐像素计算，这些在addtional pass中计算</p>
+<p><strong>最常用的光源属性有：位置、方向、颜色、强度、衰减</strong></p>
+<ul>
+<li>光照衰弱</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="comment">//使用纹理来计算衰弱值</span></span><br><span class="line"><span class="keyword">fixed</span> atten = tex2D(_ ghtTextureO, dot(lightCoord, lightCoord) .rr) .UNITY_ATTEN_CHANNEL;</span><br><span class="line"></span><br><span class="line"><span class="comment">//使用数学公式进行线性衰弱值计算</span></span><br><span class="line"><span class="built_in">float</span> distance = length (_WorldSpaceLightPosO . xyz - i. worldPosi <span class="keyword">on</span>.xyz);</span><br><span class="line">atten = <span class="number">1.0</span> <span class="comment">// distance; // linear attenuation</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Unity阴影"><a href="#Unity阴影" class="headerlink" title="Unity阴影"></a>Unity阴影</h3><p>1.如果最重要的平行光开启了阴影，那么Unity会为这个光源生成<em>阴影纹理图</em>，一种由光源出发的深度图。</p>
+<p>2.另取一个LightMode为ShadowCaster的Pass,Unity会将摄像头放到光源的地方</p>
+<p>3.一个物体想要接收阴影，那么在shader中要对纹理采样；相同地，一个物体想要投射阴影，就要参与纹理计算</p>
+<p>见P200</p>
+<ul>
+<li>如何让正方体接收阴影</li>
+</ul>
+<p>SHADOWCOORD,TRANSFER_SHADOW,SHADOW_ATTENUATION分别在v2f,vert,frag中调用</p>
+<p>实现接收阴影</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SHADOW_COORDS(2)</span><br><span class="line">TRANSFER_SHADOW(o);</span><br><span class="line">fixed shadow = SHADOW_ATTENUATION(i);</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>光照衰减和阴影的效果是一样的，于是就有了统一光照衰弱和阴影</strong></p>
+<p>unity提供一个方法同时管理这两者</p>
+<p><code>UNITY_LIGHT_ATTENUATION(atten,i,i.worldPos);</code></p>
+<ul>
+<li><p>透明物体的阴影</p>
+<p>在AlphaTest的基础上使用上述方法</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>unity shader</category>
+      </categories>
   </entry>
   <entry>
     <title>unityshader精要12</title>
@@ -561,59 +964,6 @@
       </categories>
   </entry>
   <entry>
-    <title>Computer Graphics 01</title>
-    <url>/aspect-ux/2022/10/27/naive/%E8%99%8E%E4%B9%A6/01/</url>
-    <content><![CDATA[<h1 id="Computer-Graphics-01"><a href="#Computer-Graphics-01" class="headerlink" title="Computer Graphics 01"></a>Computer Graphics 01</h1><h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><h3 id="Efficiency"><a href="#Efficiency" class="headerlink" title="Efficiency"></a>Efficiency</h3><p><code>However, for the foreseeable future, a good heuristic is that programmers</code></p>
-<p><code>should pay more attention to memory access patterns than to operation counts.</code></p>
-<p>因为内存的速度跟不上处理器的速度</p>
-<h2 id="Miscellaneous-Math"><a href="#Miscellaneous-Math" class="headerlink" title="Miscellaneous Math"></a>Miscellaneous Math</h2><p>2.1 集合和映射</p>
-<p>2.2 解决二次等式</p>
-<p>2.3 三角学（trigonometry) 勾股，三角函数，角</p>
-<p>…</p>
-<p>2.4.4 叉乘（cross product)</p>
-<p><strong>a</strong> x <strong>b</strong> = |ab| sin (theta)</p>
-<p>…</p>
-<h4 id="Curve-and-Surface"><a href="#Curve-and-Surface" class="headerlink" title="Curve and Surface"></a>Curve and Surface</h4><p>从1d 到3d的积分，参数方程</p>
-<h4 id="Linear-Interpolation"><a href="#Linear-Interpolation" class="headerlink" title="Linear Interpolation"></a>Linear Interpolation</h4><p><code>p = (1 - t)a + tb</code></p>
-<p>barycentric 重心坐标</p>
-<p>cardinality 集合基数</p>
-]]></content>
-      <categories>
-        <category>Fundamental of Computer Graphics</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>Event System</title>
-    <url>/aspect-ux/2022/11/06/naive/Unity/EventSystem/</url>
-    <content><![CDATA[<h2 id="Event-System"><a href="#Event-System" class="headerlink" title="Event System"></a>Event System</h2><h3 id="方法1："><a href="#方法1：" class="headerlink" title="方法1："></a>方法1：</h3><p>两个文件</p>
-<p><a href="EventSystem/01/EventManager.cs">EventManager</a></p>
-<p><a href="EventSystem/01/IEventListener.cs">EventManager</a></p>
-<p><strong>用法</strong></p>
-<ul>
-<li>使用<code>interface IEventListener</code>注册事件，卸载事件</li>
-<li>注册具体方法使用<code>AddEventListener</code>,卸载使用<code>RemoveEventListener</code></li>
-<li>如果需要传多个参数，需要适当更新文件具体代码</li>
-</ul>
-<p><strong>综述</strong></p>
-<p>一件事情会有可能会有许多反馈，每当我们要检测一个事件，首先注册这个事件，不断+=添加方法（反馈）,这些都在start(awake)之类中进行，等到游戏结束再取消订阅。</p>
-<ul>
-<li>包含一个<code>static EventManager instance;</code>单一实例并用于外部访问成员数据和方法</li>
-<li>包含一个<code>interface IEventInfo</code>用于外部多态地实现方法</li>
-<li>包含一个字典<code>Dictionary&lt;string,IEventInfo&gt; actionDic</code> 用于存储事件，可以理解成”事件池”</li>
-<li>包含类<code>EventInfo&lt;T&gt;</code>继承自上述接口，用于添加单参数方法</li>
-<li>包含添加、移除、触发事件</li>
-</ul>
-<h3 id="方法2："><a href="#方法2：" class="headerlink" title="方法2："></a>方法2：</h3><p>文件</p>
-<p><a href="EventSystem/02/EventHandler.cs">EventHandler</a></p>
-<p>原理与方法一是一样的，使用方法也大差不差。</p>
-<p>方法一将事件加入字典，不用每次添加都往一个文件里跑，并且结构也清晰一些。</p>
-<p>方法二代码量相对少？好像也没少…。</p>
-]]></content>
-      <categories>
-        <category>Game system with uniy</category>
-      </categories>
-  </entry>
-  <entry>
     <title>Computer Graphics 02</title>
     <url>/aspect-ux/2022/10/28/naive/%E8%99%8E%E4%B9%A6/02/</url>
     <content><![CDATA[<h1 id="02"><a href="#02" class="headerlink" title="02"></a>02</h1><h2 id="Raster-Images"><a href="#Raster-Images" class="headerlink" title="Raster Images"></a>Raster Images</h2><ul>
@@ -640,7 +990,10 @@
 <p>我们可以得到<code>a‘ = a^(1/gamma)</code></p>
 <p>其中a为输入值，a’是输出值，由于有8bits的存储量</p>
 <p>=&gt;a可能的值为{0/255，1/255，…,255/255} ^ gamma</p>
-<h2 id="RGB-Color"><a href="#RGB-Color" class="headerlink" title="RGB Color"></a>RGB Color</h2><p><img src="/2022/10/28/naive/%E8%99%8E%E4%B9%A6/02/image-20221028231837391.png" alt="image-20221028231837391"></p>
+<h2 id="RGB-Color"><a href="#RGB-Color" class="headerlink" title="RGB Color"></a>RGB Color</h2><img src="/aspect-ux/2022/10/28/naive/%E8%99%8E%E4%B9%A6/02/image-20221028231837391.png" class title="image-20221028231837391">
+
+
+
 <p>大部分计算机图像都是用rgb来定义颜色</p>
 <p>颜色叠加公式</p>
 <p>详情见P75</p>
@@ -665,9 +1018,9 @@
 </li>
 <li><p>例如，功率为50%的灰色，人眼实际感知亮度为<code>pow(0.5,1/2.2) * 100% = 72.97%</code></p>
 <p>但是人眼认为的50%的灰色，实际功率为<code>pow(0.5,2.2) * 100% = 21.76%</code></p>
-<p><img src="/2022/10/28/naive/%E8%99%8E%E4%B9%A6/02/uTools_1667052564080.png" alt="uTools_1667052564080"></p>
-<p><img src="/2022/10/28/naive/%E8%99%8E%E4%B9%A6/02/uTools_1667052057309.png" alt="uTools_1667052057309"></p>
-</li>
+<img src="/aspect-ux/2022/10/28/naive/%E8%99%8E%E4%B9%A6/02/uTools_1667052564080.png" class title="uTools_1667052564080">
+
+<img src="/aspect-ux/2022/10/28/naive/%E8%99%8E%E4%B9%A6/02/uTools_1667052057309.png" class title="uTools_1667052057309"></li>
 </ul>
 <h3 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h3><p>Gamma校正的应用之一，就是明度和灰度计算公式。</p>
 <p><strong>RGB明度计算公式：</strong></p>
@@ -682,49 +1035,66 @@
       </categories>
   </entry>
   <entry>
-    <title>unityshader精要9</title>
-    <url>/aspect-ux/2022/11/03/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter9/</url>
-    <content><![CDATA[<h2 id="Complex-Light-Chapter9"><a href="#Complex-Light-Chapter9" class="headerlink" title="Complex Light - Chapter9"></a>Complex Light - Chapter9</h2><h3 id="渲染路径（Rendering-Path"><a href="#渲染路径（Rendering-Path" class="headerlink" title="渲染路径（Rendering Path)"></a>渲染路径（Rendering Path)</h3><p><strong>分为前向渲染路径，延迟渲染路径(更新），顶点渲染路径（弃用）</strong></p>
-<p>1.前向渲染路径，如果深度测试不过关，该片元不可见，反之可见，就进行光照计算</p>
-<p>2.如果物体受到多个光源照射，就要写多个Pass,然后在帧缓冲中将这些光照结果混合。</p>
-<p>3.前向渲染中，光照类型（平行光parallel light或其他）+光照渲染模式（important)决定了处理光照（照亮物体）的方式。</p>
-<p>而处理方式分为逐像素，逐顶点、sh计算。</p>
-<p>参见P182</p>
-<h3 id="Unity光源类型"><a href="#Unity光源类型" class="headerlink" title="Unity光源类型"></a>Unity光源类型</h3><p>1.平行光、点光源、<em>面光源</em>和<em>聚光灯</em>，面光源只在烘焙时才会产生作用</p>
-<p>2.当RenderMode是Auto,Unity自动判断哪些光源逐像素，哪些顶点、sh计算。</p>
-<p>3.最亮的平行光是按照逐像素计算，而Auto状态下最多除平行光源外4个逐像素计算，这些在addtional pass中计算</p>
-<p><strong>最常用的光源属性有：位置、方向、颜色、强度、衰减</strong></p>
-<ul>
-<li>光照衰弱</li>
+    <title>Computer Graphics 04</title>
+    <url>/aspect-ux/2022/11/02/naive/%E8%99%8E%E4%B9%A6/04/</url>
+    <content><![CDATA[<h1 id="Surface-Shading"><a href="#Surface-Shading" class="headerlink" title="Surface Shading"></a>Surface Shading</h1><p>渲染3d场景时，无论使用ray tracing还是rasterization，在实时还是在批处理中，<strong>着色</strong>是对视觉效果影响</p>
+<p>最大的过程之一</p>
+<p>本章描述基于点光源照射的不透明表面基本着色模型。</p>
+<h2 id="Point-source-illumination"><a href="#Point-source-illumination" class="headerlink" title="Point source illumination"></a>Point source illumination</h2><p>点光源包括position,intensity</p>
+<p>点光源有isotropic(各向同性)</p>
+<p>the irradiance E is  <code>E = P/4PI * 1/pow(r,2)</code></p>
+<p>the quantity I = P/4PI,是光强(amount of light)，后者是factor</p>
+<p>更普遍地，<code>E = I * cos(theta) / pow(r,2)</code>,其中<code>cos(theta) = n * l</code></p>
+<img src="/aspect-ux/2022/11/02/naive/%E8%99%8E%E4%B9%A6/04/uTools_1667393710823.png" class title="uTools_1667393710823">
+
+
+
+<h3 id="Directional-illumination"><a href="#Directional-illumination" class="headerlink" title="Directional illumination"></a>Directional illumination</h3><p>不同于点光源，由于方向光是由很远的点光源产生，这就导致I/(r^2)的占比很小，这里设为一个常数H</p>
+<p><code>E = H * cos(theta)</code></p>
+<p>其中常量H被称为法向辐射（normal irradiance)</p>
+<h3 id="Basic-reflection-models"><a href="#Basic-reflection-models" class="headerlink" title="Basic reflection models"></a>Basic reflection models</h3><p>现在可以计算辐射度（irradiance)了，辐射量可以表示照在物体上的光的量。</p>
+<p><strong>1.Lambertian reflection</strong> 这是一种非常简单的模型，用于计算漫反射，光无差别反射。</p>
+<p><code>L = kE</code></p>
+<p><code>L = R/PI * E</code> 其中R是反射的光的强度</p>
+<p>兰伯特模型公式<code>c = _DiffuseColor.rgb * _MainLight.rgb * max(dot(n,l),0);</code></p>
+<p>半兰伯特则是点乘结果tilling 0.5,offset 0.5</p>
+<p><strong>2. Specular reflection</strong></p>
+<p>许多材质具有不同程度的亮度（shininess),例如金属光泽（metal),塑料（plastic)</p>
+<p>光泽（gloss),半光泽（semi-gloss)</p>
+<p>2.1最简单的高光（镜面反射）发生在完美的平滑表面，例如镜子，或者水的表面。</p>
+<p>这种效果来源于一个点光源，点光源有具体的方向，使得表面有一个大的高光点。</p>
+<p>2.2但是一般表面并不平滑，一般显示的效果更接近于glossy reflection.</p>
+<p>比较知名的简单模型是BlinnPhong模型。</p>
+<p>简化公式为<code>specular = _SpecularColor.rgb * _BaseColor * pow(max(0,dot(n,h)),_Gloss);</code></p>
+<p>其中<code>h = normalize(l + v)</code></p>
+<p>注意phong模型与BlinnPhong的区别（v*r)</p>
+<p>一般将高光和漫反射相加统筹</p>
+<img src="/aspect-ux/2022/11/02/naive/%E8%99%8E%E4%B9%A6/04/uTools_1667567665544.png" class title="uTools_1667567665544">
+
+<p><strong>生成因子k的表达式叫做双向反射分布函数（BRDF)</strong></p>
+<p>因为它反映了反射光随l,v两个向量的改变而改变</p>
+<p>对于lambertian的brdf是常量（constant)</p>
+<p>对于specular则不是。irradiance描述了光的“量”，而brdf则描述了表面如何反射光。</p>
+<h3 id="Caculating-shading"><a href="#Caculating-shading" class="headerlink" title="Caculating shading"></a>Caculating shading</h3><ul>
+<li>光的入射向量<code>l = lightPosition - modelVertex</code></li>
 </ul>
-<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="comment">//使用纹理来计算衰弱值</span></span><br><span class="line"><span class="keyword">fixed</span> atten = tex2D(_ ghtTextureO, dot(lightCoord, lightCoord) .rr) .UNITY_ATTEN_CHANNEL;</span><br><span class="line"></span><br><span class="line"><span class="comment">//使用数学公式进行线性衰弱值计算</span></span><br><span class="line"><span class="built_in">float</span> distance = length (_WorldSpaceLightPosO . xyz - i. worldPosi <span class="keyword">on</span>.xyz);</span><br><span class="line">atten = <span class="number">1.0</span> <span class="comment">// distance; // linear attenuation</span></span><br></pre></td></tr></table></figure>
+<img src="/aspect-ux/2022/11/02/naive/%E8%99%8E%E4%B9%A6/04/uTools_1667568753509.png" class title="uTools_1667568753509">
 
+<h2 id="Ambient-illumination"><a href="#Ambient-illumination" class="headerlink" title="Ambient illumination"></a>Ambient illumination</h2><p>点光源是非常局部性的光源</p>
+<p><code>ambient = UNITY_LIGHTMODE_AMBIENT.rgb * albedo</code></p>
+<img src="/aspect-ux/2022/11/02/naive/%E8%99%8E%E4%B9%A6/04/uTools_1667819295698.png" class title="uTools_1667819295698">
 
-
-<h3 id="Unity阴影"><a href="#Unity阴影" class="headerlink" title="Unity阴影"></a>Unity阴影</h3><p>1.如果最重要的平行光开启了阴影，那么Unity会为这个光源生成<em>阴影纹理图</em>，一种由光源出发的深度图。</p>
-<p>2.另取一个LightMode为ShadowCaster的Pass,Unity会将摄像头放到光源的地方</p>
-<p>3.一个物体想要接收阴影，那么在shader中要对纹理采样；相同地，一个物体想要投射阴影，就要参与纹理计算</p>
-<p>见P200</p>
-<ul>
-<li>如何让正方体接收阴影</li>
-</ul>
-<p>SHADOWCOORD,TRANSFER_SHADOW,SHADOW_ATTENUATION分别在v2f,vert,frag中调用</p>
-<p>实现接收阴影</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SHADOW_COORDS(2)</span><br><span class="line">TRANSFER_SHADOW(o);</span><br><span class="line">fixed shadow = SHADOW_ATTENUATION(i);</span><br></pre></td></tr></table></figure>
-
-
-
-<p><strong>光照衰减和阴影的效果是一样的，于是就有了统一光照衰弱和阴影</strong></p>
-<p>unity提供一个方法同时管理这两者</p>
-<p><code>UNITY_LIGHT_ATTENUATION(atten,i,i.worldPos);</code></p>
-<ul>
-<li><p>透明物体的阴影</p>
-<p>在AlphaTest的基础上使用上述方法</p>
+<p>环境光着色是一个有点hack的手段，因为大型扩展光源发出的光是不同的，在角落和凹陷区域都会更暗一些。</p>
+<p>但是它却是很重要的，因为它防止阴影变成完全的黑色，并且容易调整场景对比度。</p>
+<p>一些系统把环境光看作一种点光源或平行光。还有一些系统则是让环境光Intensity成为一个场景的参数，来模拟环境光。</p>
+<h3 id="Frequently-Asked-Questions"><a href="#Frequently-Asked-Questions" class="headerlink" title="Frequently Asked Questions"></a>Frequently Asked Questions</h3><ul>
+<li><p>Phong 模型看起来是个很大的hack操作</p>
+<p>yes</p>
 </li>
 </ul>
 ]]></content>
       <categories>
-        <category>unity shader</category>
+        <category>Fundamental of Computer Graphics</category>
       </categories>
   </entry>
   <entry>
@@ -736,7 +1106,8 @@
 <li>ray tracing is accurate,but is very slow</li>
 </ul>
 <p><strong>Whitted-Style Ray Tracing</strong></p>
-<p><img src="/2022/10/31/naive/%E8%99%8E%E4%B9%A6/03/uTools_1667388590899.png" alt="uTools_1667388590899"></p>
+<img src="/aspect-ux/2022/10/31/naive/%E8%99%8E%E4%B9%A6/03/uTools_1667388590899.png" class title="uTools_1667388590899">
+
 <p>渲染3d物体时计算机图形的工作之一。</p>
 <p>同一场景的物体渲染需要考虑每个物体贡献的像素。</p>
 <p>有两种常规的方法来考虑</p>
@@ -756,8 +1127,7 @@
 <li><p>ray intersection. 计算与view射线相交的最近物体</p>
 </li>
 <li><p>shading. 在原有的射线相交的基础上进行着色</p>
-<p><img src="/2022/10/31/naive/%E8%99%8E%E4%B9%A6/03/uTools_1667218571247.png" alt="uTools_1667218571247"></p>
-</li>
+<img src="/aspect-ux/2022/10/31/naive/%E8%99%8E%E4%B9%A6/03/uTools_1667218571247.png" class title="uTools_1667218571247"></li>
 </ol>
 <h2 id="Perspective"><a href="#Perspective" class="headerlink" title="Perspective"></a>Perspective</h2><p>标准的方法来为计算机图形，艺术和照片制作图片，是使用linear perspective(线性透视)</p>
 <p>parallel projection(平行投影)是最简单的投影方式，平移。一般用于机械和建筑</p>
@@ -766,9 +1136,11 @@
 <p>为了生成ray,我们首先需要一个数学表达</p>
 <p><code>p(t) = e + t(s- e)</code></p>
 <p>e is eye,    s is image plane point</p>
-<p><img src="/2022/10/31/naive/%E8%99%8E%E4%B9%A6/03/uTools_1667219704846.png" alt="uTools_1667219704846"></p>
+<img src="/aspect-ux/2022/10/31/naive/%E8%99%8E%E4%B9%A6/03/uTools_1667219704846.png" class title="uTools_1667219704846">
+
 <p>在代码中</p>
-<p><img src="/2022/10/31/naive/%E8%99%8E%E4%B9%A6/03/uTools_1667219881824.png" alt="uTools_1667219881824"></p>
+<img src="/aspect-ux/2022/10/31/naive/%E8%99%8E%E4%B9%A6/03/uTools_1667219881824.png" class title="uTools_1667219881824">
+
 <p>详情见P84</p>
 <h3 id="Orthographic-Views"><a href="#Orthographic-Views" class="headerlink" title="Orthographic Views"></a>Orthographic Views</h3><p>对于正交投影view ray,</p>
 <p>ray generation 使用相机的框架，</p>
@@ -780,7 +1152,8 @@
 </ol>
 <p><strong>要将nx  ny 的像素投射到(r - l) x (t - b)的矩形上</strong></p>
 <p>其中l,r分别是片元，pixel的左右边界坐标，b和t则是下、上边界坐标</p>
-<p><img src="/2022/10/31/naive/%E8%99%8E%E4%B9%A6/03/uTools_1667220608282.png" alt="uTools_1667220608282"></p>
+<img src="/aspect-ux/2022/10/31/naive/%E8%99%8E%E4%B9%A6/03/uTools_1667220608282.png" class title="uTools_1667220608282">
+
 <p>详情见P86</p>
 <h3 id="Perspective-Views"><a href="#Perspective-Views" class="headerlink" title="Perspective Views"></a>Perspective Views</h3><h2 id="Ray-Object-Intersection"><a href="#Ray-Object-Intersection" class="headerlink" title="Ray-Object Intersection"></a>Ray-Object Intersection</h2><p>phase 2</p>
 <h3 id="Ray-Sphere-Intersection"><a href="#Ray-Sphere-Intersection" class="headerlink" title="Ray-Sphere Intersection"></a>Ray-Sphere Intersection</h3><p>使用implicit surface</p>
@@ -791,7 +1164,8 @@
 <p><code>(e + t d - c)(e + td - c) - R^2 = 0</code></p>
 <p>只有t未知</p>
 <p>展开得到quadratic 二次方程，判别式b^2 - 4ac</p>
-<p><img src="/2022/10/31/naive/%E8%99%8E%E4%B9%A6/03/uTools_1667222501427.png" alt="uTools_1667222501427"></p>
+<img src="/aspect-ux/2022/10/31/naive/%E8%99%8E%E4%B9%A6/03/uTools_1667222501427.png" class title="uTools_1667222501427">
+
 <h2 id="Shading"><a href="#Shading" class="headerlink" title="Shading"></a>Shading</h2><p>Here we will discuss how a ray tracer computes the inputs to shading</p>
 <p>1.从点光源和直线光计算着色需要具体的几何信息。当viewing ray 确定与表面相交，我们需要决定以下4个向量。</p>
 <ul>
@@ -802,7 +1176,8 @@
 </ul>
 <p>2.coding</p>
 <p>3.一旦你已经在光线追踪器上有基本的着色后，光线和点阴影添加会很容易</p>
-<p><img src="/2022/10/31/naive/%E8%99%8E%E4%B9%A6/03/uTools_1667389464606.png" alt="uTools_1667389464606"></p>
+<img src="/aspect-ux/2022/10/31/naive/%E8%99%8E%E4%B9%A6/03/uTools_1667389464606.png" class title="uTools_1667389464606">
+
 <p>使用directional light 的阴影与点光源类似，但是t=无穷，也即距离无穷，环境光不进行阴影测试（shadow test)</p>
 <p>4.Mirror Reflection(镜面反射)</p>
 <p>为光线追踪程序添加镜面发射（or specular reflection) 很直接。</p>
@@ -831,63 +1206,6 @@
       </categories>
   </entry>
   <entry>
-    <title>Computer Graphics 04</title>
-    <url>/aspect-ux/2022/11/02/naive/%E8%99%8E%E4%B9%A6/04/</url>
-    <content><![CDATA[<h1 id="Surface-Shading"><a href="#Surface-Shading" class="headerlink" title="Surface Shading"></a>Surface Shading</h1><p>渲染3d场景时，无论使用ray tracing还是rasterization，在实时还是在批处理中，<strong>着色</strong>是对视觉效果影响</p>
-<p>最大的过程之一</p>
-<p>本章描述基于点光源照射的不透明表面基本着色模型。</p>
-<h2 id="Point-source-illumination"><a href="#Point-source-illumination" class="headerlink" title="Point source illumination"></a>Point source illumination</h2><p>点光源包括position,intensity</p>
-<p>点光源有isotropic(各向同性)</p>
-<p>the irradiance E is  <code>E = P/4PI * 1/pow(r,2)</code></p>
-<p>the quantity I = P/4PI,是光强(amount of light)，后者是factor</p>
-<p>更普遍地，<code>E = I * cos(theta) / pow(r,2)</code>,其中<code>cos(theta) = n * l</code></p>
-<p><img src="/2022/11/02/naive/%E8%99%8E%E4%B9%A6/04/uTools_1667393710823.png" alt="uTools_1667393710823"></p>
-<h3 id="Directional-illumination"><a href="#Directional-illumination" class="headerlink" title="Directional illumination"></a>Directional illumination</h3><p>不同于点光源，由于方向光是由很远的点光源产生，这就导致I/(r^2)的占比很小，这里设为一个常数H</p>
-<p><code>E = H * cos(theta)</code></p>
-<p>其中常量H被称为法向辐射（normal irradiance)</p>
-<h3 id="Basic-reflection-models"><a href="#Basic-reflection-models" class="headerlink" title="Basic reflection models"></a>Basic reflection models</h3><p>现在可以计算辐射度（irradiance)了，辐射量可以表示照在物体上的光的量。</p>
-<p><strong>1.Lambertian reflection</strong> 这是一种非常简单的模型，用于计算漫反射，光无差别反射。</p>
-<p><code>L = kE</code></p>
-<p><code>L = R/PI * E</code> 其中R是反射的光的强度</p>
-<p>兰伯特模型公式<code>c = _DiffuseColor.rgb * _MainLight.rgb * max(dot(n,l),0);</code></p>
-<p>半兰伯特则是点乘结果tilling 0.5,offset 0.5</p>
-<p><strong>2. Specular reflection</strong></p>
-<p>许多材质具有不同程度的亮度（shininess),例如金属光泽（metal),塑料（plastic)</p>
-<p>光泽（gloss),半光泽（semi-gloss)</p>
-<p>2.1最简单的高光（镜面反射）发生在完美的平滑表面，例如镜子，或者水的表面。</p>
-<p>这种效果来源于一个点光源，点光源有具体的方向，使得表面有一个大的高光点。</p>
-<p>2.2但是一般表面并不平滑，一般显示的效果更接近于glossy reflection.</p>
-<p>比较知名的简单模型是BlinnPhong模型。</p>
-<p>简化公式为<code>specular = _SpecularColor.rgb * _BaseColor * pow(max(0,dot(n,h)),_Gloss);</code></p>
-<p>其中<code>h = normalize(l + v)</code></p>
-<p>注意phong模型与BlinnPhong的区别（v*r)</p>
-<p>一般将高光和漫反射相加统筹</p>
-<p><img src="/2022/11/02/naive/%E8%99%8E%E4%B9%A6/04/uTools_1667567665544.png" alt="uTools_1667567665544"></p>
-<p><strong>生成因子k的表达式叫做双向反射分布函数（BRDF)</strong></p>
-<p>因为它反映了反射光随l,v两个向量的改变而改变</p>
-<p>对于lambertian的brdf是常量（constant)</p>
-<p>对于specular则不是。irradiance描述了光的“量”，而brdf则描述了表面如何反射光。</p>
-<h3 id="Caculating-shading"><a href="#Caculating-shading" class="headerlink" title="Caculating shading"></a>Caculating shading</h3><ul>
-<li>光的入射向量<code>l = lightPosition - modelVertex</code></li>
-</ul>
-<p><img src="/2022/11/02/naive/%E8%99%8E%E4%B9%A6/04/uTools_1667568753509.png" alt="uTools_1667568753509"></p>
-<h2 id="Ambient-illumination"><a href="#Ambient-illumination" class="headerlink" title="Ambient illumination"></a>Ambient illumination</h2><p>点光源是非常局部性的光源</p>
-<p><code>ambient = UNITY_LIGHTMODE_AMBIENT.rgb * albedo</code></p>
-<p><img src="/2022/11/02/naive/%E8%99%8E%E4%B9%A6/04/uTools_1667819295698.png" alt="uTools_1667819295698"></p>
-<p>环境光着色是一个有点hack的手段，因为大型扩展光源发出的光是不同的，在角落和凹陷区域都会更暗一些。</p>
-<p>但是它却是很重要的，因为它防止阴影变成完全的黑色，并且容易调整场景对比度。</p>
-<p>一些系统把环境光看作一种点光源或平行光。还有一些系统则是让环境光Intensity成为一个场景的参数，来模拟环境光。</p>
-<h3 id="Frequently-Asked-Questions"><a href="#Frequently-Asked-Questions" class="headerlink" title="Frequently Asked Questions"></a>Frequently Asked Questions</h3><ul>
-<li><p>Phong 模型看起来是个很大的hack操作</p>
-<p>yes</p>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Fundamental of Computer Graphics</category>
-      </categories>
-  </entry>
-  <entry>
     <title>Computer Graphics 05</title>
     <url>/aspect-ux/2022/11/07/naive/%E8%99%8E%E4%B9%A6/05/</url>
     <content><![CDATA[<h1 id="Viewing"><a href="#Viewing" class="headerlink" title="Viewing"></a>Viewing</h1><h2 id="Viewing-Transformations"><a href="#Viewing-Transformations" class="headerlink" title="Viewing Transformations"></a>Viewing Transformations</h2><p>视角变换用于映射3d位置。</p>
@@ -898,7 +1216,8 @@
 <li>投影变换(projection transformation)</li>
 <li>视口(窗口)变换(viewport transformation)</li>
 </ul>
-<p><img src="/2022/11/07/naive/%E8%99%8E%E4%B9%A6/05/uTools_1667821796670.png" alt="uTools_1667821796670"></p>
+<img src="/aspect-ux/2022/11/07/naive/%E8%99%8E%E4%B9%A6/05/uTools_1667821796670.png" class title="uTools_1667821796670">
+
 <p>模型空间-&gt;世界空间-&gt;相机空间-&gt;规范化视线空间-&gt;屏幕空间</p>
 <h3 id="The-Viewport-Transformation"><a href="#The-Viewport-Transformation" class="headerlink" title="The Viewport Transformation"></a>The Viewport Transformation</h3><p>假设我们想要看到的几何体在规范的视图体积空间(canonical view volume)</p>
 <p>然后我们想要在z轴方向用**正交(orthographic)**相机观察</p>
@@ -909,25 +1228,71 @@
 <p>如果我们想要在图片上画nx * ny个像素,我们需要将square[-1.1]映射到[-0.5，nx - 0.5]</p>
 <p>x [-0.5,ny - 0.5]</p>
 <p><strong>这里是假设线段完全在规范视角空间里，后面会放下这个假设,讨论clipping(裁剪)</strong></p>
-<p><img src="/2022/11/07/naive/%E8%99%8E%E4%B9%A6/05/uTools_1667823244143.png" alt="uTools_1667823244143"></p>
+<img src="/aspect-ux/2022/11/07/naive/%E8%99%8E%E4%B9%A6/05/uTools_1667823244143.png" class title="uTools_1667823244143">
+
 <p><code>Xscreen = nx/2 * Xcanonical + (nx - 1) / 2</code></p>
 <p>…</p>
 <p>注意这个矩阵忽略了z分量，因为这不影响投影到图片，但是在正式称呼这个矩阵为视口矩阵</p>
 <p>(transform to screen),我们需要增加一一行和一列来存储z分量，不改变z分量</p>
-<p><img src="/2022/11/07/naive/%E8%99%8E%E4%B9%A6/05/uTools_1667824528183.png" alt="uTools_1667824528183"></p>
+<img src="/aspect-ux/2022/11/07/naive/%E8%99%8E%E4%B9%A6/05/uTools_1667824528183.png" class title="uTools_1667824528183">
+
+
+
 <p>最终这个投影到屏幕</p>
 <h3 id="The-Orthographic-Projection-Transformation"><a href="#The-Orthographic-Projection-Transformation" class="headerlink" title="The Orthographic Projection Transformation"></a>The Orthographic Projection Transformation</h3><p>当然，我们通常想要在除了canonical view volume空间的一些区域渲染几何体。我们的第一步是生成视图，这个视图保持view dir,orrientation不变，looking alone -z with +y up. </p>
 <p>我们将在右边乘以另一个矩阵来增广这个矩阵。</p>
-<p><img src="/2022/11/07/naive/%E8%99%8E%E4%B9%A6/05/uTools_1667909557536.png" alt="uTools_1667909557536"></p>
+<img src="/aspect-ux/2022/11/07/naive/%E8%99%8E%E4%B9%A6/05/uTools_1667909557536.png" class title="uTools_1667909557536">
+
 <p>the six params are respectively left,right,bottom,top,near,far</p>
 <p>正交视图空间是在-z轴上，所以f是更小的负数</p>
 <p>在z轴上，这样近视图反而比远视图更大，这是非直觉性的(uninstuitive)</p>
-<p><img src="/2022/11/07/naive/%E8%99%8E%E4%B9%A6/05/uTools_1667910750246.png" alt="uTools_1667910750246"></p>
+<img src="/aspect-ux/2022/11/07/naive/%E8%99%8E%E4%B9%A6/05/uTools_1667910750246.png" class title="uTools_1667910750246">
+
 <p>omit …..</p>
 <h3 id="相机变换"><a href="#相机变换" class="headerlink" title="相机变换"></a>相机变换</h3><h2 id="投影变换"><a href="#投影变换" class="headerlink" title="投影变换"></a>投影变换</h2><h2 id="透视投影"><a href="#透视投影" class="headerlink" title="透视投影"></a>透视投影</h2>]]></content>
       <categories>
         <category>Fundamental of Computer Graphics</category>
       </categories>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/aspect-ux/2022/12/01/naive/%E8%99%8E%E4%B9%A6/07/</url>
+    <content><![CDATA[<h1 id="Signal-Processing"><a href="#Signal-Processing" class="headerlink" title="Signal Processing"></a>Signal Processing</h1><p>在图形中，我们经常要处理具有连续变量的函数：一开始你只看到一张图像，但是随着你的探索，你将会看到更多。本质上，连续函数不能直接在电脑上表达，我们必须用优先的比特来表达他们。</p>
+<p>最有用的方法之一是存储这个函数在不同点的值，然后在需要的时候进行重构。</p>
+<p>你现在位置应该熟悉使用二维网格像素来表达图像，所以你已经见过一个采样的表现。</p>
+<p>另一个关于sampled representation 的粒子是二维的数字化平板。</p>
+<p>例如平板电脑，或者艺术家使用的数位屏。这种情况下，最原式的函数是数位笔的移动</p>
+<p>（stylus数位笔触针手写笔)</p>
+<p>…</p>
+<h3 id="Digital-Audio-Sample-in-1d"><a href="#Digital-Audio-Sample-in-1d" class="headerlink" title="Digital Audio : Sample in 1d"></a>Digital Audio : Sample in 1d</h3><p>即使sampled representation 已经用于电子交流很久了，激光唱片（compact disc)在1982年的引入，紧随着音频数字记录器的使用增长，在过去的10年里，是第一个高度可视的消费者应用采样。</p>
+<p>…</p>
+<h3 id="Sampling-Artifacts-and-Aliasing"><a href="#Sampling-Artifacts-and-Aliasing" class="headerlink" title="Sampling Artifacts and Aliasing"></a>Sampling Artifacts and Aliasing</h3><p>数字音频记录可以为sampling 和reconstruction处理更加具体的模型。</p>
+<p>Aliasing 展示了不管什么时候，采样重构失效导致人工结果是一个令人惊讶的频率</p>
+<p>在音频中，走样以一种奇怪的声音和额外的声调–一个10Hz的bell ring,当采样到8Hz,就变成一个6Hzd的声调</p>
+<p>在图像中，走样经常因为采样网格的interaction和图像中常规特点。以moire pattern的形式出现。</p>
+<img src="/aspect-ux/2022/12/01/naive/%E8%99%8E%E4%B9%A6/07/1669910518267.png" class width="1669910518267">
+
+
+
+<h3 id="Convolution"><a href="#Convolution" class="headerlink" title="Convolution"></a>Convolution</h3><p>在我们讨论sampling和reconstruction算法之前，我们首先要检验它们基于的数学该奶奶</p>
+<p>convolution卷积。</p>
+<p>卷积是一个简单的数学概念，为算法作基础用来采样，过滤，重构。</p>
+<p>同时它也是我们如何分析这些算法的基础。</p>
+<p>卷积是一个function:它使用两个functions，然后将它们结合成一个新的function</p>
+<p>这本书中，卷积运算符用一个*标记。f * g,f is convolved with g</p>
+<p>卷积可以被用于连续方法或者离散的序列。</p>
+<p>同时也可以被用于定义在1d,2d,3d或者更高维度.</p>
+<p>为了定义方便，我们通常假设函数定义域区域无限。</p>
+<p><img src="/aspect-ux/aspect-ux/2022/12/01/naive/%E8%99%8E%E4%B9%A6/07/Website\Blog\source_posts\虎书\07\1669911797075.png" alt="1669911797075"></p>
+<h3 id="Moving-Average"><a href="#Moving-Average" class="headerlink" title="Moving Average"></a>Moving Average</h3><p>为了得到一个基础的卷积图像。</p>
+<p>思考：使用moving average来平滑一个函数。</p>
+<p>为了在任意一个点得到平滑的值，我们需要计算函数超出范围拓展到每个方向，距离长度为r 的平均值。</p>
+<p>距离r是平滑的radius，控制平滑度</p>
+<p>我们用数学方法表示，如果平滑一个连续的函数g(x)，平均化（averaging)意味着在区间内对g进行求积分</p>
+<p>（integrating)</p>
+<img src="/aspect-ux/2022/12/01/naive/%E8%99%8E%E4%B9%A6/07/1669912247511.png" class width="1669912247511">
+
+<h3 id="Discrete-Convolution"><a href="#Discrete-Convolution" class="headerlink" title="Discrete Convolution"></a>Discrete Convolution</h3>]]></content>
   </entry>
   <entry>
     <title>Computer Graphics 06</title>
@@ -964,7 +1329,10 @@
 <p>我们假设x0&lt;=x1,如果不正确，就交换两个点，斜率</p>
 <p>slope    <code>m  =(y1  - y 0)/(x1 - x0);</code></p>
 <p><strong>以下假设m在（0，1）区间</strong></p>
-<p><img src="/2022/11/08/naive/%E8%99%8E%E4%B9%A6/06/uTools_1667998615390.png" alt="uTools_1667998615390"></p>
+<img src="/aspect-ux/2022/11/08/naive/%E8%99%8E%E4%B9%A6/06/uTools_1667998615390.png" class title="uTools_1667998615390">
+
+
+
 <p>一个很有效的方法是，通过比较两个预选像素的中点和line，如果line在中点上面，就画（x+1,y+1)</p>
 <p>不然就画（x+1,y)</p>
 <p>那么如何比较（x+1,y+0.5）和线条呢</p>
@@ -978,10 +1346,20 @@
 <p>光栅化三角形，需要避免顺序问题，消除间隙，而方法则是，按照惯例（convention)，当且仅当像素的中心在三角形内，才进行光栅化。</p>
 <p><strong>暴力算法（brute force algorithm)</strong></p>
 <p>使用中心判断是否光栅化</p>
-<p><img src="/2022/11/08/naive/%E8%99%8E%E4%B9%A6/06/uTools_1668001076663.png" alt="uTools_1668001076663"></p>
+<img src="/aspect-ux/2022/11/08/naive/%E8%99%8E%E4%B9%A6/06/uTools_1668001076663.png" class title="uTools_1668001076663">
+
+
+
+
+
+
+
+
+
 <h3 id="Dealing-with-Pixels-on-Triangle-Edges"><a href="#Dealing-with-Pixels-on-Triangle-Edges" class="headerlink" title="Dealing with Pixels on Triangle Edges"></a>Dealing with Pixels on Triangle Edges</h3><p>我们还没有讨论如果像素中心在三角形的边缘该怎么办，</p>
 <p>根据上面的思路，如果不光栅化，那么势必会小一圈，相邻三角形可能会有一个大的间隙；如果光栅化，相比较前者好一些，但仍有问题：<strong>如果三角形都是transparent的，这将会造成double-coloring</strong>,毕竟本意是半透明，但是却画了两次。</p>
-<p><img src="/2022/11/08/naive/%E8%99%8E%E4%B9%A6/06/uTools_1668001688563.png" alt="uTools_1668001688563"></p>
+<img src="/aspect-ux/2022/11/08/naive/%E8%99%8E%E4%B9%A6/06/uTools_1668001688563.png" class title="uTools_1668001688563">
+
 <p>所以我们真的确实需要裁定（award)具体哪一个像素，然后我们希望这个过程能够很简单。</p>
 <p>其中一个方法是，标记任意视线之外的点确定为公共边的一侧，并且指定这个边是要绘制的。</p>
 <h3 id="Perspective-Correct-Interpolation"><a href="#Perspective-Correct-Interpolation" class="headerlink" title="Perspective Correct Interpolation"></a>Perspective Correct Interpolation</h3><p>当interpolating quantities 插值大量的，例如纹理坐标或者3d坐标等需要在3d三角上线性改变</p>
@@ -990,8 +1368,18 @@
 <p>当透视校正很重要时我们会使用纹理坐标作为一种数量的指标（example)</p>
 <p>3d空间线性值很重要是，上述考虑也适用于任何参数</p>
 <p>事情不会那么简单的原因是，单纯的屏幕空间纹理坐标插值，会导致不正确的图像。如下图</p>
-<p><img src="/2022/11/08/naive/%E8%99%8E%E4%B9%A6/06/uTools_1668078483770.png" alt="uTools_1668078483770"></p>
-<p><img src="/2022/11/08/naive/%E8%99%8E%E4%B9%A6/06/uTools_1668079789675.png" alt="uTools_1668079789675"></p>
+<img src="/aspect-ux/2022/11/08/naive/%E8%99%8E%E4%B9%A6/06/uTools_1668078483770.png" class title="uTools_1668078483770">
+
+
+
+
+
+
+
+
+
+<img src="/aspect-ux/2022/11/08/naive/%E8%99%8E%E4%B9%A6/06/uTools_1668079789675.png" class title="uTools_1668079789675">
+
 ]]></content>
       <categories>
         <category>Fundamental of Computer Graphics</category>
@@ -999,39 +1387,8 @@
   </entry>
   <entry>
     <title></title>
-    <url>/aspect-ux/2022/12/01/naive/%E8%99%8E%E4%B9%A6/07/</url>
-    <content><![CDATA[<h1 id="Signal-Processing"><a href="#Signal-Processing" class="headerlink" title="Signal Processing"></a>Signal Processing</h1><p>在图形中，我们经常要处理具有连续变量的函数：一开始你只看到一张图像，但是随着你的探索，你将会看到更多。本质上，连续函数不能直接在电脑上表达，我们必须用优先的比特来表达他们。</p>
-<p>最有用的方法之一是存储这个函数在不同点的值，然后在需要的时候进行重构。</p>
-<p>你现在位置应该熟悉使用二维网格像素来表达图像，所以你已经见过一个采样的表现。</p>
-<p>另一个关于sampled representation 的粒子是二维的数字化平板。</p>
-<p>例如平板电脑，或者艺术家使用的数位屏。这种情况下，最原式的函数是数位笔的移动</p>
-<p>（stylus数位笔触针手写笔)</p>
-<p>…</p>
-<h3 id="Digital-Audio-Sample-in-1d"><a href="#Digital-Audio-Sample-in-1d" class="headerlink" title="Digital Audio : Sample in 1d"></a>Digital Audio : Sample in 1d</h3><p>即使sampled representation 已经用于电子交流很久了，激光唱片（compact disc)在1982年的引入，紧随着音频数字记录器的使用增长，在过去的10年里，是第一个高度可视的消费者应用采样。</p>
-<p>…</p>
-<h3 id="Sampling-Artifacts-and-Aliasing"><a href="#Sampling-Artifacts-and-Aliasing" class="headerlink" title="Sampling Artifacts and Aliasing"></a>Sampling Artifacts and Aliasing</h3><p>数字音频记录可以为sampling 和reconstruction处理更加具体的模型。</p>
-<p>Aliasing 展示了不管什么时候，采样重构失效导致人工结果是一个令人惊讶的频率</p>
-<p>在音频中，走样以一种奇怪的声音和额外的声调–一个10Hz的bell ring,当采样到8Hz,就变成一个6Hzd的声调</p>
-<p>在图像中，走样经常因为采样网格的interaction和图像中常规特点。以moire pattern的形式出现。</p>
-<p><img src="/2022/12/01/naive/%E8%99%8E%E4%B9%A6/07/1669910518267.png" alt="1669910518267"></p>
-<h3 id="Convolution"><a href="#Convolution" class="headerlink" title="Convolution"></a>Convolution</h3><p>在我们讨论sampling和reconstruction算法之前，我们首先要检验它们基于的数学该奶奶</p>
-<p>convolution卷积。</p>
-<p>卷积是一个简单的数学概念，为算法作基础用来采样，过滤，重构。</p>
-<p>同时它也是我们如何分析这些算法的基础。</p>
-<p>卷积是一个function:它使用两个functions，然后将它们结合成一个新的function</p>
-<p>这本书中，卷积运算符用一个*标记。f * g,f is convolved with g</p>
-<p>卷积可以被用于连续方法或者离散的序列。</p>
-<p>同时也可以被用于定义在1d,2d,3d或者更高维度.</p>
-<p>为了定义方便，我们通常假设函数定义域区域无限。</p>
-<p><img src="/2022/12/01/naive/%E8%99%8E%E4%B9%A6/07/Website\Blog\source_posts\虎书\07\1669911797075.png" alt="1669911797075"></p>
-<h3 id="Moving-Average"><a href="#Moving-Average" class="headerlink" title="Moving Average"></a>Moving Average</h3><p>为了得到一个基础的卷积图像。</p>
-<p>思考：使用moving average来平滑一个函数。</p>
-<p>为了在任意一个点得到平滑的值，我们需要计算函数超出范围拓展到每个方向，距离长度为r 的平均值。</p>
-<p>距离r是平滑的radius，控制平滑度</p>
-<p>我们用数学方法表示，如果平滑一个连续的函数g(x)，平均化（averaging)意味着在区间内对g进行求积分</p>
-<p>（integrating)</p>
-<p><img src="/2022/12/01/naive/%E8%99%8E%E4%B9%A6/07/1669912247511.png" alt="1669912247511"></p>
-<h3 id="Discrete-Convolution"><a href="#Discrete-Convolution" class="headerlink" title="Discrete Convolution"></a>Discrete Convolution</h3>]]></content>
+    <url>/aspect-ux/2022/11/13/naive/Games%E7%B3%BB%E5%88%97/101/Lecture01%20Overview%20of%20Computer%20Graphics/</url>
+    <content><![CDATA[<h1 id="Lecture01-Overview-of-Computer-Graphics"><a href="#Lecture01-Overview-of-Computer-Graphics" class="headerlink" title="Lecture01 Overview of Computer Graphics"></a>Lecture01 Overview of Computer Graphics</h1>]]></content>
   </entry>
   <entry>
     <title></title>
@@ -1051,19 +1408,14 @@
 <h2 id="Transformation"><a href="#Transformation" class="headerlink" title="Transformation"></a>Transformation</h2><h3 id="Why-Transformation"><a href="#Why-Transformation" class="headerlink" title="Why Transformation?"></a>Why Transformation?</h3>]]></content>
   </entry>
   <entry>
-    <title></title>
-    <url>/aspect-ux/2022/11/13/naive/Games%E7%B3%BB%E5%88%97/101/Lecture01%20Overview%20of%20Computer%20Graphics/</url>
-    <content><![CDATA[<h1 id="Lecture01-Overview-of-Computer-Graphics"><a href="#Lecture01-Overview-of-Computer-Graphics" class="headerlink" title="Lecture01 Overview of Computer Graphics"></a>Lecture01 Overview of Computer Graphics</h1>]]></content>
-  </entry>
-  <entry>
     <title>Games101 Material_01</title>
     <url>/aspect-ux/2022/11/10/naive/Games%E7%B3%BB%E5%88%97/101/Material/</url>
     <content><![CDATA[<h1 id="Material"><a href="#Material" class="headerlink" title="Material"></a>Material</h1><h2 id="Diffuse-Lambertian-Material"><a href="#Diffuse-Lambertian-Material" class="headerlink" title="Diffuse/Lambertian Material"></a>Diffuse/Lambertian Material</h2><p>对半球costheta积分结果是PI</p>
 <p>关于这个证明</p>
-<p><img src="/2022/11/10/naive/Games%E7%B3%BB%E5%88%97/101/Material/uTools_1668081297856.png" alt="uTools_1668081297856"></p>
+<img src="/aspect-ux/2022/11/10/naive/Games%E7%B3%BB%E5%88%97/101/Material/uTools_1668081297856.png" class title="uTools_1668081297856">
+
 <p>半球上的立体角定义为覆盖半球表面区域的面积初一半径的平方</p>
-<p><img src="/2022/11/10/naive/Games%E7%B3%BB%E5%88%97/101/Material/uTools_1668080586079.png" alt="uTools_1668080586079"></p>
-]]></content>
+<img src="/aspect-ux/2022/11/10/naive/Games%E7%B3%BB%E5%88%97/101/Material/uTools_1668080586079.png" class title="uTools_1668080586079">]]></content>
       <categories>
         <category>Games101</category>
       </categories>
@@ -1074,233 +1426,5 @@
     <content><![CDATA[<h1 id="01"><a href="#01" class="headerlink" title="01"></a>01</h1><p>需要eigen和opencv</p>
 <p>注意include( ),下载地址<a href="https://www.raoyunsoft.com/opencv/opencv-4.5.2/">Index of /opencv/opencv-4.5.2/ (raoyunsoft.com)</a></p>
 ]]></content>
-  </entry>
-  <entry>
-    <title>从零开始的图形学概述</title>
-    <url>/aspect-ux/2023/05/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/%E6%A6%82%E8%BF%B0/</url>
-    <content><![CDATA[<h1 id="图形学概述"><a href="#图形学概述" class="headerlink" title="图形学概述"></a>图形学概述</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>由于实在觉得有必要细致、全面、通透地学习一遍图形学相关基础理论知识，于是开了这个坑。</p>
-<p>但是，就我个人而言，该系列不会局限单纯的理论。目前的想法是，除开基础理论推导</p>
-<ul>
-<li><p>会添加一些引擎中的原理和实现，games系列闫令其老师101，202的作业，以及流行图形API如OpenGL的理论实践。</p>
-</li>
-<li><p>同时PBR,RTR等图形学进阶书籍阅读笔记也可能会不定期更新。</p>
-</li>
-</ul>
-<p>总的来说，理论性会更强，实验性的记录和学习也会占相当一部分，包罗图形学及其相关应用。个人的意义算是这个方向的<strong>笔记或“个人百科全书”</strong>。后续也会不断完善。</p>
-<h2 id="Overview-of-Computer-Graphics"><a href="#Overview-of-Computer-Graphics" class="headerlink" title="Overview of Computer Graphics"></a>Overview of Computer Graphics</h2><p>这里借games101开个头</p>
-<h3 id="Why-Study-CG"><a href="#Why-Study-CG" class="headerlink" title="Why Study CG"></a>Why Study CG</h3><ul>
-<li><p>Fundamental Intellectual Challenges: </p>
-<ul>
-<li>Creates and interacts with realistic virtual world(与虚拟交互)</li>
-<li>Require understanding of all aspects of physical world(了解物理世界)</li>
-<li>New computing methods,displays,technologies(新技术，方法)</li>
-</ul>
-</li>
-<li><p>Technical Challenges:</p>
-<ul>
-<li>Math of(perspective) projections,curves,surfaces(数学)</li>
-<li>Physics of lighting and shading(物理)</li>
-<li>Representing / operating shapes in 3D(图形/3d)</li>
-<li>Animation / simulation(动画/模拟)</li>
-<li>3D graphics software programming and hardware(3d编程/硬件)</li>
-</ul>
-</li>
-<li><p>Forget about the previous reason: <strong>Graphics is awesome!</strong></p>
-</li>
-</ul>
-<p><strong>总而言之，图形学真的很有趣！！！</strong></p>
-<h3 id="What-will-be-in-the-corner"><a href="#What-will-be-in-the-corner" class="headerlink" title="What will be in the corner"></a>What will be in the corner</h3><ul>
-<li><p>Mathematics theories</p>
-</li>
-<li><p>Rasterization</p>
-</li>
-<li><p>Curves and Meshes</p>
-</li>
-<li><p>Ray Tracing</p>
-<p>and so on…</p>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>计算机图形学</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>Transformation(变换)</title>
-    <url>/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/</url>
-    <content><![CDATA[<h1 id="Transformation-变换"><a href="#Transformation-变换" class="headerlink" title="Transformation(变换)"></a>Transformation(变换)</h1><h2 id="变换的理论及推导"><a href="#变换的理论及推导" class="headerlink" title="变换的理论及推导"></a>变换的理论及推导</h2><h3 id="Why-Transformation"><a href="#Why-Transformation" class="headerlink" title="Why Transformation"></a>Why Transformation</h3><p><strong>Q1： 为什么要学习变换呢？</strong></p>
-<p>A1： 动画的实现，光栅化图像变换投射进“人眼”。由于计算机最终的变换服务于数学世界，于是同一用矩阵来表示变换，线性代数中学过对应知识。</p>
-<p><strong>Q2: 举例有哪些变换？</strong></p>
-<p>A2： Scale Matrix，缩放；Reflection Matrix,对称(镜像)；</p>
-<p>Shear Matrix,切变(有称”错切“，”斜切“)；</p>
-<p>Rotate Matrix…</p>
-<p>旋转矩阵推导</p>
-<img src="/aspect-ux/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/推导旋转矩阵.jpg" alt="image-20230518004250114" style="zoom: 67%;">
-
-<p>到目前为止的变换，我们都可以对(x,y…)进行线性变换(Liner transformation)得到变换结果(x’,y’)</p>
-<p><strong>但是平移变换不行？</strong></p>
-<p>试想一下，如果对x平移一个单位，那么变换矩阵</p>
-<img src="/aspect-ux/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/平移变换.jpg" alt="image-20230518005707401" style="zoom:80%;">
-
-<p>无法用一个矩阵就解决变换，（上面的变换形式引出仿射变换(Affine Transformation)的概念），同时进行线性和平移变换</p>
-<p>接下来</p>
-<h3 id="Homogeneous-coordinates-齐次坐标"><a href="#Homogeneous-coordinates-齐次坐标" class="headerlink" title="Homogeneous coordinates(齐次坐标)"></a>Homogeneous coordinates(齐次坐标)</h3><p>要想用一个矩阵表示所有变换</p>
-<p>这里引入了齐次坐标的概念，以二维举例，引入第三维度</p>
-<p>设点的第三维度为1，向量为0.</p>
-<ul>
-<li>之所以向量为0，是因为向量具有方向不变性，假设进行平移变换，我们希望这个向量前后不变的；但是如果但三维度不是0，那么结果就有可能出现向量方向的变化。</li>
-<li>之所以点为1，是因为这样就解决了<strong>平移问题</strong>，通过增加维度，使得一个矩阵同时表示平移和线性变换。</li>
-</ul>
-<p>另外</p>
-<p><img src="/aspect-ux/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/%E7%82%B9%E4%B8%8E%E5%90%91%E9%87%8F%E7%9A%84%E5%85%B3%E7%B3%BB.png" alt="image-20230518012256246"></p>
-<p>在齐次坐标系下，不难推导出，点+点等于中点，只需同时除以w=2,使得w回归为1</p>
-<p>最后放一张仿射变换的图片和常见变换公式的图片</p>
-<p><img src="/aspect-ux/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/affineTransformation.png" alt="image-20230518012637415"></p>
-<p><img src="/aspect-ux/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230518013201379.png" alt="image-20230518013201379"></p>
-<h3 id="Composing-Transform-变换组合"><a href="#Composing-Transform-变换组合" class="headerlink" title="Composing Transform(变换组合)"></a>Composing Transform(变换组合)</h3><ul>
-<li><p>我们需要知道，复杂的一连串的变换是可以组合的，因为虽然变换越多，矩阵越多，但是由于都是乘法，根据矩阵结合律可以最终合成一个</p>
-</li>
-<li><p>平移和旋转具有严格先后顺序，毕竟先加后乘，与先乘后加结果不一样；具体来说是先乘后加，先变换后平移</p>
-</li>
-</ul>
-<p><strong>Decomposing complex transform(解构复杂变换)</strong></p>
-<p><img src="/aspect-ux/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230518014414740.png" alt="image-20230518014414740"></p>
-<p>由图知，直接从图一到图四其实并不方便。</p>
-<p>我们先把物体的旋转中心移平移回原点，然后旋转，最后平移回去。（因为我们只能做原点为旋转中心的旋转，不然就无法用之前的固定结论）。</p>
-<p><strong>如果不以原点为旋转中心，以某个轴为旋转中心轴</strong></p>
-<p>绕z轴旋转(本来二维的扩展成三维后等价绕z轴旋转)</p>
-<ul>
-<li>绕哪个轴，哪个轴的坐标为位置不变</li>
-</ul>
-<p><img src="/aspect-ux/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230518205820940.png" alt="image-20230518205820940"></p>
-<p><strong>拓展到3d transformation也是一样</strong></p>
-<p><img src="/aspect-ux/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230518210227508.png" alt="image-20230518210227508"></p>
-<p><strong>ps:</strong> 按照直觉可能会觉得绕y轴的旋转矩阵有问题，其实是因为该图表示的是右手坐标系的变换；已知<code>x.crossproduct(z) = -z.crossproduct(x)</code>(右手法则)，这里XxZ = -Y,所以需要对α取反。</p>
-<p><strong>Rodrigues’s Rotation Formula</strong></p>
-<p>描述了绕任意轴旋转任意角度的变换矩阵</p>
-<p><img src="/aspect-ux/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230518213219770.png" alt="image-20230518213219770"></p>
-<p>下面来推导一下这个公式同时引入四元数的学习</p>
-<p>参考：<a href="https://www.zhihu.com/tardis/zm/art/78987582?source_id=1005">四元数和旋转(Quaternion &amp; rotation) (zhihu.com)</a></p>
-<p>前提：axis n是一个单位向量，并且n过原点(如果不过原点，参考前面的方法先平移回原点)</p>
-<p><img src="/aspect-ux/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230520235749777.png" alt="image-20230520235749777"></p>
-<p><strong>有关四元数</strong></p>
-<p>定义：</p>
-<p><img src="/aspect-ux/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230521000033200.png" alt="image-20230521000033200"></p>
-<h2 id="MVP-Transformation"><a href="#MVP-Transformation" class="headerlink" title="MVP Transformation"></a>MVP Transformation</h2><p>拍照过程</p>
-<ol>
-<li>摆放好待拍摄的物品，或者人物。（model transformation)</li>
-<li>调整好拍摄(相机)角度。(view transformation)</li>
-<li>调整焦距,拍摄。(projection transformation)</li>
-</ol>
-<p>也就是常说的MVP变换</p>
-<p><strong>这里Viewing Transformation包括了View Transformation(视图变换)和Projection Transformation(投影变换)</strong></p>
-<h3 id="View-Camera-Transformation-视图变换"><a href="#View-Camera-Transformation-视图变换" class="headerlink" title="View/Camera Transformation(视图变换)"></a>View/Camera Transformation(视图变换)</h3><p>视图变换就是把相机放好。把相机移回原点，相机的三个向量分别和世界坐标的三个轴对齐。先平移后旋转</p>
-<ul>
-<li>平移回原点</li>
-<li>旋转对齐轴</li>
-</ul>
-<p><img src="/aspect-ux/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230523214954945.png" alt="image-20230523214954945"></p>
-<p>平移矩阵很好得到</p>
-<p><img src="/aspect-ux/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230523215056433.png" alt="image-20230523215056433"></p>
-<p>然后是旋转矩阵</p>
-<p>但是要想将相机三向量t,g,x转换到世界坐标轴XYZ(单位向量)上，其实不好算，所以这里反过来算</p>
-<p>所以首先明确目标矩阵(1 0 0 0；0 1 0 0； 0 0 1 0； 0 0 0 1)，由于反过来算，所以变成了起始矩阵</p>
-<p><strong>细节:</strong> g to -Z,相机对准Z的负方向，t to Y, gxt to X，x由g、t叉乘得到</p>
-<p>R(view)的逆矩阵很好得到，毕竟（0，0，1）旋转到一个位置很好做</p>
-<p><img src="/aspect-ux/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230523215450184.png" alt="image-20230523215450184"></p>
-<p>至此实现了从世界坐标轴到相机坐标轴的旋转，只要额外再取个逆，就能得到R(view)</p>
-<h3 id="Projection-Transformation"><a href="#Projection-Transformation" class="headerlink" title="Projection Transformation"></a>Projection Transformation</h3><h4 id="Orthographic-projection"><a href="#Orthographic-projection" class="headerlink" title="Orthographic projection"></a>Orthographic projection</h4><p>正交投影假设物体和相机无限远，这样物体通过视锥体投影到相机没有近大远小</p>
-<p>以下这张图解释了这个过程(<strong>先平移后缩放</strong>)</p>
-<p><img src="/aspect-ux/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230523221856008.png" alt="image-20230523221856008"></p>
-<p><strong>注意：这里是右手系，相机往-z方向看</strong>，OpenGL就是右手坐标系。</p>
-<p>但是unity 和 dx都是左手坐标系</p>
-<p>再这样的前提下|f|要比|n|要小</p>
-<p>由此得到正交变换的变换矩阵</p>
-<p><img src="/aspect-ux/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230523222223893.png" alt="image-20230523222223893"></p>
-<p>如何理解r,l,b,n,f,t这些东西，可以理解成物体左右上下前后的“坐标”，</p>
-<p>平移矩阵好理解，缩放矩阵本质上是用【2/左右距离】作为缩放倍数，最后结果为2，使得物体缩放到【-1，1】的cube中。</p>
-<p>至此正交投影结束</p>
-<h4 id="Perspective-projection"><a href="#Perspective-projection" class="headerlink" title="Perspective projection"></a>Perspective projection</h4><p>视锥体原平面投影到近平面就能产生透视效果</p>
-<p><strong>这里做透视投影的过程是，先将视锥体squish(挤)成cuboid(长方体）再做正交投影</strong></p>
-<p><img src="/aspect-ux/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230523224143182.png" alt="image-20230523224143182"></p>
-<p>由远近平面的关系，我们可以根据相似三角形得到比例关系</p>
-<p><code>y&#39; = (n/z)y</code></p>
-<p>首先明确我们的目标是将(x,y,z)变换到(x’,y’,z’)</p>
-<p><img src="/aspect-ux/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230523224929643.png" alt="image-20230523224929643"></p>
-<p>进而在齐次坐标上是</p>
-<p><img src="/aspect-ux/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230523225031775.png" alt="image-20230523225031775"></p>
-<p>从透视投影到正交投影的矩阵可以写成</p>
-<p><img src="/aspect-ux/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230523225322150.png" alt="image-20230523225322150"></p>
-<p><img src="/aspect-ux/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230523225545132.png" alt="image-20230523225545132"></p>
-<p>这里我们要具体推导一下第三行的值</p>
-<p>本质上就是用远近平面上的点带入，完成二元方程组，进而推导出第三行</p>
-<p><img src="/aspect-ux/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230523233910281.png" alt="image-20230523233910281"></p>
-<p>最后合成透视矩阵</p>
-<p><img src="/aspect-ux/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/image-20230523233933492.png" alt="image-20230523233933492"></p>
-<p>推导结束</p>
-]]></content>
-      <categories>
-        <category>计算机图形学</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>Rasterization(光栅化)</title>
-    <url>/aspect-ux/2023/05/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Rasterization/</url>
-    <content><![CDATA[<h1 id="Rasterization-光栅化"><a href="#Rasterization-光栅化" class="headerlink" title="Rasterization(光栅化)"></a>Rasterization(光栅化)</h1><p><img src="/aspect-ux/aspect-ux/2023/05/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Rasterization/1.png" alt="1"></p>
-<h2 id="光栅化流程"><a href="#光栅化流程" class="headerlink" title="光栅化流程"></a>光栅化流程</h2><p>之前提到了MVP过程，在这之后,所有的物体都会停留在【-1，1】^3</p>
-<p>立方体(Canonical Cube)空间中，然后要进行光栅化。</p>
-<h3 id="Viewport-Transformation-视口变换"><a href="#Viewport-Transformation-视口变换" class="headerlink" title="Viewport Transformation(视口变换)"></a>Viewport Transformation(视口变换)</h3><p>也就是将物体“画”到屏幕上，这里具体要做的是上图中的viewport mapping</p>
-<p><strong>即将【-1，1】拉伸(重映射remapping)到【width,height】的屏幕上</strong></p>
-<p>设置什么样的变换矩阵才能变换成功呢？</p>
-<p>（其实在半兰伯特光照模型中就有这个思路，先乘以1/2，然后加上1/2，就转换到【0，1】区间了。）</p>
-<p>根据这个思路得到转换矩阵</p>
-<p><img src="/aspect-ux/aspect-ux/2023/05/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Rasterization/image-20230523205240615.png" alt="image-20230523205240615"></p>
-<p>需要注意：这个变换与z值无关</p>
-<h3 id="Rasterizing-triangles-into-pixels"><a href="#Rasterizing-triangles-into-pixels" class="headerlink" title="Rasterizing triangles into pixels"></a>Rasterizing triangles into pixels</h3><p>上面只是说了光栅化是画物体到屏幕，具体来说，物体是由一个又一个多边形构成，最基本的元素是三角形，我们要做的是让这个三角行用像素画出来(或填充)，进而在屏幕上显示。</p>
-<p>具体实现算法就是通过遍历像素，判断像素中心是否在三角形内。</p>
-<p><strong>如何判断是否在三角形内</strong></p>
-<img src="/aspect-ux/aspect-ux/2023/05/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Rasterization/homework2_2-1684847841628-2.png" alt="homework2_2" style="zoom:80%;">
-
-<p>假设从ABC逆时针方向来看，</p>
-<p>我们发现一个规律，但凡P点在三角形内，一定满足</p>
-<p>n1 = AB x AP</p>
-<p>n2 = BC x BP</p>
-<p>n3 = CA x CP</p>
-<p>三个方向都是朝着纸面向上，也就是说z分量大于0(充要条件),否则，则不在三角形内。</p>
-<p><img src="/aspect-ux/aspect-ux/2023/05/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Rasterization/homework2_3.png" alt="homework2_3"></p>
-<p>这样就可以判断是否在三角形内</p>
-<p><strong>另外遍历像素很麻烦，这里引入包围盒(Bounding Box)</strong></p>
-<p> 引入axis-aligned bounding box(AABB)轴对齐包围盒</p>
-<p>每一行都根据三角形边界用一个包围盒，这样就不会浪费，从而实现光栅化的加速。</p>
-<p>但是并不简单。</p>
-<p>在这里如果要单纯光栅化一个三角形，我们只知道三个顶点的坐标，这里可以粗略地将三角形用方形框住，只遍历方形中的像素。</p>
-<h2 id="光栅化细节"><a href="#光栅化细节" class="headerlink" title="光栅化细节"></a>光栅化细节</h2><p>如果只是按照上述流程，结果其实并不理想。</p>
-<p>最明显的就是，像素是方形，那么填充三角形会产生锯齿Jaggies</p>
-<h3 id="Aliasing-走样"><a href="#Aliasing-走样" class="headerlink" title="Aliasing(走样)"></a>Aliasing(走样)</h3><p>sample artifacts</p>
-]]></content>
-      <categories>
-        <category>计算机图形学</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>Visual Studio下Cpp的配置</title>
-    <url>/aspect-ux/2023/05/24/%E9%9A%8F%E8%AE%B0/VSCppConfig/</url>
-    <content><![CDATA[<h1 id="VS-CPP-配置"><a href="#VS-CPP-配置" class="headerlink" title="VS CPP 配置"></a>VS CPP 配置</h1><p>在VS上编写cpp程序时，经常出现少了xx库或者xx undefined</p>
-<p>分为静态和动态配置方法</p>
-<ol>
-<li><p>下载对应资源包</p>
-</li>
-<li><p>认识配置方法</p>
-</li>
-</ol>
-<p>属性面板有三个选项，</p>
-<p><img src="/aspect-ux/aspect-ux/2023/05/24/%E9%9A%8F%E8%AE%B0/VSCppConfig/1.png" alt="image-20230524142140450"></p>
-<p><strong>动态载入：</strong> ①对于下载的include 在”C/C++”下配置；②lib在linker下配置，具体lib文件在linker-&gt;input下配置；③dll一般放在根目录（或者32dll放在sysWOW64,64dll放在system32下）</p>
-<p><strong>静态载入：</strong> 前两步和之前一样，但是第三步变成在linker-&gt;proprocessor中加入对应宏</p>
-<p>注意对应版本文件夹</p>
-]]></content>
-      <categories>
-        <category>随记</category>
-      </categories>
   </entry>
 </search>

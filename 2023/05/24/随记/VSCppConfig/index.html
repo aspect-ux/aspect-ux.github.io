@@ -1,9 +1,9 @@
-<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Visual Studio下Cpp的配置 | 技术美术学习记录</title><meta name="author" content="Aspect"><meta name="copyright" content="Aspect"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="VS CPP 配置在VS上编写cpp程序时，经常出现少了xx库或者xx undefined 分为静态和动态配置方法  下载对应资源包  认识配置方法   属性面板有三个选项，  动态载入： ①对于下载的include 在”C&#x2F;C++”下配置；②lib在linker下配置，具体lib文件在linker-&gt;input下配置；③dll一般放在根目录（或者32dll放在sysWOW64,64dll放">
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Visual Studio下Cpp的配置 | 技术美术学习记录</title><meta name="author" content="Aspect"><meta name="copyright" content="Aspect"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="VS CPP 配置在VS上编写cpp程序时，经常出现少了xx库或者xx undefined 分为静态和动态配置方法  下载对应资源包  认识配置方法   属性面板有三个选项，   动态载入： ①对于下载的include 在”C&#x2F;C++”下配置；②lib在linker下配置，具体lib文件在linker-&gt;input下配置；③dll一般放在根目录（或者32dll放在sysWOW64,64dll">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Visual Studio下Cpp的配置">
 <meta property="og:url" content="https://github.com/aspect-ux/2023/05/24/%E9%9A%8F%E8%AE%B0/VSCppConfig/index.html">
 <meta property="og:site_name" content="技术美术学习记录">
-<meta property="og:description" content="VS CPP 配置在VS上编写cpp程序时，经常出现少了xx库或者xx undefined 分为静态和动态配置方法  下载对应资源包  认识配置方法   属性面板有三个选项，  动态载入： ①对于下载的include 在”C&#x2F;C++”下配置；②lib在linker下配置，具体lib文件在linker-&gt;input下配置；③dll一般放在根目录（或者32dll放在sysWOW64,64dll放">
+<meta property="og:description" content="VS CPP 配置在VS上编写cpp程序时，经常出现少了xx库或者xx undefined 分为静态和动态配置方法  下载对应资源包  认识配置方法   属性面板有三个选项，   动态载入： ①对于下载的include 在”C&#x2F;C++”下配置；②lib在linker下配置，具体lib文件在linker-&gt;input下配置；③dll一般放在根目录（或者32dll放在sysWOW64,64dll">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
 <meta property="article:published_time" content="2023-05-24T06:18:26.100Z">
@@ -152,7 +152,8 @@
 </li>
 </ol>
 <p>属性面板有三个选项，</p>
-<p><img src="/aspect-ux/aspect-ux/2023/05/24/%E9%9A%8F%E8%AE%B0/VSCppConfig/1.png" alt="image-20230524142140450"></p>
+<img src="/aspect-ux/2023/05/24/%E9%9A%8F%E8%AE%B0/VSCppConfig/1.png" class title="image-20230524142140450">
+
 <p><strong>动态载入：</strong> ①对于下载的include 在”C/C++”下配置；②lib在linker下配置，具体lib文件在linker-&gt;input下配置；③dll一般放在根目录（或者32dll放在sysWOW64,64dll放在system32下）</p>
 <p><strong>静态载入：</strong> 前两步和之前一样，但是第三步变成在linker-&gt;proprocessor中加入对应宏</p>
 <p>注意对应版本文件夹</p>

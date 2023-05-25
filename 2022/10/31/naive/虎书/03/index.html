@@ -1,9 +1,9 @@
-<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Computer Graphics 03 | 技术美术学习记录</title><meta name="author" content="Aspect"><meta name="copyright" content="Aspect"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Ray TracingWhy Ray Tracing?  rasterization : real-time,ray tracing: offline ray tracing is accurate,but is very slow  Whitted-Style Ray Tracing  渲染3d物体时计算机图形的工作之一。 同一场景的物体渲染需要考虑每个物体贡献的像素。 有两种常规的方法来考虑">
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Computer Graphics 03 | 技术美术学习记录</title><meta name="author" content="Aspect"><meta name="copyright" content="Aspect"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Ray TracingWhy Ray Tracing?  rasterization : real-time,ray tracing: offline ray tracing is accurate,but is very slow  Whitted-Style Ray Tracing   渲染3d物体时计算机图形的工作之一。 同一场景的物体渲染需要考虑每个物体贡献的像素。 有两种常规的方法来考虑">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Computer Graphics 03">
 <meta property="og:url" content="https://github.com/aspect-ux/2022/10/31/naive/%E8%99%8E%E4%B9%A6/03/index.html">
 <meta property="og:site_name" content="技术美术学习记录">
-<meta property="og:description" content="Ray TracingWhy Ray Tracing?  rasterization : real-time,ray tracing: offline ray tracing is accurate,but is very slow  Whitted-Style Ray Tracing  渲染3d物体时计算机图形的工作之一。 同一场景的物体渲染需要考虑每个物体贡献的像素。 有两种常规的方法来考虑">
+<meta property="og:description" content="Ray TracingWhy Ray Tracing?  rasterization : real-time,ray tracing: offline ray tracing is accurate,but is very slow  Whitted-Style Ray Tracing   渲染3d物体时计算机图形的工作之一。 同一场景的物体渲染需要考虑每个物体贡献的像素。 有两种常规的方法来考虑">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
 <meta property="article:published_time" content="2022-10-31T11:21:15.666Z">
@@ -149,7 +149,8 @@
 <li>ray tracing is accurate,but is very slow</li>
 </ul>
 <p><strong>Whitted-Style Ray Tracing</strong></p>
-<p><img src="/2022/10/31/naive/%E8%99%8E%E4%B9%A6/03/uTools_1667388590899.png" alt="uTools_1667388590899"></p>
+<img src="/aspect-ux/2022/10/31/naive/%E8%99%8E%E4%B9%A6/03/uTools_1667388590899.png" class title="uTools_1667388590899">
+
 <p>渲染3d物体时计算机图形的工作之一。</p>
 <p>同一场景的物体渲染需要考虑每个物体贡献的像素。</p>
 <p>有两种常规的方法来考虑</p>
@@ -169,8 +170,7 @@
 <li><p>ray intersection. 计算与view射线相交的最近物体</p>
 </li>
 <li><p>shading. 在原有的射线相交的基础上进行着色</p>
-<p><img src="/2022/10/31/naive/%E8%99%8E%E4%B9%A6/03/uTools_1667218571247.png" alt="uTools_1667218571247"></p>
-</li>
+<img src="/aspect-ux/2022/10/31/naive/%E8%99%8E%E4%B9%A6/03/uTools_1667218571247.png" class title="uTools_1667218571247"></li>
 </ol>
 <h2 id="Perspective"><a href="#Perspective" class="headerlink" title="Perspective"></a>Perspective</h2><p>标准的方法来为计算机图形，艺术和照片制作图片，是使用linear perspective(线性透视)</p>
 <p>parallel projection(平行投影)是最简单的投影方式，平移。一般用于机械和建筑</p>
@@ -179,9 +179,11 @@
 <p>为了生成ray,我们首先需要一个数学表达</p>
 <p><code>p(t) = e + t(s- e)</code></p>
 <p>e is eye,    s is image plane point</p>
-<p><img src="/2022/10/31/naive/%E8%99%8E%E4%B9%A6/03/uTools_1667219704846.png" alt="uTools_1667219704846"></p>
+<img src="/aspect-ux/2022/10/31/naive/%E8%99%8E%E4%B9%A6/03/uTools_1667219704846.png" class title="uTools_1667219704846">
+
 <p>在代码中</p>
-<p><img src="/2022/10/31/naive/%E8%99%8E%E4%B9%A6/03/uTools_1667219881824.png" alt="uTools_1667219881824"></p>
+<img src="/aspect-ux/2022/10/31/naive/%E8%99%8E%E4%B9%A6/03/uTools_1667219881824.png" class title="uTools_1667219881824">
+
 <p>详情见P84</p>
 <h3 id="Orthographic-Views"><a href="#Orthographic-Views" class="headerlink" title="Orthographic Views"></a>Orthographic Views</h3><p>对于正交投影view ray,</p>
 <p>ray generation 使用相机的框架，</p>
@@ -193,7 +195,8 @@
 </ol>
 <p><strong>要将nx  ny 的像素投射到(r - l) x (t - b)的矩形上</strong></p>
 <p>其中l,r分别是片元，pixel的左右边界坐标，b和t则是下、上边界坐标</p>
-<p><img src="/2022/10/31/naive/%E8%99%8E%E4%B9%A6/03/uTools_1667220608282.png" alt="uTools_1667220608282"></p>
+<img src="/aspect-ux/2022/10/31/naive/%E8%99%8E%E4%B9%A6/03/uTools_1667220608282.png" class title="uTools_1667220608282">
+
 <p>详情见P86</p>
 <h3 id="Perspective-Views"><a href="#Perspective-Views" class="headerlink" title="Perspective Views"></a>Perspective Views</h3><h2 id="Ray-Object-Intersection"><a href="#Ray-Object-Intersection" class="headerlink" title="Ray-Object Intersection"></a>Ray-Object Intersection</h2><p>phase 2</p>
 <h3 id="Ray-Sphere-Intersection"><a href="#Ray-Sphere-Intersection" class="headerlink" title="Ray-Sphere Intersection"></a>Ray-Sphere Intersection</h3><p>使用implicit surface</p>
@@ -204,7 +207,8 @@
 <p><code>(e + t d - c)(e + td - c) - R^2 = 0</code></p>
 <p>只有t未知</p>
 <p>展开得到quadratic 二次方程，判别式b^2 - 4ac</p>
-<p><img src="/2022/10/31/naive/%E8%99%8E%E4%B9%A6/03/uTools_1667222501427.png" alt="uTools_1667222501427"></p>
+<img src="/aspect-ux/2022/10/31/naive/%E8%99%8E%E4%B9%A6/03/uTools_1667222501427.png" class title="uTools_1667222501427">
+
 <h2 id="Shading"><a href="#Shading" class="headerlink" title="Shading"></a>Shading</h2><p>Here we will discuss how a ray tracer computes the inputs to shading</p>
 <p>1.从点光源和直线光计算着色需要具体的几何信息。当viewing ray 确定与表面相交，我们需要决定以下4个向量。</p>
 <ul>
@@ -215,7 +219,8 @@
 </ul>
 <p>2.coding</p>
 <p>3.一旦你已经在光线追踪器上有基本的着色后，光线和点阴影添加会很容易</p>
-<p><img src="/2022/10/31/naive/%E8%99%8E%E4%B9%A6/03/uTools_1667389464606.png" alt="uTools_1667389464606"></p>
+<img src="/aspect-ux/2022/10/31/naive/%E8%99%8E%E4%B9%A6/03/uTools_1667389464606.png" class title="uTools_1667389464606">
+
 <p>使用directional light 的阴影与点光源类似，但是t=无穷，也即距离无穷，环境光不进行阴影测试（shadow test)</p>
 <p>4.Mirror Reflection(镜面反射)</p>
 <p>为光线追踪程序添加镜面发射（or specular reflection) 很直接。</p>
