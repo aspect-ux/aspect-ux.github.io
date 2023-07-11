@@ -211,6 +211,7 @@
 <p>根据小像素覆盖率来进行模糊，这样能够更准确的确定模糊度，然后采样</p>
 <p>注意：MSAA并不是通过提高分辨率真的增加”小像素“，只不过是在一个像素里采样若干个点</p>
 <p>但是上述例子的代价是增加了4x4共16倍的采样量</p>
+<p>另外还有FXAA（后处理，得到锯齿才处理）和TAA等方法</p>
 ]]></content>
       <categories>
         <category>计算机图形学</category>
@@ -1509,5 +1510,25 @@
     <content><![CDATA[<h1 id="01"><a href="#01" class="headerlink" title="01"></a>01</h1><p>需要eigen和opencv</p>
 <p>注意include( ),下载地址<a href="https://www.raoyunsoft.com/opencv/opencv-4.5.2/">Index of /opencv/opencv-4.5.2/ (raoyunsoft.com)</a></p>
 ]]></content>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/aspect-ux/2023/07/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Shading/</url>
+    <content><![CDATA[<h1 id="Shading-着色"><a href="#Shading-着色" class="headerlink" title="Shading(着色)"></a>Shading(着色)</h1><h2 id="Visibility-Occulusion-可见性-遮蔽"><a href="#Visibility-Occulusion-可见性-遮蔽" class="headerlink" title="Visibility/Occulusion(可见性/遮蔽)"></a>Visibility/Occulusion(可见性/遮蔽)</h2><p><strong>Painter’s Algorithm</strong> 从后往前画</p>
+<img src="/aspect-ux/2023/07/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Shading/image-20230711122733524.png" class title="image-20230711122733524">
+
+<p>但是由于自遮挡的关系，有些无法具体描述远近的（如上图左右面的绘制），绘制顺序显得尤为重要。</p>
+<p>左，下，右，上，这个顺序结果正确</p>
+<p>但是右，上，左，下，由于左下两面的错误遮挡，导致结果错误。</p>
+<p>假如一个模型是两个蛇状管道相互缠绕组合而成的，那渲染先后的问题就更加困难，正方体能够区分不同面无非是一个面遮挡另一个，后者不规则的分区有着非单一的复杂遮挡关系，如此看来这种算法局限性也很大</p>
+<p><strong>结论：</strong> 一定程度上画家算法是有效的，但是sorting layer的问题是难以解决的。</p>
+<p><strong>ZBuffer</strong> 深度缓存</p>
+<p>为了解决画家算法的问题，引入深度缓存</p>
+<p>简而言之，对每个像素的深度进行保存，保留最近的那个深度值</p>
+<ul>
+<li>framebuffer存颜色值</li>
+<li>depth buffer(z-buffer)存深度值</li>
+</ul>
+<h2 id="Illumination-amp-Shading"><a href="#Illumination-amp-Shading" class="headerlink" title="Illumination&amp;Shading"></a>Illumination&amp;Shading</h2><h2 id="Graphics-Pipeline"><a href="#Graphics-Pipeline" class="headerlink" title="Graphics Pipeline"></a>Graphics Pipeline</h2>]]></content>
   </entry>
 </search>
