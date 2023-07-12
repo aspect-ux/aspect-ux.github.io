@@ -3,11 +3,11 @@
   <title>技术美术学习记录</title>
   
   
-  <link href="https://github.com/aspect-ux/atom.xml" rel="self"/>
+  <link href="https://aspect-ux.github.io/atom.xml" rel="self"/>
   
-  <link href="https://github.com/aspect-ux/"/>
+  <link href="https://aspect-ux.github.io/"/>
   <updated>2023-07-12T11:59:41.508Z</updated>
-  <id>https://github.com/aspect-ux/</id>
+  <id>https://aspect-ux.github.io/</id>
   
   <author>
     <name>Aspect</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>Shading(着色)</title>
-    <link href="https://github.com/aspect-ux/2023/07/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Shading/"/>
-    <id>https://github.com/aspect-ux/2023/07/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Shading/</id>
+    <link href="https://aspect-ux.github.io/2023/07/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Shading/"/>
+    <id>https://aspect-ux.github.io/2023/07/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Shading/</id>
     <published>2023-07-11T02:58:51.658Z</published>
     <updated>2023-07-12T11:59:41.508Z</updated>
     
@@ -33,15 +33,15 @@
     
     
     
-    <category term="计算机图形学" scheme="https://github.com/aspect-ux/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/"/>
+    <category term="计算机图形学" scheme="https://aspect-ux.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/"/>
     
     
   </entry>
   
   <entry>
     <title>Visual Studio下Cpp的配置</title>
-    <link href="https://github.com/aspect-ux/2023/05/24/%E9%9A%8F%E8%AE%B0/VSCppConfig/"/>
-    <id>https://github.com/aspect-ux/2023/05/24/%E9%9A%8F%E8%AE%B0/VSCppConfig/</id>
+    <link href="https://aspect-ux.github.io/2023/05/24/%E9%9A%8F%E8%AE%B0/VSCppConfig/"/>
+    <id>https://aspect-ux.github.io/2023/05/24/%E9%9A%8F%E8%AE%B0/VSCppConfig/</id>
     <published>2023-05-24T06:18:26.100Z</published>
     <updated>2023-07-06T06:23:30.801Z</updated>
     
@@ -56,15 +56,15 @@
     
     
     
-    <category term="随记" scheme="https://github.com/aspect-ux/categories/%E9%9A%8F%E8%AE%B0/"/>
+    <category term="随记" scheme="https://aspect-ux.github.io/categories/%E9%9A%8F%E8%AE%B0/"/>
     
     
   </entry>
   
   <entry>
     <title>Rasterization(光栅化)</title>
-    <link href="https://github.com/aspect-ux/2023/05/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Rasterization/"/>
-    <id>https://github.com/aspect-ux/2023/05/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Rasterization/</id>
+    <link href="https://aspect-ux.github.io/2023/05/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Rasterization/"/>
+    <id>https://aspect-ux.github.io/2023/05/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Rasterization/</id>
     <published>2023-05-23T12:15:23.290Z</published>
     <updated>2023-07-06T13:07:50.104Z</updated>
     
@@ -79,15 +79,15 @@
     
     
     
-    <category term="计算机图形学" scheme="https://github.com/aspect-ux/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/"/>
+    <category term="计算机图形学" scheme="https://aspect-ux.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/"/>
     
     
   </entry>
   
   <entry>
     <title>Transformation(变换)</title>
-    <link href="https://github.com/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/"/>
-    <id>https://github.com/aspect-ux/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/</id>
+    <link href="https://aspect-ux.github.io/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/"/>
+    <id>https://aspect-ux.github.io/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/</id>
     <published>2023-05-17T16:09:51.767Z</published>
     <updated>2023-07-06T06:18:12.683Z</updated>
     
@@ -101,15 +101,15 @@
     
     
     
-    <category term="计算机图形学" scheme="https://github.com/aspect-ux/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/"/>
+    <category term="计算机图形学" scheme="https://aspect-ux.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/"/>
     
     
   </entry>
   
   <entry>
     <title>从零开始的图形学概述</title>
-    <link href="https://github.com/aspect-ux/2023/05/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/%E6%A6%82%E8%BF%B0/"/>
-    <id>https://github.com/aspect-ux/2023/05/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/%E6%A6%82%E8%BF%B0/</id>
+    <link href="https://aspect-ux.github.io/2023/05/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/%E6%A6%82%E8%BF%B0/"/>
+    <id>https://aspect-ux.github.io/2023/05/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/%E6%A6%82%E8%BF%B0/</id>
     <published>2023-05-17T15:21:24.887Z</published>
     <updated>2023-07-06T06:11:27.090Z</updated>
     
@@ -123,15 +123,15 @@
     
     
     
-    <category term="计算机图形学" scheme="https://github.com/aspect-ux/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/"/>
+    <category term="计算机图形学" scheme="https://aspect-ux.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/"/>
     
     
   </entry>
   
   <entry>
     <title></title>
-    <link href="https://github.com/aspect-ux/2022/12/01/naive/%E8%99%8E%E4%B9%A6/07/"/>
-    <id>https://github.com/aspect-ux/2022/12/01/naive/%E8%99%8E%E4%B9%A6/07/</id>
+    <link href="https://aspect-ux.github.io/2022/12/01/naive/%E8%99%8E%E4%B9%A6/07/"/>
+    <id>https://aspect-ux.github.io/2022/12/01/naive/%E8%99%8E%E4%B9%A6/07/</id>
     <published>2022-12-01T15:42:33.960Z</published>
     <updated>2022-12-01T16:33:14.525Z</updated>
     
@@ -150,8 +150,8 @@
   
   <entry>
     <title></title>
-    <link href="https://github.com/aspect-ux/2022/12/01/naive/Games%E7%B3%BB%E5%88%97/101/Lecture03%20Transformation/"/>
-    <id>https://github.com/aspect-ux/2022/12/01/naive/Games%E7%B3%BB%E5%88%97/101/Lecture03%20Transformation/</id>
+    <link href="https://aspect-ux.github.io/2022/12/01/naive/Games%E7%B3%BB%E5%88%97/101/Lecture03%20Transformation/"/>
+    <id>https://aspect-ux.github.io/2022/12/01/naive/Games%E7%B3%BB%E5%88%97/101/Lecture03%20Transformation/</id>
     <published>2022-12-01T15:26:12.558Z</published>
     <updated>2022-12-01T15:42:22.321Z</updated>
     
@@ -170,8 +170,8 @@
   
   <entry>
     <title></title>
-    <link href="https://github.com/aspect-ux/2022/11/13/naive/Games%E7%B3%BB%E5%88%97/101/Homework/homework1/"/>
-    <id>https://github.com/aspect-ux/2022/11/13/naive/Games%E7%B3%BB%E5%88%97/101/Homework/homework1/</id>
+    <link href="https://aspect-ux.github.io/2022/11/13/naive/Games%E7%B3%BB%E5%88%97/101/Homework/homework1/"/>
+    <id>https://aspect-ux.github.io/2022/11/13/naive/Games%E7%B3%BB%E5%88%97/101/Homework/homework1/</id>
     <published>2022-11-13T13:11:29.406Z</published>
     <updated>2022-11-13T13:11:29.407Z</updated>
     
@@ -191,8 +191,8 @@
   
   <entry>
     <title></title>
-    <link href="https://github.com/aspect-ux/2022/11/13/naive/Games%E7%B3%BB%E5%88%97/101/Lecture01%20Overview%20of%20Computer%20Graphics/"/>
-    <id>https://github.com/aspect-ux/2022/11/13/naive/Games%E7%B3%BB%E5%88%97/101/Lecture01%20Overview%20of%20Computer%20Graphics/</id>
+    <link href="https://aspect-ux.github.io/2022/11/13/naive/Games%E7%B3%BB%E5%88%97/101/Lecture01%20Overview%20of%20Computer%20Graphics/"/>
+    <id>https://aspect-ux.github.io/2022/11/13/naive/Games%E7%B3%BB%E5%88%97/101/Lecture01%20Overview%20of%20Computer%20Graphics/</id>
     <published>2022-11-13T12:11:45.520Z</published>
     <updated>2022-11-13T12:12:40.118Z</updated>
     
@@ -211,8 +211,8 @@
   
   <entry>
     <title>软链接c盘</title>
-    <link href="https://github.com/aspect-ux/2022/11/12/%E9%9A%8F%E8%AE%B0/%E8%BD%AF%E9%93%BE%E6%8E%A5c%E7%9B%98/"/>
-    <id>https://github.com/aspect-ux/2022/11/12/%E9%9A%8F%E8%AE%B0/%E8%BD%AF%E9%93%BE%E6%8E%A5c%E7%9B%98/</id>
+    <link href="https://aspect-ux.github.io/2022/11/12/%E9%9A%8F%E8%AE%B0/%E8%BD%AF%E9%93%BE%E6%8E%A5c%E7%9B%98/"/>
+    <id>https://aspect-ux.github.io/2022/11/12/%E9%9A%8F%E8%AE%B0/%E8%BD%AF%E9%93%BE%E6%8E%A5c%E7%9B%98/</id>
     <published>2022-11-12T08:53:28.016Z</published>
     <updated>2022-11-15T13:05:34.351Z</updated>
     
@@ -226,15 +226,15 @@
     
     
     
-    <category term="随记" scheme="https://github.com/aspect-ux/categories/%E9%9A%8F%E8%AE%B0/"/>
+    <category term="随记" scheme="https://aspect-ux.github.io/categories/%E9%9A%8F%E8%AE%B0/"/>
     
     
   </entry>
   
   <entry>
     <title>unityshader精要12</title>
-    <link href="https://github.com/aspect-ux/2022/11/10/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E9%AB%98%E7%BA%A7%E7%AF%87Chapter12/"/>
-    <id>https://github.com/aspect-ux/2022/11/10/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E9%AB%98%E7%BA%A7%E7%AF%87Chapter12/</id>
+    <link href="https://aspect-ux.github.io/2022/11/10/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E9%AB%98%E7%BA%A7%E7%AF%87Chapter12/"/>
+    <id>https://aspect-ux.github.io/2022/11/10/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E9%AB%98%E7%BA%A7%E7%AF%87Chapter12/</id>
     <published>2022-11-10T12:01:33.562Z</published>
     <updated>2022-11-10T12:02:24.424Z</updated>
     
@@ -249,15 +249,15 @@
     
     
     
-    <category term="unity shader" scheme="https://github.com/aspect-ux/categories/unity-shader/"/>
+    <category term="unity shader" scheme="https://aspect-ux.github.io/categories/unity-shader/"/>
     
     
   </entry>
   
   <entry>
     <title>Games101 Material_01</title>
-    <link href="https://github.com/aspect-ux/2022/11/10/naive/Games%E7%B3%BB%E5%88%97/101/Material/"/>
-    <id>https://github.com/aspect-ux/2022/11/10/naive/Games%E7%B3%BB%E5%88%97/101/Material/</id>
+    <link href="https://aspect-ux.github.io/2022/11/10/naive/Games%E7%B3%BB%E5%88%97/101/Material/"/>
+    <id>https://aspect-ux.github.io/2022/11/10/naive/Games%E7%B3%BB%E5%88%97/101/Material/</id>
     <published>2022-11-10T11:42:22.996Z</published>
     <updated>2022-11-10T12:05:07.353Z</updated>
     
@@ -271,15 +271,15 @@
     
     
     
-    <category term="Games101" scheme="https://github.com/aspect-ux/categories/Games101/"/>
+    <category term="Games101" scheme="https://aspect-ux.github.io/categories/Games101/"/>
     
     
   </entry>
   
   <entry>
     <title>unityshader精要11</title>
-    <link href="https://github.com/aspect-ux/2022/11/09/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter11/"/>
-    <id>https://github.com/aspect-ux/2022/11/09/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter11/</id>
+    <link href="https://aspect-ux.github.io/2022/11/09/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter11/"/>
+    <id>https://aspect-ux.github.io/2022/11/09/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter11/</id>
     <published>2022-11-09T14:04:17.719Z</published>
     <updated>2023-05-16T14:24:26.676Z</updated>
     
@@ -293,17 +293,17 @@
     
     
     
-    <category term="unity shader" scheme="https://github.com/aspect-ux/categories/unity-shader/"/>
+    <category term="unity shader" scheme="https://aspect-ux.github.io/categories/unity-shader/"/>
     
     
-    <category term="shader动画" scheme="https://github.com/aspect-ux/tags/shader%E5%8A%A8%E7%94%BB/"/>
+    <category term="shader动画" scheme="https://aspect-ux.github.io/tags/shader%E5%8A%A8%E7%94%BB/"/>
     
   </entry>
   
   <entry>
     <title>Computer Graphics 06</title>
-    <link href="https://github.com/aspect-ux/2022/11/08/naive/%E8%99%8E%E4%B9%A6/06/"/>
-    <id>https://github.com/aspect-ux/2022/11/08/naive/%E8%99%8E%E4%B9%A6/06/</id>
+    <link href="https://aspect-ux.github.io/2022/11/08/naive/%E8%99%8E%E4%B9%A6/06/"/>
+    <id>https://aspect-ux.github.io/2022/11/08/naive/%E8%99%8E%E4%B9%A6/06/</id>
     <published>2022-11-08T12:41:39.965Z</published>
     <updated>2022-11-10T11:34:55.689Z</updated>
     
@@ -317,15 +317,15 @@
     
     
     
-    <category term="Fundamental of Computer Graphics" scheme="https://github.com/aspect-ux/categories/Fundamental-of-Computer-Graphics/"/>
+    <category term="Fundamental of Computer Graphics" scheme="https://aspect-ux.github.io/categories/Fundamental-of-Computer-Graphics/"/>
     
     
   </entry>
   
   <entry>
     <title>unityshader精要9</title>
-    <link href="https://github.com/aspect-ux/2022/11/07/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter10/"/>
-    <id>https://github.com/aspect-ux/2022/11/07/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter10/</id>
+    <link href="https://aspect-ux.github.io/2022/11/07/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter10/"/>
+    <id>https://aspect-ux.github.io/2022/11/07/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter10/</id>
     <published>2022-11-07T12:47:02.955Z</published>
     <updated>2022-11-07T12:52:14.744Z</updated>
     
@@ -339,15 +339,15 @@
     
     
     
-    <category term="unity shader" scheme="https://github.com/aspect-ux/categories/unity-shader/"/>
+    <category term="unity shader" scheme="https://aspect-ux.github.io/categories/unity-shader/"/>
     
     
   </entry>
   
   <entry>
     <title>Computer Graphics 05</title>
-    <link href="https://github.com/aspect-ux/2022/11/07/naive/%E8%99%8E%E4%B9%A6/05/"/>
-    <id>https://github.com/aspect-ux/2022/11/07/naive/%E8%99%8E%E4%B9%A6/05/</id>
+    <link href="https://aspect-ux.github.io/2022/11/07/naive/%E8%99%8E%E4%B9%A6/05/"/>
+    <id>https://aspect-ux.github.io/2022/11/07/naive/%E8%99%8E%E4%B9%A6/05/</id>
     <published>2022-11-07T11:33:18.103Z</published>
     <updated>2022-11-08T12:41:28.080Z</updated>
     
@@ -361,15 +361,15 @@
     
     
     
-    <category term="Fundamental of Computer Graphics" scheme="https://github.com/aspect-ux/categories/Fundamental-of-Computer-Graphics/"/>
+    <category term="Fundamental of Computer Graphics" scheme="https://aspect-ux.github.io/categories/Fundamental-of-Computer-Graphics/"/>
     
     
   </entry>
   
   <entry>
     <title>Event System</title>
-    <link href="https://github.com/aspect-ux/2022/11/06/naive/Unity/EventSystem/"/>
-    <id>https://github.com/aspect-ux/2022/11/06/naive/Unity/EventSystem/</id>
+    <link href="https://aspect-ux.github.io/2022/11/06/naive/Unity/EventSystem/"/>
+    <id>https://aspect-ux.github.io/2022/11/06/naive/Unity/EventSystem/</id>
     <published>2022-11-06T15:37:26.618Z</published>
     <updated>2022-11-06T15:59:29.321Z</updated>
     
@@ -383,15 +383,15 @@
     
     
     
-    <category term="Game system with uniy" scheme="https://github.com/aspect-ux/categories/Game-system-with-uniy/"/>
+    <category term="Game system with uniy" scheme="https://aspect-ux.github.io/categories/Game-system-with-uniy/"/>
     
     
   </entry>
   
   <entry>
     <title>unityshader精要9</title>
-    <link href="https://github.com/aspect-ux/2022/11/03/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter9/"/>
-    <id>https://github.com/aspect-ux/2022/11/03/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter9/</id>
+    <link href="https://aspect-ux.github.io/2022/11/03/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter9/"/>
+    <id>https://aspect-ux.github.io/2022/11/03/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter9/</id>
     <published>2022-11-03T13:45:49.701Z</published>
     <updated>2022-11-03T13:46:32.330Z</updated>
     
@@ -405,15 +405,15 @@
     
     
     
-    <category term="unity shader" scheme="https://github.com/aspect-ux/categories/unity-shader/"/>
+    <category term="unity shader" scheme="https://aspect-ux.github.io/categories/unity-shader/"/>
     
     
   </entry>
   
   <entry>
     <title>unityshader精要8</title>
-    <link href="https://github.com/aspect-ux/2022/11/02/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter8/"/>
-    <id>https://github.com/aspect-ux/2022/11/02/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter8/</id>
+    <link href="https://aspect-ux.github.io/2022/11/02/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter8/"/>
+    <id>https://aspect-ux.github.io/2022/11/02/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter8/</id>
     <published>2022-11-02T13:00:26.665Z</published>
     <updated>2022-11-02T13:02:04.351Z</updated>
     
@@ -427,15 +427,15 @@
     
     
     
-    <category term="unity shader" scheme="https://github.com/aspect-ux/categories/unity-shader/"/>
+    <category term="unity shader" scheme="https://aspect-ux.github.io/categories/unity-shader/"/>
     
     
   </entry>
   
   <entry>
     <title>Computer Graphics 04</title>
-    <link href="https://github.com/aspect-ux/2022/11/02/naive/%E8%99%8E%E4%B9%A6/04/"/>
-    <id>https://github.com/aspect-ux/2022/11/02/naive/%E8%99%8E%E4%B9%A6/04/</id>
+    <link href="https://aspect-ux.github.io/2022/11/02/naive/%E8%99%8E%E4%B9%A6/04/"/>
+    <id>https://aspect-ux.github.io/2022/11/02/naive/%E8%99%8E%E4%B9%A6/04/</id>
     <published>2022-11-02T12:43:23.357Z</published>
     <updated>2022-11-07T11:32:55.499Z</updated>
     
@@ -449,7 +449,7 @@
     
     
     
-    <category term="Fundamental of Computer Graphics" scheme="https://github.com/aspect-ux/categories/Fundamental-of-Computer-Graphics/"/>
+    <category term="Fundamental of Computer Graphics" scheme="https://aspect-ux.github.io/categories/Fundamental-of-Computer-Graphics/"/>
     
     
   </entry>
