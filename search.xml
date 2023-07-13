@@ -248,7 +248,32 @@
 <p>可以处理不规则图形，但是计算量很大</p>
 <img src="/2023/07/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Shading/image-20230712195236130.png" class title="image-20230712195236130">
 
-<h3 id="Application-of-textures"><a href="#Application-of-textures" class="headerlink" title="Application of textures"></a>Application of textures</h3>]]></content>
+<h3 id="Application-of-textures"><a href="#Application-of-textures" class="headerlink" title="Application of textures"></a>Application of textures</h3><p>现代GPU中，texture = memory + range query(filtering)</p>
+<ol>
+<li><p>Environment Map 环境贴图，物体反射周围的光;描述不同方向的光照信息。</p>
+<p>Shperical Map,发生扭曲；Cube Map</p>
+</li>
+<li><p>Bump/Normal Map</p>
+<p>凹凸贴图如何绘制法线制造凹凸感？</p>
+<ul>
+<li>设原来法线为（0，0，1）</li>
+<li>求偏导（derivatives),假设u,v变化单位1</li>
+</ul>
+<img src="/2023/07/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Shading/image-20230713090701583.png" class title="image-20230713090701583">
+
+<p>切线逆时针旋转90度得到法线</p>
+<p>得到法线（-dp/du,-dp/dv,1)</p>
+<p>这样，通过凹凸贴图的纹理映射，制造假的法线，实现结果的凹凸。</p>
+</li>
+<li><p>Displacement Map,位移贴图，真正的移动了原模型，不同于凹凸贴图。</p>
+<p>要求三角形很细，三角形的频率要比纹理高；采样率高，模型足够细致</p>
+<p>DX上有一个方法叫动态细分，即便是模型不是很精细，但是可以根据需要进行选择性移动</p>
+</li>
+</ol>
+<p>其它</p>
+<p><strong>Provide Precompute shading</strong></p>
+<p><strong>3d textures and volume rendering</strong></p>
+]]></content>
       <categories>
         <category>计算机图形学</category>
       </categories>
@@ -417,9 +442,9 @@
       </categories>
   </entry>
   <entry>
-    <title>从零开始的图形学概述</title>
+    <title>从零开始的图形学 概述</title>
     <url>/2023/05/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/%E6%A6%82%E8%BF%B0/</url>
-    <content><![CDATA[<h1 id="图形学概述"><a href="#图形学概述" class="headerlink" title="图形学概述"></a>图形学概述</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>由于实在觉得有必要细致、全面、通透地学习一遍图形学相关基础理论知识，于是开了这个坑。</p>
+    <content><![CDATA[<h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>由于实在觉得有必要细致、全面、通透地学习一遍图形学相关基础理论知识，于是开了这个坑。</p>
 <p>但是，就我个人而言，该系列不会局限单纯的理论。目前的想法是，除开基础理论推导</p>
 <ul>
 <li><p>会添加一些引擎中的原理和实现，games系列闫令其老师101，202的作业，以及流行图形API如OpenGL的理论实践。</p>
@@ -1637,5 +1662,44 @@
     <content><![CDATA[<h1 id="01"><a href="#01" class="headerlink" title="01"></a>01</h1><p>需要eigen和opencv</p>
 <p>注意include( ),下载地址<a href="https://www.raoyunsoft.com/opencv/opencv-4.5.2/">Index of /opencv/opencv-4.5.2/ (raoyunsoft.com)</a></p>
 ]]></content>
+  </entry>
+  <entry>
+    <title>Geometry(几何)</title>
+    <url>/2023/07/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Geometry/</url>
+    <content><![CDATA[<h1 id="Introduce-to-Geometry"><a href="#Introduce-to-Geometry" class="headerlink" title="Introduce to Geometry"></a>Introduce to Geometry</h1><h2 id="Examples-of-Geometry"><a href="#Examples-of-Geometry" class="headerlink" title="Examples of Geometry"></a>Examples of Geometry</h2><p>机械</p>
+<img src="/2023/07/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Geometry/image-20230713094334796.png" class title="image-20230713094334796">
+
+<p>水</p>
+<img src="/2023/07/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Geometry/image-20230713094400111.png" class title="image-20230713094400111">
+
+<p>毛发</p>
+<img src="/2023/07/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Geometry/image-20230713094451880.png" class title="image-20230713094451880">
+
+<h2 id="Representation-of-Geometry"><a href="#Representation-of-Geometry" class="headerlink" title="Representation of Geometry"></a>Representation of Geometry</h2><p><strong>Implicit(隐式表达)</strong></p>
+<img src="/2023/07/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Geometry/image-20230713094634138.png" class title="image-20230713094634138">
+
+<p><strong>Explicit(显式表达)</strong></p>
+<img src="/2023/07/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Geometry/image-20230713094802801.png" class title="image-20230713094802801">
+
+<p>直接通过uv映射方式定义</p>
+<p>隐式不知道谁是函数的结果是哪个变量，显示知道</p>
+<p><code>Geometry is hard!</code></p>
+<p>隐式表达，一般看表达式，但是光看表达式并不直观。algebraic方式。</p>
+<p>另一种方法是constructive solid geometry（csg,构造立体几何法)</p>
+<img src="/2023/07/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Geometry/image-20230713095753987.png" class title="image-20230713095753987">
+
+
+
+<p>距离函数Distance Function</p>
+<p>希望blend得到AB的中间状态</p>
+<img src="/2023/07/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Geometry/image-20230713100223756.png" class title="image-20230713100223756">
+
+<p>如果是第一行的图，结果不能得到左黑右白的中间态</p>
+<p>第二行使用SDF，通过blend，可以得到0的位置，颜色围绕0开始渐变。</p>
+<p>插值得到的SDF再转回原图像</p>
+<img src="/2023/07/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Geometry/166.png" class>]]></content>
+      <categories>
+        <category>计算机图形学</category>
+      </categories>
   </entry>
 </search>
