@@ -2,6 +2,60 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://aspect-ux.github.io/2022/10/24/UnityShader/chapter3UnityShaderAPI/</loc>
+    
+    <lastmod>2023-07-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://aspect-ux.github.io/2023/05/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Rasterization/</loc>
+    
+    <lastmod>2023-07-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://aspect-ux.github.io/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/</loc>
+    
+    <lastmod>2023-07-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://aspect-ux.github.io/2022/10/22/UnityShader/chapter2ShaderLab/</loc>
+    
+    <lastmod>2023-07-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://aspect-ux.github.io/2022/10/21/UnityShader/chapter1%E6%B8%B2%E6%9F%93%E6%B5%81%E6%B0%B4%E7%BA%BF/</loc>
+    
+    <lastmod>2023-07-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://aspect-ux.github.io/2023/05/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/%E6%A6%82%E8%BF%B0/</loc>
+    
+    <lastmod>2023-07-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://aspect-ux.github.io/2023/07/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Geometry/</loc>
     
     <lastmod>2023-07-13</lastmod>
@@ -20,24 +74,6 @@
   </url>
   
   <url>
-    <loc>https://aspect-ux.github.io/2023/05/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/%E6%A6%82%E8%BF%B0/</loc>
-    
-    <lastmod>2023-07-13</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://aspect-ux.github.io/2023/05/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Rasterization/</loc>
-    
-    <lastmod>2023-07-06</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://aspect-ux.github.io/2023/05/24/%E9%9A%8F%E8%AE%B0/VSCppConfig/</loc>
     
     <lastmod>2023-07-06</lastmod>
@@ -47,16 +83,7 @@
   </url>
   
   <url>
-    <loc>https://aspect-ux.github.io/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/</loc>
-    
-    <lastmod>2023-07-06</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://aspect-ux.github.io/2022/11/09/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter11/</loc>
+    <loc>https://aspect-ux.github.io/2022/11/09/UnityShader/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter11/</loc>
     
     <lastmod>2023-05-16</lastmod>
     
@@ -128,7 +155,7 @@
   </url>
   
   <url>
-    <loc>https://aspect-ux.github.io/2022/11/10/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E9%AB%98%E7%BA%A7%E7%AF%87Chapter12/</loc>
+    <loc>https://aspect-ux.github.io/2022/11/10/UnityShader/%E9%AB%98%E7%BA%A7%E7%AF%87Chapter12/</loc>
     
     <lastmod>2022-11-10</lastmod>
     
@@ -155,7 +182,7 @@
   </url>
   
   <url>
-    <loc>https://aspect-ux.github.io/2022/11/07/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter10/</loc>
+    <loc>https://aspect-ux.github.io/2022/11/07/UnityShader/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter10/</loc>
     
     <lastmod>2022-11-07</lastmod>
     
@@ -191,7 +218,7 @@
   </url>
   
   <url>
-    <loc>https://aspect-ux.github.io/2022/11/03/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter9/</loc>
+    <loc>https://aspect-ux.github.io/2022/11/03/UnityShader/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter9/</loc>
     
     <lastmod>2022-11-03</lastmod>
     
@@ -200,7 +227,7 @@
   </url>
   
   <url>
-    <loc>https://aspect-ux.github.io/2022/11/02/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter8/</loc>
+    <loc>https://aspect-ux.github.io/2022/11/02/UnityShader/UnityShader%E7%B2%BE%E8%A6%81Chapter8/</loc>
     
     <lastmod>2022-11-02</lastmod>
     
@@ -218,7 +245,7 @@
   </url>
   
   <url>
-    <loc>https://aspect-ux.github.io/2022/10/31/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter7_1/</loc>
+    <loc>https://aspect-ux.github.io/2022/10/31/UnityShader/UnityShader%E7%B2%BE%E8%A6%81Chapter7_1/</loc>
     
     <lastmod>2022-10-31</lastmod>
     
@@ -227,7 +254,7 @@
   </url>
   
   <url>
-    <loc>https://aspect-ux.github.io/2022/10/29/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter7/</loc>
+    <loc>https://aspect-ux.github.io/2022/10/29/UnityShader/UnityShader%E7%B2%BE%E8%A6%81Chapter7/</loc>
     
     <lastmod>2022-10-29</lastmod>
     
@@ -236,7 +263,7 @@
   </url>
   
   <url>
-    <loc>https://aspect-ux.github.io/2022/10/28/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%81Chapter6/</loc>
+    <loc>https://aspect-ux.github.io/2022/10/28/UnityShader/UnityShader%E7%B2%BE%E8%A6%81Chapter6/</loc>
     
     <lastmod>2022-10-28</lastmod>
     
@@ -245,7 +272,7 @@
   </url>
   
   <url>
-    <loc>https://aspect-ux.github.io/2022/10/27/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8105/</loc>
+    <loc>https://aspect-ux.github.io/2022/10/27/UnityShader/UnityShader%E7%B2%BE%E8%A6%8105/</loc>
     
     <lastmod>2022-10-27</lastmod>
     
@@ -263,27 +290,9 @@
   </url>
   
   <url>
-    <loc>https://aspect-ux.github.io/2022/10/26/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8104/</loc>
+    <loc>https://aspect-ux.github.io/2022/10/26/UnityShader/UnityShader%E7%B2%BE%E8%A6%8104/</loc>
     
     <lastmod>2022-10-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://aspect-ux.github.io/2022/10/24/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8103/</loc>
-    
-    <lastmod>2022-10-24</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://aspect-ux.github.io/2022/10/22/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8102/</loc>
-    
-    <lastmod>2022-10-22</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -346,7 +355,7 @@
 
   <url>
     <loc>https://aspect-ux.github.io/</loc>
-    <lastmod>2023-07-13</lastmod>
+    <lastmod>2023-07-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -354,7 +363,7 @@
   
   <url>
     <loc>https://aspect-ux.github.io/tags/shader%E5%8A%A8%E7%94%BB/</loc>
-    <lastmod>2023-07-13</lastmod>
+    <lastmod>2023-07-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -363,42 +372,49 @@
   
   <url>
     <loc>https://aspect-ux.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/</loc>
-    <lastmod>2023-07-13</lastmod>
+    <lastmod>2023-07-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://aspect-ux.github.io/categories/%E9%9A%8F%E8%AE%B0/</loc>
-    <lastmod>2023-07-13</lastmod>
+    <lastmod>2023-07-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://aspect-ux.github.io/categories/Game-system-with-uniy/</loc>
-    <lastmod>2023-07-13</lastmod>
+    <lastmod>2023-07-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://aspect-ux.github.io/categories/unity-shader/</loc>
-    <lastmod>2023-07-13</lastmod>
+    <lastmod>2023-07-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://aspect-ux.github.io/categories/Fundamental-of-Computer-Graphics/</loc>
-    <lastmod>2023-07-13</lastmod>
+    <lastmod>2023-07-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://aspect-ux.github.io/categories/Games101/</loc>
-    <lastmod>2023-07-13</lastmod>
+    <lastmod>2023-07-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://aspect-ux.github.io/categories/Unity-Shader/</loc>
+    <lastmod>2023-07-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>

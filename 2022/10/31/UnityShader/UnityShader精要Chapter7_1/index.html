@@ -1,0 +1,169 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>unityshader精要7-1 | 技术美术学习记录</title><meta name="author" content="Aspect"><meta name="copyright" content="Aspect"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Chapter7渐变纹理冷色调转暖色调，编写卡通风格Unity Shader（记录：区别BlinnPhong和Phong高光计算，另外如果计算新的漫反射albedo,就不用声明_Diffuse来计算diffuse） 代码 12345678910111213141516171819fixed4 frag(v2f i) : SV_TARGET&amp;#123;               fixed3 wo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="unityshader精要7-1">
+<meta property="og:url" content="https://aspect-ux.github.io/2022/10/31/UnityShader/UnityShader%E7%B2%BE%E8%A6%81Chapter7_1/index.html">
+<meta property="og:site_name" content="技术美术学习记录">
+<meta property="og:description" content="Chapter7渐变纹理冷色调转暖色调，编写卡通风格Unity Shader（记录：区别BlinnPhong和Phong高光计算，另外如果计算新的漫反射albedo,就不用声明_Diffuse来计算diffuse） 代码 12345678910111213141516171819fixed4 frag(v2f i) : SV_TARGET&amp;#123;               fixed3 wo">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+<meta property="article:published_time" content="2022-10-31T13:26:55.984Z">
+<meta property="article:modified_time" content="2022-10-31T13:32:04.584Z">
+<meta property="article:author" content="Aspect">
+<meta property="article:tag" content="TA">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://aspect-ux.github.io/2022/10/31/UnityShader/UnityShader%E7%B2%BE%E8%A6%81Chapter7_1/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'unityshader精要7-1',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-10-31 21:32:04'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="技术美术学习记录" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/mydata/miku.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">36</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">1</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">7</div></a></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">技术美术学习记录</a></span><div id="menus"><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">unityshader精要7-1</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2022-10-31T13:26:55.984Z" title="Created 2022-10-31 21:26:55">2022-10-31</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2022-10-31T13:32:04.584Z" title="Updated 2022-10-31 21:32:04">2022-10-31</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/unity-shader/">unity shader</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="unityshader精要7-1"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="Chapter7"><a href="#Chapter7" class="headerlink" title="Chapter7"></a>Chapter7</h2><h3 id="渐变纹理"><a href="#渐变纹理" class="headerlink" title="渐变纹理"></a>渐变纹理</h3><p>冷色调转暖色调，编写卡通风格Unity Shader（<em>记录：区别BlinnPhong和Phong高光计算</em>，另外如果计算新的漫反射albedo,就不用声明_Diffuse来计算diffuse）</p>
+<p><em>代码</em></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">fixed4 frag(v2f i) : SV_TARGET&#123;</span><br><span class="line">               fixed3 worldNormal = normalize(i.worldNormal);</span><br><span class="line">               fixed3 worldLightDir = normalize(UnityWorldSpaceLightDir(i.worldPos));</span><br><span class="line"></span><br><span class="line">               fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz;  //</span><br><span class="line"></span><br><span class="line">               //使用纹理来采样漫反射,使用半兰伯特模型</span><br><span class="line">               fixed halfLambert = 0.5 * dot(worldNormal,worldLightDir) + 0.5;</span><br><span class="line">               fixed3 diffuseColor = tex2D(_RampTex,fixed2(halfLambert,halfLambert)).rgb * _Color.rgb;</span><br><span class="line"></span><br><span class="line">               fixed3 diffuse = _LightColor0.rgb * diffuseColor;</span><br><span class="line"></span><br><span class="line">               //计算高光BlinnPhong模型</span><br><span class="line">               fixed3 viewDir = normalize(UnityWorldSpaceViewDir(i.worldPos));</span><br><span class="line">               fixed3 halfDir = normalize(worldLightDir + viewDir);</span><br><span class="line">               fixed3 specular = _LightColor0.rgb * _Specular.rgb * pow(max(0,dot(worldNormal,halfDir)),_Gloss);</span><br><span class="line">               </span><br><span class="line">               return fixed4(ambient + diffuse + specular,1.0);</span><br><span class="line">           &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>注意使用<code>fixed2(halfLambert,halfLambert)</code>会发生大于1的情况（1.0001）,这样映射到模型上会出现黑点</p>
+<p>此时需要将纹理的WrapMode从Repeat(重复，但是最左边是黑色的）换成Clamp(大于1取1)</p>
+<p><img src="/2022/10/31/UnityShader/UnityShader%E7%B2%BE%E8%A6%81Chapter7_1/UnityShader%E7%B2%BE%E8%A6%81Chapter7_1%5Cimage-20220820110835470.png" alt="image-20220820110835470"></p>
+<h3 id="遮罩纹理"><a href="#遮罩纹理" class="headerlink" title="遮罩纹理"></a>遮罩纹理</h3><p>使用高光遮罩纹理，遮罩纹理用于更加细致地控制高光反射光强度</p>
+<p>变量声明</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">fixed4 _Color;</span><br><span class="line">sampler2D _MainTex;</span><br><span class="line">float4 _MainTex_ST;</span><br><span class="line">sampler2D _BumpMap;</span><br><span class="line"><span class="comment">//float4 _BumpMap_ST;</span></span><br><span class="line"><span class="built_in">float</span> _BumpScale;</span><br><span class="line">sampler2D _SpecularMask;</span><br><span class="line"><span class="comment">//float4 _SpecularMask_ST;</span></span><br><span class="line"><span class="built_in">float</span> _SpecularScale;</span><br><span class="line">fixed4 _Specular;</span><br><span class="line"><span class="built_in">float</span> _Gloss;</span><br></pre></td></tr></table></figure>
+
+<p><em>这里 _ BumpMap、_ Specular和_MainTex共用一个ST</em></p>
+<p>如果每个纹理都需要不同的平铺系数和偏移系数，那么纹理数目增加顶点着色器中的插值寄存器会迅速被占满。</p>
+<p><strong>流程</strong></p>
+<p>1.该实验使用了三个纹理，分别是基本纹理，切线空间的法线纹理（凹凸贴图），高光遮罩纹理</p>
+<p>2.计算是逐像素计算，计算是在切线空间下进行（一定要明确在哪个空间下进行），diffuse用lambert模型</p>
+<p>specular用BlinnPhong模型</p>
+<p>3.<code>o.uv = TRANSFORM_TEX(v.texcoord, _MainTex;</code>三张纹理共用同一套uv</p>
+<p><strong>结果</strong></p>
+<p>加上遮罩贴图后高光更加暗淡和谐</p>
+<p><img src="/2022/10/31/UnityShader/UnityShader%E7%B2%BE%E8%A6%81Chapter7_1/UnityShader%E7%B2%BE%E8%A6%81Chapter7_1%5CuTools_1660974045813.png" alt="uTools_1660974045813"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://github.com/aspect-ux">Aspect</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://aspect-ux.github.io/2022/10/31/UnityShader/UnityShader%E7%B2%BE%E8%A6%81Chapter7_1/">https://aspect-ux.github.io/2022/10/31/UnityShader/UnityShader%E7%B2%BE%E8%A6%81Chapter7_1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/11/02/naive/%E8%99%8E%E4%B9%A6/04/"><img class="prev-cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">Computer Graphics 04</div></div></a></div><div class="next-post pull-right"><a href="/2022/10/31/naive/%E8%99%8E%E4%B9%A6/03/"><img class="next-cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">Computer Graphics 03</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/mydata/miku.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Aspect</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">36</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">1</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">7</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/aspect-ux"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">Welcome to my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Chapter7"><span class="toc-number">1.</span> <span class="toc-text">Chapter7</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B8%90%E5%8F%98%E7%BA%B9%E7%90%86"><span class="toc-number">1.1.</span> <span class="toc-text">渐变纹理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%81%AE%E7%BD%A9%E7%BA%B9%E7%90%86"><span class="toc-number">1.2.</span> <span class="toc-text">遮罩纹理</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/07/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Geometry/" title="Geometry(几何)"><img src="/img/mydata/6.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Geometry(几何)"/></a><div class="content"><a class="title" href="/2023/07/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Geometry/" title="Geometry(几何)">Geometry(几何)</a><time datetime="2023-07-13T01:35:24.619Z" title="Created 2023-07-13 09:35:24">2023-07-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/07/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Shading/" title="Shading(着色)"><img src="/img/mydata/5.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Shading(着色)"/></a><div class="content"><a class="title" href="/2023/07/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Shading/" title="Shading(着色)">Shading(着色)</a><time datetime="2023-07-11T02:58:51.658Z" title="Created 2023-07-11 10:58:51">2023-07-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/05/24/%E9%9A%8F%E8%AE%B0/VSCppConfig/" title="Visual Studio下Cpp的配置"><img src="/img/mydata/4.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Visual Studio下Cpp的配置"/></a><div class="content"><a class="title" href="/2023/05/24/%E9%9A%8F%E8%AE%B0/VSCppConfig/" title="Visual Studio下Cpp的配置">Visual Studio下Cpp的配置</a><time datetime="2023-05-24T06:18:26.100Z" title="Created 2023-05-24 14:18:26">2023-05-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/05/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Rasterization/" title="Rasterization(光栅化)"><img src="/img/mydata/3.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Rasterization(光栅化)"/></a><div class="content"><a class="title" href="/2023/05/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Rasterization/" title="Rasterization(光栅化)">Rasterization(光栅化)</a><time datetime="2023-05-23T12:15:23.290Z" title="Created 2023-05-23 20:15:23">2023-05-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/" title="Transformation(变换)"><img src="/img/mydata/2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Transformation(变换)"/></a><div class="content"><a class="title" href="/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/" title="Transformation(变换)">Transformation(变换)</a><time datetime="2023-05-17T16:09:51.767Z" title="Created 2023-05-18 00:09:51">2023-05-18</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By Aspect</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>
