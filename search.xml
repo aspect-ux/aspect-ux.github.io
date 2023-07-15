@@ -555,71 +555,6 @@
       </categories>
   </entry>
   <entry>
-    <title>unityshader精要1</title>
-    <url>/2022/10/21/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/</url>
-    <content><![CDATA[<h3 id="Unity-Shader01"><a href="#Unity-Shader01" class="headerlink" title="Unity Shader01"></a>Unity Shader01</h3><h4 id="什么是渲染流水线？"><a href="#什么是渲染流水线？" class="headerlink" title="什么是渲染流水线？"></a>什么是渲染流水线？</h4><p>流水线的概念早已学过，那么渲染流水线又是什么。首先要区别于GPU（硬件)流水线。</p>
-<p>分为三个概念上的阶段，每个阶段又有子流水线。</p>
-<p>应用阶段：开发者支配的阶段，输入场景、贴图、摄像机、光源等等；输出点、线、三角面等渲染图元。</p>
-<p>几何阶段（geometry): 这个阶段主要决定渲染哪些图元，以及将这些图元映射到二维平面上，包括着色，深度值，坐标。</p>
-<p>光栅化阶段（rasterization): 这个阶段同上一个阶段都是在GPU上进行，利用上一阶段的数据绘制出像素。先是逐顶点处理，然后是像素处理。</p>
-<h4 id="CPU与GPU之间"><a href="#CPU与GPU之间" class="headerlink" title="CPU与GPU之间"></a>CPU与GPU之间</h4><p>CPU控制数据从HDD(硬盘)中加载到显卡的显存（VRAM)中，数据包括位置、顶点着色、法线方向等。</p>
-<p>指定渲染状态，例如使用哪个顶点/片元着色器，使用哪个光源属性、材质。</p>
-<p>准备好后CPU发起Draw Call命令，GPU开始渲染。</p>
-<p>对应上面三个阶段。</p>
-<h4 id="GPU流水线"><a href="#GPU流水线" class="headerlink" title="GPU流水线"></a>GPU流水线</h4><p>已知几何与光栅化阶段在GPU上进行。</p>
-<img src="/2022/10/21/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/image-20220712135412678.png" class title="image-20220712135412678">
-
-<p>—-几何阶段</p>
-<p><strong>顶点着色器（Vertex Shader)</strong> 负责顶点几何变换和顶点着色</p>
-<img src="/2022/10/21/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/image-20220712141429317.png" class title="image-20220712141429317">
-
-
-
-
-
-
-
-<p>曲面细分、几何着色器均为可选着色器，分别用来细分图元和产生图元（增加）。</p>
-<p><strong>裁剪</strong></p>
-<p>位置分为完全在相机内，部分在相机内，完全不在相机内</p>
-<p>裁剪用来处理部分在相机内的部分，将与相机交点替代相机外的部分。</p>
-<p>需要注意的是顶点着色器是可编程的，但裁剪却是不可编程的，是硬件上的固定操作。</p>
-<p><strong>屏幕映射</strong></p>
-<p>输入三维坐标，映射二维，z不做处理</p>
-<img src="/2022/10/21/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/image-20220712142739290.png" class title="image-20220712142739290">
-
-
-
-<p>——光栅化阶段</p>
-<p>三角形设置</p>
-<p>已知顶点着色器不会记录点与点之间的关系</p>
-<p>该过程用来得到三角形边界表达方式，计算像素覆盖情况。</p>
-<p><strong>三角形遍历</strong></p>
-<p>（Triangle Traversal)</p>
-<p>找到覆盖的像素，生成片元。</p>
-<p>一个片元并不是真正意义上的像素，而是包含了很多状态的集合 这些状态用于计算每个像素的最终颜色</p>
-<p>对三个顶点进行插值，然后三角形内部颜色由三点渐变(gradient)混合而成。</p>
-<p><strong>片元着色器</strong></p>
-<p>DX中又称为像素着色器（Pixel Shader),不过片元不是真正意义上的像素</p>
-<p>可编程</p>
-<p>纹理采样，对三个顶点插值后，就可以得到片元的纹理坐标，仅可以影响单个片元，无法传递给邻居</p>
-<p><strong>逐片元操作</strong></p>
-<p>为OpenGL的说法，DX</p>
-<p>具体较复杂</p>
-<img src="/2022/10/21/naive/Unity%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81/UnityShader%E7%B2%BE%E8%A6%8101/image-20220712145900074.png" class title="image-20220712145900074">
-
-
-
-<p>片元着色器执行后，进行模板测试，再开始深度测试</p>
-<p>深度测试在坐标屏幕进行，屏幕空间坐标与glViewport所定义的视口大小相关</p>
-<p>可用glFragCoord(x,y,z)访问屏幕坐标，z为深度值</p>
-<p>现代GPU硬件特性，深度测试可以在片着之前，但是不能同时。</p>
-<p>参照<a href="https://zhuanlan.zhihu.com/p/371245442">深度测试 - 知乎 (zhihu.com)</a></p>
-<h4 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h4><p>OpenGL、DX是CPU和GPU之间的桥梁，图形接口（api)</p>
-<p>显卡中除了图形处理单元GPU,还有显存(VRAM)。</p>
-]]></content>
-  </entry>
-  <entry>
     <title>我的第一篇文章</title>
     <url>/2022/10/21/%E9%9A%8F%E8%AE%B0/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/</url>
     <content><![CDATA[]]></content>
@@ -1189,9 +1124,8 @@
 <p>还有它们的connectivities；本质上就是一个3d白模文件。</p>
 </li>
 </ol>
-<h3 id="Curve"><a href="#Curve" class="headerlink" title="Curve"></a><strong>Curve</strong></h3><p>以上讲了两种几何的两种表达方式。接下来主要学习曲线这种几何的实现与应用。</p>
-<p><strong>贝塞尔曲线</strong></p>
-<p>类似于ps钢笔工具，选择控制点，帮助绘制曲线（显示表达）</p>
+<h3 id="Curve（曲线）"><a href="#Curve（曲线）" class="headerlink" title="Curve（曲线）"></a><strong>Curve</strong>（曲线）</h3><p>以上讲了两种几何的两种表达方式。接下来主要学习曲线这种几何的实现与应用。</p>
+<h4 id="贝塞尔曲线"><a href="#贝塞尔曲线" class="headerlink" title="贝塞尔曲线"></a><strong>贝塞尔曲线</strong></h4><p>类似于ps钢笔工具，选择控制点，帮助绘制曲线（<strong>显示表达</strong>）</p>
 <p>如何绘制贝塞尔曲线？</p>
 <p>de Casteljau Algorithm</p>
 <p>举例：要求从b0开始，b2结束，t是时间记为【0，1】，共计三个控制点，如下图</p>
@@ -1202,13 +1136,19 @@
 <img src="/2023/07/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Geometry/image-20230713160355108.png" class title="image-20230713160355108">
 
 <p><strong>更普遍地</strong></p>
-<p>两个控制点(ps钢笔工具)画直线</p>
+<p>两个控制点画直线</p>
 <p>三个控制点，绘制二次贝塞尔曲线。</p>
 <p>…</p>
-<p>若干个无限递归下去，不难发现<code>（1-t + t) ^n</code>的展开项正是控制点bj的权重</p>
+<p>若干个无限递归下去，n个点逐渐递归成一个点，不难发现<code>（1-t + t) ^n</code>的展开项正是控制点bj的权重</p>
 <p>称之为伯因斯坦多项式，以下是n阶贝塞尔曲线的解析式</p>
 <img src="/2023/07/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Geometry/image-20230713160850476.png" class title="image-20230713160850476">
 
+<p>有关贝塞尔曲线的性质，1. 起点终点都固定 2.初始方向，最后方向确定 3. affine property仿射性质，想要移动变换曲线可以通过变换控制点。 </p>
+<p>4.凸包性质（Convex Hull)：</p>
+<p>想象蓝色线条为橡皮筋，橡皮筋包围的区域就是凸包</p>
+<img src="/2023/07/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Geometry/image-20230715160538189.png" class title="image-20230715160538189">
+
+<p>贝塞尔曲线一定在凸包里面</p>
 <p>【补充】</p>
 <ol>
 <li>二项展开：</li>
@@ -1225,99 +1165,30 @@
 <p>​    展开通项为（又叫做多项式定理）</p>
    <img src="/2023/07/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Geometry/image-20230713161934995.png" class title="image-20230713161934995">
 
+<ol start="3">
+<li><p>伯因斯坦多项式</p>
+<img src="/2023/07/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Geometry/image-20230715154925547.png" class title="image-20230715154925547"></li>
+</ol>
+<h4 id="Piecewise-Bezier-逐段贝塞尔"><a href="#Piecewise-Bezier-逐段贝塞尔" class="headerlink" title="Piecewise Bezier(逐段贝塞尔)"></a>Piecewise Bezier(逐段贝塞尔)</h4><p>多段3阶贝塞尔的连接。</p>
+<p>示意图，曲线要连续，最后两个点决定终点导数，如果终点导数和下一个起点导数相等（蓝色标记共线等长），则认为曲线光滑连续。</p>
+<img src="/2023/07/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Geometry/60.png" class width="60">
 
+<p>【补充】</p>
+<p><strong>Spline 样条</strong></p>
+<p>有多个控制点，保持连续。一个可控的曲线。</p>
+<p>用的多的有B-Spline(复杂度高)</p>
+<h3 id="Surface-曲面"><a href="#Surface-曲面" class="headerlink" title="Surface(曲面)"></a>Surface(曲面)</h3><p>如何用贝塞尔曲线拓展到曲面，下图中，有一个4x4=16控制点的几何。</p>
+<p>一共有四行，每行一条3阶贝塞尔曲线，只要控制贝塞尔曲线的高度，进而就能控制面的形状。</p>
+<img src="/2023/07/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Geometry/image-20230715182508405.png" class title="image-20230715182508405">
 
+<p>具体操作如下图，其实上述有一个问题，竖轴（假设贝塞尔曲线所在轴）可以随意控制，但是横轴的变形却未提及</p>
+<img src="/2023/07/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Geometry/image-20230715183005306.png" class title="image-20230715183005306">
 
-
-
-
-
-
-
-
+<p>根据上图我们可以发现，四条贝塞尔分别插值，最后得到4个点再做二维的插值。由此可以实现贝塞尔曲面。</p>
+<p>设参数为（u，v)，横轴和竖轴的时间参数。显然这里也验证了贝塞尔曲线是显示的表达方式。</p>
 ]]></content>
       <categories>
         <category>计算机图形学</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>unityshader精要4</title>
-    <url>/2022/10/26/UnityShader/UnityShader%E7%B2%BE%E8%A6%8104/</url>
-    <content><![CDATA[<h3 id="Unity-Shader04"><a href="#Unity-Shader04" class="headerlink" title="Unity Shader04"></a>Unity Shader04</h3><h4 id="基础语法"><a href="#基础语法" class="headerlink" title="基础语法"></a>基础语法</h4><figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">Shader <span class="string">&quot;Unity Shaders Book/Chaper5/Simple Shader&quot;</span> &#123; </span><br><span class="line">    SubShader &#123; </span><br><span class="line">    Pass &#123; <span class="comment">//自定义渲染设置</span></span><br><span class="line">        CGPROGR</span><br><span class="line">        <span class="meta">#<span class="keyword">pragma</span> vertex vert </span></span><br><span class="line">        <span class="meta">#<span class="keyword">pragma</span> fragment frag </span></span><br><span class="line">        <span class="function">float4 <span class="title">vert</span>(<span class="params">float4 v: POSITION</span>) : SV POSITION</span> &#123; </span><br><span class="line">            <span class="keyword">return</span> mul (UNITY MATRIX MVP, v);</span><br><span class="line">        &#125; </span><br><span class="line">        <span class="function">fixed4 <span class="title">frag</span>() : SV_Target</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> fixed4(<span class="number">1.0</span>, <span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>); </span><br><span class="line">        &#125;</span><br><span class="line">        ENDCG</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>顶点着色器中</li>
-</ul>
-<p>POSITION和SV_POSITION是CG/HLSL中的语义（semantic)不可省略。</p>
-<p>POSITION告诉Unity将模型的坐标作为输入参数输入到v中。</p>
-<p>而SV_POSITION则告诉Unity返回裁剪坐标。</p>
-<p>片元着色器中</p>
-<p>SV_TARGET也是一个语义，告诉系统将渲染输出存储到渲染目标，默认输出到帧缓存。（1，1，1）表示白色，这里返回了白色。</p>
-<p>结构体</p>
-<p>用来定义着色器的输入</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> a2v&#123;   <span class="comment">//a2v意思是将应用阶段数据传到顶点着色器</span></span><br><span class="line">    <span class="comment">//用模型坐标填充</span></span><br><span class="line">    float4 vertex : POSITION;</span><br><span class="line">    <span class="comment">//用法线方向填充</span></span><br><span class="line">    float3 normal : NORMAL;</span><br><span class="line">    <span class="comment">//TEXCOORD0告诉系统用第一条纹理坐标填充</span></span><br><span class="line">    float4 texcoord : TEXCOORD0;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>Unity <strong>支持的语义有：</strong> POSITION, TANGENT, NORMAL, TEXCOORDO, TEXCOORDJ, TEXCOORD2, TEXCOORD3, COLOR 等。</p>
-<p><code>struct StructName&#123;TypeName name : Semantic;&#125;;</code></p>
-<h4 id="顶点与片元着色器通信"><a href="#顶点与片元着色器通信" class="headerlink" title="顶点与片元着色器通信"></a>顶点与片元着色器通信</h4><figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> v2f&#123; <span class="comment">//从顶点着色器到片元</span></span><br><span class="line">    <span class="comment">//pos中包含了裁剪空间的位置信息</span></span><br><span class="line">    float4 pos : SV_POSITION;</span><br><span class="line">    <span class="comment">//COLOR0用来存储颜色信息</span></span><br><span class="line">    float3 color : COLOR0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>以下为完整代码</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">Shader <span class="string">&quot;Unity Shaders Book/Simple Shader&quot;</span>&#123;</span><br><span class="line">    SubShader&#123;</span><br><span class="line">        Pass&#123;</span><br><span class="line">            CGPROGRAM</span><br><span class="line">            <span class="meta">#<span class="keyword">pragma</span> vertex vert</span></span><br><span class="line">            <span class="meta">#<span class="keyword">pragma</span> fragment frag</span></span><br><span class="line">			<span class="comment">//将模型坐标输入到顶点着色器</span></span><br><span class="line">            <span class="keyword">struct</span> a2v&#123;</span><br><span class="line">                float4 vertex : POSITION;</span><br><span class="line">                float3 normal : NORMAL;</span><br><span class="line">                float4 texcoord : TEXCOORD0;</span><br><span class="line">            &#125;;</span><br><span class="line">			<span class="comment">//将顶点数据输出到片元</span></span><br><span class="line">            <span class="keyword">struct</span> v2f&#123;</span><br><span class="line">                float4 pos : SV_POSITION;</span><br><span class="line">                fixed3 color : COLOR0;</span><br><span class="line">            &#125;;</span><br><span class="line">            <span class="comment">//顶点着色器，逐顶点调用</span></span><br><span class="line">            <span class="function">v2f <span class="title">vert</span>(<span class="params">a2v v</span>)</span>&#123;</span><br><span class="line">                v2f o;</span><br><span class="line">                o.pos = mul(UNITY_MATRIX_MVP,v.vertex);</span><br><span class="line">                o.color = v.normal * <span class="number">0.5</span>+fixed3(<span class="number">0.5</span>,<span class="number">0.5</span>,<span class="number">0.5</span>);</span><br><span class="line">                <span class="keyword">return</span> o;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//逐片元调用</span></span><br><span class="line">            <span class="function">fixed4 <span class="title">frag</span>(<span class="params">v2f i</span>) : SV_TARGET</span>&#123;</span><br><span class="line">                <span class="keyword">return</span> fixed4(i.color,<span class="number">1.0</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            ENDCG</span><br><span class="line">        &#125;</span><br><span class="line">       </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h4><figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">Properties&#123;</span><br><span class="line">	_Color(<span class="string">&quot;Color Tint&quot;</span>,Color) = (<span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//需要注意的是，在CG代码中需要定义出名称类型都一致的变量</span></span><br><span class="line"></span><br><span class="line">SubShader&#123;</span><br><span class="line">    Pass&#123;</span><br><span class="line">        CGPROGRAM</span><br><span class="line">            fixed4 _Color;</span><br><span class="line">            ENDCG</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>区别ShaderLab和CG的变量</p>
-<img src="/2022/10/26/UnityShader/UnityShader%E7%B2%BE%E8%A6%8104/image-20220714112206997.png" class title="image-20220714112206997">
-
-
-
-<h4 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h4><p>已知真正的Shader不是简单的一个<code>.shader</code>文件。</p>
-<p>UnityShader 的方便性使得不用开发者自己转换法线方向，处理光照阴影等。</p>
-<p>类似于C++的头文件,写在CG中，根据情况下载</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">CGPROGRAM</span><br><span class="line"><span class="comment">//...</span></span><br><span class="line"><span class="meta">#include &quot;UnityCG.cginc&quot;</span></span><br><span class="line"><span class="comment">//...</span></span><br><span class="line">ENGCG</span><br></pre></td></tr></table></figure>
-
-<h4 id="Debug"><a href="#Debug" class="headerlink" title="Debug"></a>Debug</h4><p>ColorPicker.cs绑定摄像机，获取屏幕RGB值</p>
-<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><p>有关CG/HLSL的语义，可参照微软DX文档</p>
-<p>语义主要是用来限定输入输出的字符串，决定输入输出来源去向，方式等。</p>
-<p>SV（system value semantics)</p>
-<p>定义复杂变量类型时，需要注意，一个语义，寄存器只能存储4个浮点数，所以可以采取分成4个变量表示一个矩阵</p>
-<p>shader中不要除以0</p>
-]]></content>
-      <categories>
-        <category>unity shader</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>unityshader精要5</title>
-    <url>/2022/10/27/UnityShader/UnityShader%E7%B2%BE%E8%A6%8105/</url>
-    <content><![CDATA[<h3 id="UnityShader-05"><a href="#UnityShader-05" class="headerlink" title="UnityShader 05"></a>UnityShader 05</h3><h4 id="Unity中的基本光照"><a href="#Unity中的基本光照" class="headerlink" title="Unity中的基本光照"></a>Unity中的基本光照</h4><p>光线是如何产生的，光源发射光，一些物体与光交互，吸收一些光，散射一些光，而摄像机吸收一些光，形成了图像。</p>
-<p>在光学中，使用<strong>辐照度</strong>（irradiance)来量化光。</p>
-<p>那么如何计算辐照度呢？</p>
-<p>辐照度与照射到物体表面光线之间的距离<code>d/cosx</code>成反比。</p>
-<p>当光垂直下落<code>cosx=1</code>,那么距离为d</p>
-<p>当光与竖直方向呈x度角，距离为<code>d/cosx</code></p>
-<p>其中x可以由表面法线n和光源方向l的点积得到。</p>
-<h5 id="散射与吸收"><a href="#散射与吸收" class="headerlink" title="散射与吸收"></a>散射与吸收</h5><p>散射（scatering)只改变光线方向，不改变光线的密度和颜色。散射的光线一般有两种方向，一种是向物体内部折射（refraction)或透射（transmission);另一种是反射（reflection)到外部。</p>
-<p>为了区分两种散射，用<strong>高光反射</strong>（specular)和<strong>漫反射</strong>（diffuse)分别表示物体如何反射以及计算多少光线折射、吸收(absorption)、反射出表面。</p>
-<p>根据光线的入射方向和入射量可以得到出射度（exitance)</p>
-<h5 id="着色"><a href="#着色" class="headerlink" title="着色"></a>着色</h5><p>根据一系列的信息得到计算出射度的等式，也即光照模型。（lighting model )</p>
-<h5 id="标准光照模型"><a href="#标准光照模型" class="headerlink" title="标准光照模型"></a>标准光照模型</h5><ul>
-<li><p>自发光（emissive) 光线直接由光源进入摄像机，直接用材质的自发光颜色。</p>
-</li>
-<li><p>高光反射（specular)</p>
-</li>
-<li><p>漫反射（diffuse)</p>
-<p>漫反射光照符合兰伯特定律 (Lambert’s law): 反射光线的强度与表面法线和光源方向之间角的余弦值 成正比。因此， 漫反射部分的计算如下</p>
-<img src="/2022/10/27/UnityShader/UnityShader%E7%B2%BE%E8%A6%8105/image-20220715170258041.png" class title="image-20220715170258041">
-
-<p>c light 和 m diffuse 分别表示光源颜色和漫反射颜色</p>
-</li>
-<li><p>环境光（ambient) 一般是全局变量</p>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>unity shader</category>
       </categories>
   </entry>
   <entry>
@@ -1585,6 +1456,7 @@
 <p>CG是跨平台的，根据不同平台翻译成中间语言，由于合作关系，和HLSL很像。但是可能无法发挥OpenGL新特性。</p>
 <img src="/2022/10/21/UnityShader/chapter1%E6%B8%B2%E6%9F%93%E6%B5%81%E6%B0%B4%E7%BA%BF/image-20230714152730652.png" class title="image-20230714152730652">vv
 
+<p>提到了OpenGL和DX，就不得不提到Unity本身的跨平台性，两者坐标系不同，但是Unity自身提供翻转（开了抗锯齿+渲染到纹理就失效）</p>
 <p>最后提一嘴，固定渲染管线由于对开发者极弱的开放性，渐渐退出历史舞台。</p>
 ]]></content>
       <categories>
@@ -1605,7 +1477,7 @@
 <p>我们知道着色器语言主要有CG,HLSL,GLSL。</p>
 <p>不同于它们，Unity中开发者使用的着色器语言叫做<code>ShaderLab</code>，语法上<code>shaderlab</code>和CG,HLSL没有太大区别，部分函数Unity没有提供；本质上<code>shaderlab</code>是基于它们的封装。</p>
 <p>虽然Unity只支持封装后的CG,HLSL,但是如果要写GLSL也是可行的（不推荐）。</p>
-<h2 id="Unity-Shader-基本介绍"><a href="#Unity-Shader-基本介绍" class="headerlink" title="Unity Shader 基本介绍"></a>Unity Shader 基本介绍</h2><h3 id="Unity-Shader-语法"><a href="#Unity-Shader-语法" class="headerlink" title="Unity Shader 语法"></a>Unity Shader 语法</h3><p>Unity主要有<code>Standard Surface Shader, Unlit Shader, Image Effect Shader</code> 以及 <code>Compute Shader</code>。</p>
+<h2 id="Unity-Shader-基本介绍"><a href="#Unity-Shader-基本介绍" class="headerlink" title="Unity Shader 基本介绍"></a>Unity Shader 基本介绍</h2><h3 id="Unity-Shader-结构"><a href="#Unity-Shader-结构" class="headerlink" title="Unity Shader 结构"></a>Unity Shader 结构</h3><p>Unity主要有<code>Standard Surface Shader, Unlit Shader, Image Effect Shader</code> 以及 <code>Compute Shader</code>。</p>
 <p><strong>Unity Shader基本结构</strong></p>
 <figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">Shader <span class="string">&quot;ShaderName&quot;</span>&#123;</span><br><span class="line">    Properties&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    SubShader&#123;</span><br><span class="line">        <span class="comment">//显卡A</span></span><br><span class="line">    &#125;</span><br><span class="line">    SubShader&#123;</span><br><span class="line">        <span class="comment">//显卡B</span></span><br><span class="line">    &#125;</span><br><span class="line">    FallBack <span class="string">&quot;VertexLit&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -1635,7 +1507,7 @@
 <p><strong>结构</strong></p>
 <img src="/2022/10/22/UnityShader/chapter2ShaderLab/image-20220713092133474.png" class title="image-20220713092133474">
 
-<h4 id="各种着色器"><a href="#各种着色器" class="headerlink" title="各种着色器"></a>各种着色器</h4><p><strong>表面着色器</strong></p>
+<h3 id="Unity上的着色器"><a href="#Unity上的着色器" class="headerlink" title="Unity上的着色器"></a>Unity上的着色器</h3><p><strong>表面着色器</strong></p>
 <p>(Surface Shader) 已经写好，开发者可编程内容少。不需要Pass包裹，引擎自行处理</p>
 <p>本质上可以理解为顶点、片元着色器的进一步抽象，Unity中的Shader代码一般如上图所示。</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Shader &quot;Custom/Simple Surface Shader&quot;&#123;</span><br><span class="line">    SubShader&#123;</span><br><span class="line">        Tags&#123;&quot;RenderType&quot; = &quot;Opaque&quot;&#125;</span><br><span class="line">        </span><br><span class="line">        CGPROGRAM</span><br><span class="line">        #pragma surface surf Lambert</span><br><span class="line">        struct Input&#123;</span><br><span class="line">            float4 color : COLOR;</span><br><span class="line">        &#125;;</span><br><span class="line">        ENDCG</span><br><span class="line">    &#125;</span><br><span class="line">    Fallback &quot;Diffuse&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -1647,6 +1519,46 @@
 <p>固定函数着色器落后不讨论</p>
 <p><strong>从结果上来讲，Unity Shader只包含顶点片元两种可编写部分</strong></p>
 <p>表面着色器中<code>SubShader</code>的CG代码会被Unity细分到Pass。</p>
+<h3 id="Unity-Shader语法与语义"><a href="#Unity-Shader语法与语义" class="headerlink" title="Unity Shader语法与语义"></a>Unity Shader语法与语义</h3><h4 id="基础语法"><a href="#基础语法" class="headerlink" title="基础语法"></a>基础语法</h4><figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">Shader <span class="string">&quot;Unity Shaders Book/Chaper5/Simple Shader&quot;</span> &#123; </span><br><span class="line">    SubShader &#123; </span><br><span class="line">    Pass &#123; <span class="comment">//自定义渲染设置</span></span><br><span class="line">        CGPROGR</span><br><span class="line">        <span class="meta">#<span class="keyword">pragma</span> vertex vert </span></span><br><span class="line">        <span class="meta">#<span class="keyword">pragma</span> fragment frag </span></span><br><span class="line">        <span class="function">float4 <span class="title">vert</span>(<span class="params">float4 v: POSITION</span>) : SV POSITION</span> &#123; </span><br><span class="line">            <span class="keyword">return</span> mul (UNITY MATRIX MVP, v);</span><br><span class="line">        &#125; </span><br><span class="line">        <span class="function">fixed4 <span class="title">frag</span>() : SV_Target</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> fixed4(<span class="number">1.0</span>, <span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>); </span><br><span class="line">        &#125;</span><br><span class="line">        ENDCG</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>顶点着色器中</li>
+</ul>
+<p>POSITION和SV_POSITION是CG/HLSL中的语义（semantic)不可省略。</p>
+<p>POSITION告诉Unity将模型的坐标作为输入参数输入到v中。</p>
+<p>而SV_POSITION则告诉Unity返回裁剪坐标。</p>
+<ul>
+<li>片元着色器中</li>
+</ul>
+<p>SV_TARGET也是一个语义，告诉系统将渲染输出存储到渲染目标，默认输出到帧缓存。（1，1，1）表示白色，这里返回了白色。</p>
+<p>结构体用来定义着色器的输入</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> a2v&#123;   <span class="comment">//a2v意思是将应用阶段数据传到顶点着色器</span></span><br><span class="line">    <span class="comment">//用模型坐标填充</span></span><br><span class="line">    float4 vertex : POSITION;</span><br><span class="line">    <span class="comment">//用法线方向填充</span></span><br><span class="line">    float3 normal : NORMAL;</span><br><span class="line">    <span class="comment">//TEXCOORD0告诉系统用第一条纹理坐标填充</span></span><br><span class="line">    float4 texcoord : TEXCOORD0;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>Unity <strong>支持的语义有：</strong> POSITION, TANGENT, NORMAL, TEXCOORDO, TEXCOORDJ, TEXCOORD2, TEXCOORD3, COLOR 等。</p>
+<p><code>struct StructName&#123;TypeName name : Semantic;&#125;;</code></p>
+<h4 id="顶点与片元着色器通信"><a href="#顶点与片元着色器通信" class="headerlink" title="顶点与片元着色器通信"></a>顶点与片元着色器通信</h4><figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> v2f&#123; <span class="comment">//从顶点着色器到片元</span></span><br><span class="line">    <span class="comment">//pos中包含了裁剪空间的位置信息</span></span><br><span class="line">    float4 pos : SV_POSITION;</span><br><span class="line">    <span class="comment">//COLOR0用来存储颜色信息</span></span><br><span class="line">    float3 color : COLOR0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以下为完整代码</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">Shader <span class="string">&quot;Unity Shaders Book/Simple Shader&quot;</span>&#123;</span><br><span class="line">    SubShader&#123;</span><br><span class="line">        Pass&#123;</span><br><span class="line">            CGPROGRAM</span><br><span class="line">            <span class="meta">#<span class="keyword">pragma</span> vertex vert</span></span><br><span class="line">            <span class="meta">#<span class="keyword">pragma</span> fragment frag</span></span><br><span class="line">			<span class="comment">//将模型坐标输入到顶点着色器</span></span><br><span class="line">            <span class="keyword">struct</span> a2v&#123;</span><br><span class="line">                float4 vertex : POSITION;</span><br><span class="line">                float3 normal : NORMAL;</span><br><span class="line">                float4 texcoord : TEXCOORD0;</span><br><span class="line">            &#125;;</span><br><span class="line">			<span class="comment">//将顶点数据输出到片元</span></span><br><span class="line">            <span class="keyword">struct</span> v2f&#123;</span><br><span class="line">                float4 pos : SV_POSITION;</span><br><span class="line">                fixed3 color : COLOR0;</span><br><span class="line">            &#125;;</span><br><span class="line">            <span class="comment">//顶点着色器，逐顶点调用</span></span><br><span class="line">            <span class="function">v2f <span class="title">vert</span>(<span class="params">a2v v</span>)</span>&#123;</span><br><span class="line">                v2f o;</span><br><span class="line">                o.pos = mul(UNITY_MATRIX_MVP,v.vertex);</span><br><span class="line">                o.color = v.normal * <span class="number">0.5</span>+fixed3(<span class="number">0.5</span>,<span class="number">0.5</span>,<span class="number">0.5</span>);</span><br><span class="line">                <span class="keyword">return</span> o;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//逐片元调用</span></span><br><span class="line">            <span class="function">fixed4 <span class="title">frag</span>(<span class="params">v2f i</span>) : SV_TARGET</span>&#123;</span><br><span class="line">                <span class="keyword">return</span> fixed4(i.color,<span class="number">1.0</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            ENDCG</span><br><span class="line">        &#125;</span><br><span class="line">       </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h4><figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">Properties&#123;</span><br><span class="line">    <span class="comment">// shaderlab的变量</span></span><br><span class="line">	_Color(<span class="string">&quot;Color Tint&quot;</span>,Color) = (<span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//需要注意的是，在CG代码中需要定义出名称类型都一致的变量</span></span><br><span class="line"></span><br><span class="line">SubShader&#123;</span><br><span class="line">    Pass&#123;</span><br><span class="line">        <span class="comment">// CG片段</span></span><br><span class="line">        CGPROGRAM</span><br><span class="line">            fixed4 _Color;</span><br><span class="line">            ENDCG</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>区别ShaderLab和CG的变量</p>
+<img src="/2022/10/22/UnityShader/chapter2ShaderLab/image-20220714112206997.png" class title="image-20220714112206997">
+
+
+
+<h4 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h4><p>已知真正的Shader不是简单的一个<code>.shader</code>文件。</p>
+<p>UnityShader 的方便性使得不用开发者自己转换法线方向，处理光照阴影等。</p>
+<p>类似于C++的头文件,写在CG中，根据情况下载</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">CGPROGRAM</span><br><span class="line"><span class="comment">//...</span></span><br><span class="line"><span class="meta">#include &quot;UnityCG.cginc&quot;</span></span><br><span class="line"><span class="comment">//...</span></span><br><span class="line">ENGCG</span><br></pre></td></tr></table></figure>
+
+<h4 id="Debug"><a href="#Debug" class="headerlink" title="Debug"></a>Debug</h4><p>ColorPicker.cs绑定摄像机，获取屏幕RGB值</p>
+<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><p>有关CG/HLSL的语义，可参照微软DX文档</p>
+<p>语义主要是用来限定输入输出的字符串，决定输入输出来源去向，方式等。</p>
+<p>SV（system value semantics)</p>
+<p>定义复杂变量类型时，需要注意，一个语义，寄存器只能存储4个浮点数，所以可以采取分成4个变量表示一个矩阵</p>
+<p>【注意】shader中不要除以0，会造成意想不到的错误。</p>
 ]]></content>
       <categories>
         <category>Unity Shader</category>
@@ -1655,8 +1567,8 @@
   <entry>
     <title>chapter3 Unity Shader常用变量及函数</title>
     <url>/2022/10/24/UnityShader/chapter3UnityShaderAPI/</url>
-    <content><![CDATA[<h2 id="Unity-Shader常用变量及函数"><a href="#Unity-Shader常用变量及函数" class="headerlink" title="Unity Shader常用变量及函数"></a>Unity Shader常用变量及函数</h2><h3 id="顶点的坐标空间变换"><a href="#顶点的坐标空间变换" class="headerlink" title="顶点的坐标空间变换"></a>顶点的坐标空间变换</h3><ul>
-<li><p>MVP的推导详情见<a href="../%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation.md">Transformation</a></p>
+    <content><![CDATA[<h2 id="Unity-Shader常用变量及函数"><a href="#Unity-Shader常用变量及函数" class="headerlink" title="Unity Shader常用变量及函数"></a>Unity Shader常用变量及函数</h2><h3 id="顶点的坐标空间变换流程及推导"><a href="#顶点的坐标空间变换流程及推导" class="headerlink" title="顶点的坐标空间变换流程及推导"></a>顶点的坐标空间变换流程及推导</h3><ul>
+<li><p>MVP的推导详情见我的图形学分类下的<a href="../%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation.md">Transformation</a></p>
 </li>
 <li><p>至此到了裁剪空间（投影空间），要想变换到屏幕空间</p>
 <ul>
@@ -1669,7 +1581,7 @@
 <p>从模型空间到世界空间，再到观察空间，然后裁剪空间，最后屏幕映射到屏幕空间。需要许多变换矩阵。</p>
 <img src="/2022/10/24/UnityShader/chapter3UnityShaderAPI/image-20220714095415512.png" class title="image-20220714095415512">
 
-<h3 id="法线变换"><a href="#法线变换" class="headerlink" title="法线变换"></a>法线变换</h3><p>这里需要额外提及unity的法线变换</p>
+<h3 id="法线变换（特例）"><a href="#法线变换（特例）" class="headerlink" title="法线变换（特例）"></a>法线变换（特例）</h3><p>这里需要额外提及unity的法线变换</p>
 <img src="/2022/10/24/UnityShader/chapter3UnityShaderAPI/image-20230714182242926.png" class title="image-20230714182242926">
 
 <p>发现法线变换失败</p>
@@ -1678,14 +1590,14 @@
 
 
 
-<h3 id="屏幕相机参数"><a href="#屏幕相机参数" class="headerlink" title="屏幕相机参数"></a>屏幕相机参数</h3><img src="/2022/10/24/UnityShader/chapter3UnityShaderAPI/image-20230714182950853.png" class title="image-20230714182950853">
+<h3 id="屏幕相机参数（API"><a href="#屏幕相机参数（API" class="headerlink" title="屏幕相机参数（API)"></a>屏幕相机参数（API)</h3><img src="/2022/10/24/UnityShader/chapter3UnityShaderAPI/image-20230714182950853.png" class title="image-20230714182950853">
 
 <img src="/2022/10/24/UnityShader/chapter3UnityShaderAPI/image-20230714183009964.png" class title="image-20230714183009964">
 
 
 
 <p>【此章待补充，用于记录unity shader CG/HLSL的语法区别和API应用】</p>
-]]></content>
+<h3 id="DX和OpenGL-CG和HLSL-Built-in和URP之间的差异"><a href="#DX和OpenGL-CG和HLSL-Built-in和URP之间的差异" class="headerlink" title="DX和OpenGL / CG和HLSL / Built-in和URP之间的差异"></a>DX和OpenGL / CG和HLSL / Built-in和URP之间的差异</h3>]]></content>
       <categories>
         <category>Unity Shader</category>
       </categories>
@@ -1887,6 +1799,45 @@
 ]]></content>
       <categories>
         <category>unity shader</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>chapter3 Unity 基础光照</title>
+    <url>/2022/10/27/UnityShader/chapter4Unity%E5%9F%BA%E7%A1%80%E5%85%89%E7%85%A7/</url>
+    <content><![CDATA[<h1 id="Unity中的基本光照"><a href="#Unity中的基本光照" class="headerlink" title="Unity中的基本光照"></a>Unity中的基本光照</h1><p>光线是如何产生的，光源发射光，一些物体与光交互，吸收一些光，散射一些光，而摄像机吸收一些光，形成了图像。在光学中，使用<strong>辐照度</strong>（irradiance)来量化光。</p>
+<p>那么如何计算辐照度呢？</p>
+<p>辐照度与照射到物体表面光线之间的距离<code>d/cosx</code>成反比。</p>
+<p>当光垂直下落<code>cosx=1</code>,那么距离为d</p>
+<p>当光与竖直方向呈x度角，距离为<code>d/cosx</code></p>
+<p>其中x可以由表面法线n和光源方向l的点积得到。</p>
+<h2 id="光与物体相交一般两种结果：散射与吸收"><a href="#光与物体相交一般两种结果：散射与吸收" class="headerlink" title="光与物体相交一般两种结果：散射与吸收"></a>光与物体相交一般两种结果：散射与吸收</h2><ul>
+<li>**散射（scatering)**只改变光线方向，不改变光线的密度和颜色。</li>
+</ul>
+<p>散射的光线一般有两种方向，一种是向物体内部散射，叫做<strong>折射（refraction)或透射（transmission)</strong>;</p>
+<p>另一种是**反射（reflection)**到外部。</p>
+<ul>
+<li><strong>吸收（absorption)</strong> 则相反，只改变光线密度和颜色。对于不透明物体向物体内部折射时，一部分被吸收，一部分与内部粒子相交并反射出去</li>
+</ul>
+<p>为了区分两种散射，用<strong>高光反射</strong>（specular)和<strong>漫反射</strong>（diffuse)分别表示物体如何反射以及计算多少光线折射、吸收(absorption)、反射出表面。</p>
+<p><strong>根据光线的入射方向和入射量可以得到出射方向和出射量，称之为出射度（exitance)</strong></p>
+<p>辐照与出射成线性关系，比值为漫反射和高光。</p>
+<h5 id="着色"><a href="#着色" class="headerlink" title="着色"></a>着色</h5><p>根据一系列的信息得到计算出射度的等式，也即光照模型。（lighting model )</p>
+<h5 id="标准光照模型"><a href="#标准光照模型" class="headerlink" title="标准光照模型"></a>标准光照模型</h5><ul>
+<li><p>自发光（emissive) 光线直接由光源进入摄像机，直接用材质的自发光颜色。</p>
+</li>
+<li><p>高光反射（specular)</p>
+</li>
+<li><p>漫反射（diffuse)</p>
+<p>漫反射光照符合兰伯特定律 (Lambert’s law): 反射光线的强度与表面法线和光源方向之间角的余弦值 成正比。因此， 漫反射部分的计算如下</p>
+<p><img src="/2022/10/27/UnityShader/chapter4Unity%E5%9F%BA%E7%A1%80%E5%85%89%E7%85%A7/image-20220715170258041.png" alt="image-20220715170258041"></p>
+<p>c light 和 m diffuse 分别表示光源颜色和漫反射颜色</p>
+</li>
+<li><p>环境光（ambient) 一般是全局变量</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Unity Shader</category>
       </categories>
   </entry>
 </search>
