@@ -51,7 +51,7 @@
 
 <ol start="2">
 <li><p><strong>反走样的方法是Blurring</strong>：采样前做滤波(pre-filtering)，什么是滤波？抹除特定的频率。</p>
-<p>滤波 = 卷积 = 平均，顺序不能反，不然不过是将走样后的图像再模糊了一下，还是走样的。</p>
+<p>滤波 = 卷积 = 平均，顺序不能反先滤波后采样，不然不过是将走样后的图像再模糊了一下，还是走样的。</p>
 </li>
 <li><p>什么是卷积、时域、频域？</p>
 <p>下图说明了卷积的过程，特定的卷积核对信号本身进行加权操作</p>
@@ -64,7 +64,7 @@
 </li>
 <li><p><strong>频域（frequency domain）</strong>自变量是频率,即横轴是频率,纵轴是该频率信号的幅度,也就是通常说的频谱图。</p>
 </li>
-<li><p>**空间域(spatial domain) **     简称空域，又称图像空间(image space)，一般这个概念会出现在数字图像处理中，指由图像像元组成的空间。在图像空间中以长度(距离)为自变量直接对像元值进行处理称为空间域处理。</p>
+<li><p><strong>空间域(spatial domain)</strong>     简称空域，又称图像空间(image space)，一般这个概念会出现在数字图像处理中，指由图像像元组成的空间。在图像空间中以长度(距离)为自变量直接对像元值进行处理称为空间域处理。</p>
 </li>
 </ul>
 <h4 id="Fourier-Transform-傅里叶变换"><a href="#Fourier-Transform-傅里叶变换" class="headerlink" title="Fourier Transform(傅里叶变换)"></a>Fourier Transform(傅里叶变换)</h4><p>傅里叶变换能做什么？将信号从时域转换到频域（对于一张图像，时域指不同空间的信号？；频域指的是信号随频率变化的函数）</p>
@@ -158,7 +158,7 @@
 <p>三个相加等于着色结果</p>
 <p>着色是局部的</p>
 <p><strong>着色不等于阴影（shading != shadow)</strong></p>
-<p>n是法线向量，h是半程向量（入射光向量l与眼睛视线向量v的单位向量和）</p>
+<p>n是法线向量，h是半程向量（入射光向量l与眼睛视线向量v的和的单位向量）</p>
 <p>以下为布林冯的高光</p>
 <img src="/2023/07/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Shading/image-20230711140322707.png" class title="image-20230711140322707">
 
@@ -184,12 +184,13 @@
 <p>除了常规的fragment shader,vertex shader</p>
 <p>现在还有compute shader(通用)，geometry shader(几何shader)等可编程部分</p>
 <h2 id="Texture-Mapping"><a href="#Texture-Mapping" class="headerlink" title="Texture Mapping"></a>Texture Mapping</h2><p>每个三角形顶点都有一个uv坐标（0，1），可以反复平铺</p>
-<h3 id="Barycentric-coordinates-重心坐标"><a href="#Barycentric-coordinates-重心坐标" class="headerlink" title="Barycentric coordinates(重心坐标)"></a>Barycentric coordinates(重心坐标)</h3><p>interporate across triangle在三角形内进行插值，希望三角形内部得到平滑过渡</p>
+<h3 id="Barycentric-coordinates-重心坐标"><a href="#Barycentric-coordinates-重心坐标" class="headerlink" title="Barycentric coordinates(重心坐标)"></a>Barycentric coordinates(重心坐标)</h3><p><strong>【注意】</strong> 我们首先要区别点的重心坐标和三角形的重心坐标</p>
+<p>interporate across triangle在三角形内进行插值，希望三角形内部得到平滑过渡</p>
 <img src="/2023/07/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Shading/image-20230712105733661.png" class title="image-20230712105733661">
 
 <p>α，β，γ均大于等于0，重心在三角形内</p>
 <p>A点在重心坐标系的重心坐标（α，β，γ）为（1，0，0），B为（0，1，0）</p>
-<p>三角形的重心坐标计算公式就是相加除以3，重心坐标为（1/3，1/3，1/3）</p>
+<p>三角形的重心坐标计算公式就是相加除以3，重心坐标为（A.x+B.x+C.x/3，A.y+B.y+C.y/3，A.z+B.z+C.z/3）</p>
 <p>三角形内任意一点的重心坐标计算结论如下</p>
 <p><strong>结论</strong></p>
 <img src="/2023/07/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Shading/image-20230712110740529.png" class title="image-20230712110740529">
@@ -1171,7 +1172,7 @@
 </ol>
 <h4 id="Piecewise-Bezier-逐段贝塞尔"><a href="#Piecewise-Bezier-逐段贝塞尔" class="headerlink" title="Piecewise Bezier(逐段贝塞尔)"></a>Piecewise Bezier(逐段贝塞尔)</h4><p>多段3阶贝塞尔的连接。</p>
 <p>示意图，曲线要连续，最后两个点决定终点导数，如果终点导数和下一个起点导数相等（蓝色标记共线等长），则认为曲线光滑连续。</p>
-<img src="/2023/07/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Geometry/60.png" class width="60">
+<img src="/2023/07/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Geometry/60.png" alt="60">
 
 <p>【补充】</p>
 <p><strong>Spline 样条</strong></p>
@@ -1186,6 +1187,55 @@
 
 <p>根据上图我们可以发现，四条贝塞尔分别插值，最后得到4个点再做二维的插值。由此可以实现贝塞尔曲面。</p>
 <p>设参数为（u，v)，横轴和竖轴的时间参数。显然这里也验证了贝塞尔曲线是显示的表达方式。</p>
+<h1 id="Mesh-Operations-Geometry-Processing"><a href="#Mesh-Operations-Geometry-Processing" class="headerlink" title="Mesh Operations(Geometry Processing)"></a>Mesh Operations(Geometry Processing)</h1><h2 id="Mesh-subdivision-网格细分"><a href="#Mesh-subdivision-网格细分" class="headerlink" title="Mesh subdivision(网格细分)"></a>Mesh subdivision(网格细分)</h2><p>什么是细分？</p>
+<p>可以理解为提高模型网格的精度（分辨率）</p>
+<img src="/2023/07/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Geometry/image-20230716120504980.png" class title="image-20230716120504980">
+
+<p>如何细分？</p>
+<ol>
+<li>创建更多三角形</li>
+<li>调整三角形的位置</li>
+</ol>
+<h3 id="Loop-Subdivision"><a href="#Loop-Subdivision" class="headerlink" title="Loop Subdivision"></a>Loop Subdivision</h3><p>循环细分，拿一个三角形来举例，首先分成4个小三角形，然后调整位置。</p>
+<img src="/2023/07/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Geometry/61.png" class width="61">
+
+<p>具体如何tune position(调整位置)呢？</p>
+<ol>
+<li>得到的<strong>新顶点</strong>会根据与老顶点相对位置进行加权平均，如下图</li>
+</ol>
+<img src="/2023/07/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Geometry/62.png" class width="62">
+
+<ol start="2">
+<li><p>原来的**老顶点（old vertices)**也会进行一定程度的调整，其中n是degree,下图对于中间的白点，</p>
+<p>由于度为6，连接了多个三角形，重要性相对就会比较低（n越大，白点的权重越小）；同时邻点权重会变大。</p>
+<img src="/2023/07/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Geometry/63.png" class width="63"></li>
+</ol>
+<h3 id="Catmull-Clark-Subdivision"><a href="#Catmull-Clark-Subdivision" class="headerlink" title="Catmull-Clark Subdivision"></a>Catmull-Clark Subdivision</h3><p>使用Loop subdivision的条件是网格为三角形。但是如果网格为下图这样的情况。</p>
+<img src="/2023/07/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Geometry/image-20230716131744281.png" class title="image-20230716131744281">
+
+<p>Catmull-Clark可以用作不同形状的面。</p>
+<p>【条件】extraordinary vertices(定义度为不等于4的点为奇异点)</p>
+<p>下图中，将边的中点连接交会到一个新的点（注意这个新的点同时也是面的中心）；最后得到的两个新点再连接。发现已经没有三角形了。</p>
+<img src="/2023/07/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Geometry/64.png" class width="64">
+
+<p>再细分多次</p>
+<img src="/2023/07/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Geometry/image-20230716132324232.png" class title="image-20230716132324232">
+
+<p>Catmull-Clark细分方法总结，1. 增加图元的方法是通过连接中点和图元中心 2.调整顶点位置（tune position)的方法依然是通过加权平均得到。图元中心为f，边的中点为e，图元顶点为v。</p>
+<img src="/2023/07/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Geometry/65.png" alt="65">
+
+<h2 id="Mesh-simplification"><a href="#Mesh-simplification" class="headerlink" title="Mesh simplification"></a>Mesh simplification</h2><p>减少mesh图元的同时不改变形状</p>
+<p>下图为不同数量三角面的结果。类似于mipmap不同层级用不同图片。</p>
+<img src="/2023/07/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Geometry/image-20230716140137989.png" class title="image-20230716140137989">
+
+<p>如何做网格简化</p>
+<p><strong>边坍缩</strong></p>
+<img src="/2023/07/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Geometry/image-20230716140449449.png" class title="image-20230716140449449">
+
+<p>Quadric Error Metric(二次误差度量)实现边坍缩，下图中，我们需要将上面三个顶点坍缩成一个蓝色点。</p>
+<p>需要找到一个最小的蓝点，使得该点（边）到其他三个点（面）的距离平方和最小。这个平方和就是二次度量误差，新建优先队列，将最小的误差放在前面，每次坍缩最小的那个。</p>
+<img src="/2023/07/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Geometry/image-20230716142333331.png" class title="image-20230716142333331">
+
 ]]></content>
       <categories>
         <category>计算机图形学</category>
@@ -1568,12 +1618,12 @@
     <title>chapter3 Unity Shader常用变量及函数</title>
     <url>/2022/10/24/UnityShader/chapter3UnityShaderAPI/</url>
     <content><![CDATA[<h2 id="Unity-Shader常用变量及函数"><a href="#Unity-Shader常用变量及函数" class="headerlink" title="Unity Shader常用变量及函数"></a>Unity Shader常用变量及函数</h2><h3 id="顶点的坐标空间变换流程及推导"><a href="#顶点的坐标空间变换流程及推导" class="headerlink" title="顶点的坐标空间变换流程及推导"></a>顶点的坐标空间变换流程及推导</h3><ul>
-<li><p>MVP的推导详情见我的图形学分类下的<a href="../%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation.md">Transformation</a></p>
+<li><p>MVP的推导详情见我的图形学分类下的<a href="https://aspect-ux.github.io/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Transformation/">Transformation</a>)</p>
 </li>
 <li><p>至此到了裁剪空间（投影空间），要想变换到屏幕空间</p>
 <ul>
 <li>经过齐次除法/透视除法（除以w),得到NDC坐标（归一化设备坐标）</li>
-<li>视口变换（viewport transformation),详情见<a href="../%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Rasterization.md">Rasterization</a></li>
+<li>视口变换（viewport transformation),详情见<a href="https://aspect-ux.github.io/2023/05/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Rasterization/">Rasterization</a>)</li>
 </ul>
 </li>
 </ul>
@@ -1829,7 +1879,8 @@
 </li>
 <li><p>漫反射（diffuse)</p>
 <p>漫反射光照符合兰伯特定律 (Lambert’s law): 反射光线的强度与表面法线和光源方向之间角的余弦值 成正比。因此， 漫反射部分的计算如下</p>
-<p><img src="/2022/10/27/UnityShader/chapter4Unity%E5%9F%BA%E7%A1%80%E5%85%89%E7%85%A7/image-20220715170258041.png" alt="image-20220715170258041"></p>
+<img src="/2022/10/27/UnityShader/chapter4Unity%E5%9F%BA%E7%A1%80%E5%85%89%E7%85%A7/image-20220715170258041.png" class title="image-20220715170258041">
+
 <p>c light 和 m diffuse 分别表示光源颜色和漫反射颜色</p>
 </li>
 <li><p>环境光（ambient) 一般是全局变量</p>
@@ -1838,6 +1889,276 @@
 ]]></content>
       <categories>
         <category>Unity Shader</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Ray Tracing(光线追踪)(上)</title>
+    <url>/2023/07/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/RayTracing/</url>
+    <content><![CDATA[<h1 id="Why-Ray-Tracing"><a href="#Why-Ray-Tracing" class="headerlink" title="Why Ray Tracing?"></a>Why Ray Tracing?</h1><p>光线追踪和光栅化是两种不同的成像方式，为什么要选择光线追踪呢？</p>
+<p>光栅化的局限性在于全局效果的控制： 1. 不能实现软阴影 2. 光照不能反射超过1次（目前技术可行效果不好）</p>
+<p>光栅化很快，效果却不好。</p>
+<p>相反，光线追踪很慢，但是很精确</p>
+<img src="/2023/07/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/RayTracing/image-20230716162845299.png" class title="image-20230716162845299">
+
+<h1 id="Light-Rays"><a href="#Light-Rays" class="headerlink" title="Light Rays"></a>Light Rays</h1><p>Three ideas about light rays(满足三个假设的前提)</p>
+<ul>
+<li>Light travels in straight lines(though this is wrong) 光线沿直线传播</li>
+<li>Light rays do not “collide” with each other if they cross(also wrong) 光线之间无碰撞</li>
+<li>Light rays travel from the light source to the eye(but the physics is in variant under path reversal - reciprocity) (光线可逆性，可以理解为光的方向互逆)</li>
+</ul>
+<p>正常情况下，我们的理解是光源打光到物体上，物体反射光照到人眼，根据反射的颜色我们看到物体。</p>
+<p>而在光线追踪的过程中，我们在做这样一件事：</p>
+<p>从眼睛（相机）出发，投射光线，光线看到的就是人看到的。终点变成了起点，也即上述第三点中的可逆性。</p>
+<ol>
+<li>记录最近的点 2. 判断这个点是否看得见</li>
+</ol>
+<img src="/2023/07/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/RayTracing/76.png" class width="76">
+
+<p>上图中，眼睛就是入射光，指向光源就是出射光，法线确定后，着色就确定了。</p>
+<p>光线如何反射多次呢？</p>
+<h1 id="Basic-Ray-Tracing-Algorithm-基本光线追踪算法"><a href="#Basic-Ray-Tracing-Algorithm-基本光线追踪算法" class="headerlink" title="Basic Ray Tracing Algorithm(基本光线追踪算法)"></a>Basic Ray Tracing Algorithm(基本光线追踪算法)</h1><p><strong>Whitted-Style</strong></p>
+<p>射线经过递归弹射（recursively bounce),得到了若干弹射点，如果光源能够照射到该点，着色则会add到结果中</p>
+<p>eye : primary ray</p>
+<p>light: shadow ray</p>
+<p>ref: secondary rays</p>
+<img src="/2023/07/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/RayTracing/image-20230716170734885.png" class title="image-20230716170734885">
+
+<h2 id="Ray-Surface-Intersection-求交点"><a href="#Ray-Surface-Intersection-求交点" class="headerlink" title="Ray Surface Intersection(求交点)"></a>Ray Surface Intersection(求交点)</h2><p>如何定义光线？一个起点，一个方向，随时间变化</p>
+<img src="/2023/07/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/RayTracing/78.png" class width="78">
+
+<p>如何求交？</p>
+<p><strong>拿光线与球（隐式表面）</strong>进行求交来说。满足下图两个式子，联立后得二次方程。</p>
+<img src="/2023/07/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/RayTracing/79.png" class width="79">
+
+<p>求解后得</p>
+<img src="/2023/07/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/RayTracing/image-20230716180041106.png" class title="image-20230716180041106">
+
+<p>光线求交需要最近的点，在确保t是有意义的后，选取最小的t就是光线与求的交点</p>
+<p>总结，光线与隐式表面求交方程</p>
+<img src="/2023/07/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/RayTracing/image-20230716180332940.png" class title="image-20230716180332940">
+
+<p><strong>Ray intersection with triangle mesh(explicit显示表面)</strong></p>
+<p>封闭几何中，光线与几何交点数为奇数，则光线在三角内；否则在三角形外。</p>
+<p>查看所有三角形是否与光线有交点。</p>
+<p>将求交问题分解成两个</p>
+<ol>
+<li>如何让光线与平面求交</li>
+<li>交点是否在三角形内（已知）</li>
+</ol>
+<p>问题聚焦到如何求光线与平面交点。</p>
+<p>用一条法线+一个点定义一个平面。接下来只用判断交点连线已知点得到的向量与法线的关系。</p>
+<p>设平面上已知一点p’,p为交点，N是法线向量。</p>
+<img src="/2023/07/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/RayTracing/image-20230716181507181.png" class title="image-20230716181507181">
+
+<p><strong>Moller Trumbore Algorithm</strong></p>
+<p>光线与三角形求交的另一个更快的方法。</p>
+<p><strong>【注意】</strong>这里有一个理解上的问题，也即是o+td到底是什么的问题。在一定时间范围内，它是一条射线；但是在某一个时刻，它是一个点。在计算中，我们考虑交点，其实也就是某一个时刻的角度来看。所以在涉及计算的时候，我们都是把它当作一个点来看。</p>
+<p>与球求交时，把o+td当作交点来联立；上一个与三角形求交则是转换成了和平面求交，也是同理。</p>
+<p>然后到了MT算法对三角形求交，通过观察下图，发现联立的表达式原本的点都变成了向量。所以可能存在理解上的障碍。</p>
+<p>本来应该为<code>o+t * D(vec) = (1-b1 - b2)P0 + b1 P1 + b2P2</code> </p>
+<p>其实观察发现这两个式子是等价的。</p>
+<p>之前提到过，点的重心坐标中α，β，γ均大于0且相加等于1，那么点在三角形内。</p>
+<p>通过克莱姆法则求解</p>
+<img src="/2023/07/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/RayTracing/image-20230716181923313.png" class title="image-20230716181923313">
+
+<h2 id="Accelerating-Ray-Surface-Intersection-加速求交"><a href="#Accelerating-Ray-Surface-Intersection-加速求交" class="headerlink" title="Accelerating Ray-Surface Intersection(加速求交)"></a>Accelerating Ray-Surface Intersection(加速求交)</h2><p>求交的简单方式： 光线遍历所有物体，找到最近的点</p>
+<p><code>naive algorithm</code> : pixel x object x bounce,计算量太大，很慢</p>
+<p>如果使用<strong>Bounding Volume</strong>(包围盒，包围体)，好处是能够筛掉连包围盒都不相交的物体，极大地剪枝。</p>
+<img src="/2023/07/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/RayTracing/image-20230717130952068.png" class title="image-20230717130952068">
+
+
+
+<p>我们经常使用的包围盒是Axis-Aligned Bounding Box(AABB，轴对齐包围盒)，好处是与轴平行，便于计算光线与平面求交。三维情况下理解成三个对面（slabs)包围而成。</p>
+<p>如何判断与盒子相不相交（二维与三维类似，下图为二维）</p>
+<img src="/2023/07/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/RayTracing/image-20230717132837004.png" class title="image-20230717132837004">
+
+<p>包围盒中对面（pairs of slabs) 全部进入才能算进入，只要有一个对面出去了，就算出去了。</p>
+<p>核心ideas:(选取进入时间的最大时间，出去时间的最小时间)</p>
+<img src="/2023/07/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/RayTracing/image-20230717132744508.png" class title="image-20230717132744508">
+
+<p>结论</p>
+<ol>
+<li><p>t(exit) &gt; t(enter) &gt;=0 在包围盒中呆过一段时间, 有交点（入和出）</p>
+</li>
+<li><p>t(exit) &lt; 0,包围盒在光线反向延长的背后，由于是射线，所以不可能有交点。</p>
+</li>
+<li><p>t(enter) &lt; 0,t(exit) &gt;= 0,说明光线光源就在盒子里，有交点（只有出）</p>
+</li>
+</ol>
+<p>综上，当t(exit) &gt; 0 &amp;&amp; t(exit) &gt; t(enter) 有交点。</p>
+<p>我们已经知道包围盒的用处和用法了</p>
+<p>那么如何具体地用AABB包围盒进行求交加速呢？</p>
+<h3 id="Uniform-Grids（相同的格子）"><a href="#Uniform-Grids（相同的格子）" class="headerlink" title="Uniform Grids（相同的格子）"></a>Uniform Grids（相同的格子）</h3><p><strong>Preprocess - Build Acceleration Grid</strong>（预处理-创建加速网格）</p>
+<p>预处理指的是在光线追踪之前。</p>
+<ol>
+<li>Find bounding box(找到整个场景的包围盒，将所有物体包围)</li>
+<li>Create grid(设计合适的分辨率来创建网格，划分包围盒)</li>
+<li>Store each object in overlapping cells（标记相交的小盒子，储存起来）</li>
+</ol>
+<img src="/2023/07/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/RayTracing/87.png" class title="image-20230212125454507">
+
+<p>光线与盒子求交视为简单操作，当盒子中有物体，再与物体求交，没有则进入下一个盒子。</p>
+<p>【问题】那么如何知道光线下一个进入的盒子是哪个呢？</p>
+<p>这与光栅化一条直线类似（有确定的算法实现）。一个思路是光线从左下角射出，就只用判断右上的临近网格是否有交点。这样就能判断下一个盒子。</p>
+<p>这种算法在<code>Teapot in a stadium</code> 的问题中，效果并不好，场景很大很不均匀，想要找到一个茶壶会很麻烦。求交就会变得很困难。</p>
+<h3 id="Spatial-partitions（空间划分）"><a href="#Spatial-partitions（空间划分）" class="headerlink" title="Spatial partitions（空间划分）"></a>Spatial partitions（空间划分）</h3><p>Examples</p>
+<p>从左到右（represented with 2d, but both in 2d and 3d)</p>
+<ul>
+<li>八叉树（每个维度切成2份，下图为二维状态，是四叉树），与维度呈2的<em>指数幂</em>，不是很理想。</li>
+<li>KD-Tree 类似于二叉树（x，y交替切分），一个格子切一刀，递归</li>
+<li>BSP-Tree 每个空间（非横平竖直地）划分一次</li>
+</ul>
+<img src="/2023/07/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/RayTracing/89.png" class title="image-20230212130527576">
+
+<p>KD-Tree预处理Pre-Processing</p>
+<p>【注意】</p>
+<ol>
+<li>划分要沿着x,y,z轴(split axis)</li>
+<li>划分位置不限，一般是在中点。</li>
+<li>数据结构是二叉树，只有叶子节点才有数据</li>
+</ol>
+<img src="/2023/07/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/RayTracing/90.png" class title="image-20230212131538921">
+
+<p>具体判断是否有交点的流程：</p>
+<ol>
+<li>和left有交点，发现left是叶子节点，对left中所有物体进行求交，return；如果left不是叶子节点，进一步往下走，直到叶子节点位置。</li>
+<li>然后查看right,同样的道理。</li>
+</ol>
+<img src="/2023/07/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/RayTracing/image-20230717160634433.png" class title="image-20230717160634433">
+
+<p><strong>局限性</strong></p>
+<ol>
+<li><p>KD-Tree会出现一个几何结构，被拆分到多个叶子节点里,划分本身是单纯的直线切割，难免会拆分原来的几何。</p>
+</li>
+<li><p>因为需要对指定包围盒中的所有物体进行求交，但是KD-Tree判断三角形是否与AABB的包围盒有交点很困难，因为顶点不在包围盒里，也有可能有交点。近年间不太使用这个方法。</p>
+</li>
+</ol>
+<h3 id="Object-partition-amp-Bounding-Volume-Hierarchy-物体划分和BVH"><a href="#Object-partition-amp-Bounding-Volume-Hierarchy-物体划分和BVH" class="headerlink" title="Object partition &amp; Bounding Volume Hierarchy(物体划分和BVH)"></a>Object partition &amp; Bounding Volume Hierarchy(物体划分和BVH)</h3><p>上述两种划分方法都有一定局限性。</p>
+<p>而BVH很好的解决了一些问题。BVH是一种得到非常广泛运用的方法。</p>
+<img src="/2023/07/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/RayTracing/image-20230717162403173.png" class title="image-20230717162403173">
+
+<p>BVH划分包围盒是以物体为单位进行划分，不需要考虑三角形与物体求交，结构依旧是二叉树。</p>
+<p>BVH的划分很有讲究，需要保证重叠部分尽可能少。 </p>
+<p>总结：先找包围盒，然后递归地分成两个子集，计算子集地包围盒。当叶子节点的三角形足够少就可以停止了。</p>
+<p>最后储存叶子节点的数据。</p>
+<img src="/2023/07/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/RayTracing/image-20230717164847097.png" class title="image-20230717164847097">
+
+
+
+<p><strong>划分的方法 Heuristic</strong></p>
+<p>优先选长轴开始划分，优先划分中间物体，保证左右平衡。</p>
+<p>划分顺序是一个选择的过程。</p>
+<img src="/2023/07/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/RayTracing/image-20230717165500868.png" class title="image-20230717165500868">
+
+
+
+
+
+<p><strong>Whitted</strong>风格的光线追踪到此为止</p>
+]]></content>
+      <categories>
+        <category>计算机图形学</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>RayTracing(下)---Radiometry(辐射度量学)</title>
+    <url>/2023/07/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Radiometry/</url>
+    <content><![CDATA[<h2 id="What-is-Radiometry"><a href="#What-is-Radiometry" class="headerlink" title="What is Radiometry"></a>What is Radiometry</h2><p>辐射度量学主要是对光的描述测量,是在物理意义上对光的确切定义。</p>
+<p>Measurement system and units for illumination</p>
+<p>之所以需要这样一个确切的描述性的东西，是因为无论是之前着色的布林冯，还是whitted风格光线追踪，其实都是不准确，效果不好的。这些方法做了太多简化和trick，以至于实际效果不能满足要求。</p>
+<h2 id="Basic-concepts-of-Radiometry"><a href="#Basic-concepts-of-Radiometry" class="headerlink" title="Basic concepts of Radiometry"></a>Basic concepts of Radiometry</h2><h3 id="Radiant-Energy-and-Flux-Power"><a href="#Radiant-Energy-and-Flux-Power" class="headerlink" title="Radiant Energy and Flux (Power)"></a>Radiant Energy and Flux (Power)</h3><p>Radiant Energy 是电磁辐射的能量，用Q表示，单位是joules(焦耳)</p>
+<p>Radiant Flux(power) 是单位时间的能量，其实就是功率，单位瓦特W；</p>
+<p>另一个别称叫做流明，类似于水的功率叫流量</p>
+<img src="/2023/07/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Radiometry/image-20230717181920698.png" class title="image-20230717181920698">
+
+<h3 id="Light-Measurements-光照测量"><a href="#Light-Measurements-光照测量" class="headerlink" title="Light Measurements(光照测量)"></a>Light Measurements(光照测量)</h3><p>【基本英文名词】differential(微分) derivative(导数)</p>
+<p>下图为三个表示光照能量的三个量</p>
+<img src="/2023/07/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Radiometry/95.png" class title="image-20230213145057013">
+
+<ol>
+<li><p><strong>Radiant Intensity</strong> 光源发出的光照</p>
+<p>Definition: The radiant (luminous) intensity is the <strong>power per unit solid angle</strong> emitted by a point light source；单位立体角所表示的功率；或者单位立体角且单位时间的光照能量</p>
+</li>
+</ol>
+<img src="/2023/07/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Radiometry/96.png" class title="image-20230213145610092">
+
+
+
+<p><strong>angle and solid angle</strong></p>
+<p>什么是立体角？</p>
+<img src="/2023/07/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Radiometry/image-20230717183805902.png" class title="image-20230717183805902">
+
+<p>在任意球上，极小面积为</p>
+<img src="/2023/07/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Radiometry/102.svg" class>
+
+<p>因此，极小立体角（单位球面上的极小面积）为：</p>
+<img src="/2023/07/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Radiometry/103.svg" class>
+
+<img src="/2023/07/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Radiometry/97.png" class title="image-20230213150222154">
+
+
+
+<ul>
+<li><p><strong>Irradiance</strong> 照射到物体表面的光照</p>
+<p>Power per unit area</p>
+<img src="/2023/07/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Radiometry/98.png" class title="image-20230215142634425">
+
+<p>注意，光垂直于表面接受的光越大（上式没写cos)</p>
+</li>
+<li><p>注意，光垂直于表面接受的光越大（上式没写cos)</p>
+<p>![image-20230215143222574](../../../../../trial/github/Books/Obsidian Vault/Books/计算机图形学/99.png)</p>
+<p>接受光照强度可以根据光源计算</p>
+<p>![image-20230215144008523](../../../../../trial/github/Books/Obsidian Vault/Books/计算机图形学/100.png)</p>
+</li>
+<li><p><strong>Radiance</strong> 传播中的光照</p>
+<p>Definition: The radiance(luminace) is the power emitted,</p>
+<p>reflected,transmitted or received by a surface,</p>
+<p><strong>per unit solid angle,per projected unit area</strong>.两次微分</p>
+<p><strong>incident radiance</strong>入射辐射</p>
+<img src="/2023/07/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Radiometry/101.png" class title="image-20230215144416607"></li>
+</ul>
+<p>radiance 和irradiance的差别在于是否有方向性</p>
+<img src="/2023/07/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Radiometry/104.png" class title="image-20230215145514770">
+
+<p><strong>Irradiance versus Radiance</strong></p>
+<p>可以理解成，irradiance是surface上某一点附近的光照</p>
+<p>而radiance是从某个方向照射到surface的某一点附近的光照</p>
+<img src="/2023/07/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Radiometry/105.png" class title="image-20230215150213248">
+
+<h2 id="BRDF-Bidirectional-Reflectance-Distribution-Function"><a href="#BRDF-Bidirectional-Reflectance-Distribution-Function" class="headerlink" title="BRDF(Bidirectional Reflectance Distribution Function)"></a>BRDF(Bidirectional Reflectance Distribution Function)</h2><p>双向反射分布函数: 从某个方向来的光，反射到不同方向的能量有多少</p>
+<p>irradiance-&gt;power(surface)-&gt;radiance</p>
+<p><strong><code>radiance / irradiance</code></strong> 任意一个出射除以入射</p>
+<img src="/2023/07/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Radiometry/106.png" class title="image-20230215153709373">
+
+<p>由此，输入入射角，入射irradiance就可以得到</p>
+<img src="/2023/07/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Radiometry/107.png" class title="image-20230215154529157">
+
+<p>Challenge: Recursive Equation</p>
+<h3 id="渲染方程-The-Rendering-Equation"><a href="#渲染方程-The-Rendering-Equation" class="headerlink" title="渲染方程(The Rendering Equation)"></a><strong>渲染方程(The Rendering Equation)</strong></h3><p><code>result = 自己辐射+brdf反射</code>,注意下半球贡献的光是0</p>
+<p>n*w是cosθ</p>
+<img src="/2023/07/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Radiometry/108.png" class title="image-20230215155813155">
+
+<img src="/2023/07/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Radiometry/109.png" class title="image-20230215160925868">
+
+<img src="/2023/07/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Radiometry/110.png" class title="image-20230215161350535">
+
+<p>移项、合并、泰勒展开</p>
+<img src="/2023/07/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Radiometry/111.png" class title="image-20230215161810833">
+
+<p>自发光emission + 直接光 + 一次间接光 + … = L</p>
+<p>其中直接光与间接光的和为<strong>全局光照（global illumination)</strong></p>
+<h2 id="Probability-概率论基础待补充"><a href="#Probability-概率论基础待补充" class="headerlink" title="Probability(概率论基础待补充)"></a>Probability(概率论基础待补充)</h2><p>概率分布函数</p>
+<img src="/2023/07/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Radiometry/image-20230717205956558.png" class title="image-20230717205956558">
+
+<h2 id="Monte-Carlo-Path-Tracing（蒙特卡洛路径追踪）"><a href="#Monte-Carlo-Path-Tracing（蒙特卡洛路径追踪）" class="headerlink" title="Monte Carlo Path Tracing（蒙特卡洛路径追踪）"></a>Monte Carlo Path Tracing（蒙特卡洛路径追踪）</h2><p><strong>正确地解出渲染方程</strong></p>
+<h3 id="Monte-Carlo-Integration（蒙特卡洛积分）"><a href="#Monte-Carlo-Integration（蒙特卡洛积分）" class="headerlink" title="Monte Carlo Integration（蒙特卡洛积分）"></a>Monte Carlo Integration（蒙特卡洛积分）</h3><img src="/2023/07/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Radiometry/112.png" class title="image-20230216202106177">
+
+
+
+<img src="/2023/07/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Radiometry/113.png" class title="image-20230216202345788">
+]]></content>
+      <categories>
+        <category>计算机图形学</category>
       </categories>
   </entry>
 </search>
