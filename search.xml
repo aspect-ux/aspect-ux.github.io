@@ -2186,12 +2186,12 @@
   </entry>
   <entry>
     <title></title>
-    <url>/2023/09/06/408/%E5%9B%BE/</url>
+    <url>/2023/09/06/408/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%9B%BE/</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>数据结构与算法之查找与排序算法</title>
-    <url>/2023/09/06/408/%E6%9F%A5%E6%89%BE%E4%B8%8E%E6%8E%92%E5%BA%8F/</url>
+    <url>/2023/09/06/408/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%9F%A5%E6%89%BE%E4%B8%8E%E6%8E%92%E5%BA%8F/</url>
     <content><![CDATA[<h1 id="查找与排序"><a href="#查找与排序" class="headerlink" title="查找与排序"></a>查找与排序</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><ul>
 <li>本文主要包括查找算法和经典排序算法两个部分</li>
 <li>使用语言：c/c++</li>
@@ -2234,7 +2234,7 @@
 <p>具体查找代码</p>
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">BlockSearch</span><span class="params">(Index *index, <span class="type">int</span> indexLen, <span class="type">int</span> x)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 先折半查找索引表，找到关键值的索引区间</span></span><br><span class="line">    <span class="type">int</span> low = <span class="number">0</span>,high = n,mid = (high - low)/<span class="number">2</span> + low;</span><br><span class="line">    <span class="keyword">while</span> (low &lt; high)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// index.maxKey存储了最大的值 </span></span><br><span class="line">        <span class="keyword">if</span> (x == index[mid].maxKey)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (x &lt; index[mid].maxKey)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// <span class="doctag">TODO:</span>这里尤其注意，我们是用最大值进行比较</span></span><br><span class="line">            <span class="comment">// 但是同时，如果我们发现该最大值大于x，我们没有把握说这个x是在找到的这个块，还是前一个。</span></span><br><span class="line">            <span class="comment">// 所以如果high = mid - 1,有可能会错过正确答案。 </span></span><br><span class="line">            high = mid;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            low = mid + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        mid = (high - low)/<span class="number">2</span> + low;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 跳出循环，mid就是要找的索引,就能确定块的start和end </span></span><br><span class="line">    <span class="type">int</span> start = index[mid].address, end;</span><br><span class="line">    <span class="keyword">if</span> (mid == indexLen - <span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        end = n;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        end = index[mid + <span class="number">1</span>].address;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 最后顺序查找返回索引下标 </span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = start; i &lt; end; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (x == arr[i])</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> i;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>平均查找长度：</strong><br>TODO:待计算</p>
-<img src="/2023/09/06/408/%E6%9F%A5%E6%89%BE%E4%B8%8E%E6%8E%92%E5%BA%8F/blockSearchCaculate.png" class>
+<img src="/2023/09/06/408/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%9F%A5%E6%89%BE%E4%B8%8E%E6%8E%92%E5%BA%8F/blockSearchCaculate.png" class>
 
 <h3 id="基于树的查找"><a href="#基于树的查找" class="headerlink" title="基于树的查找"></a>基于树的查找</h3><h4 id="二叉排序树-BST"><a href="#二叉排序树-BST" class="headerlink" title="二叉排序树(BST)"></a>二叉排序树(BST)</h4><p>二叉排序树就是二叉搜索树或者二叉查找树<br>根结点上的左子树结点均小于根结点，右子树结点则大于根结点<br>中序遍历后得到递增有序序列</p>
 <p>简单二叉排序树的存储结构</p>
@@ -2298,7 +2298,7 @@
 <h3 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h3><p>堆排序是基于树选择排序的改进</p>
 <p>将数据放在完全二叉树中，根结点&gt;=子结点为大根堆，反之为小根堆。</p>
 <p>下图为小根堆</p>
-<img src="/2023/09/06/408/%E6%9F%A5%E6%89%BE%E4%B8%8E%E6%8E%92%E5%BA%8F/image-20230904220812088.png" class title="image-20230904220812088">
+<img src="/2023/09/06/408/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%9F%A5%E6%89%BE%E4%B8%8E%E6%8E%92%E5%BA%8F/image-20230904220812088.png" class title="image-20230904220812088">
 
 <p>实际使用中将数据放在数组中便于存储<br>下标从0开始<br>父结点：$（i-1）/2$,左子：$2*i+1$，右子：$2 * i+2$</p>
 <p><strong>基本过程</strong></p>
@@ -2335,7 +2335,7 @@
   </entry>
   <entry>
     <title>Re0:数据结构与算法之 树与二叉树</title>
-    <url>/2023/09/06/408/%E6%A0%91%E4%B8%8E%E4%BA%8C%E5%8F%89%E6%A0%91/</url>
+    <url>/2023/09/06/408/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91%E4%B8%8E%E4%BA%8C%E5%8F%89%E6%A0%91/</url>
     <content><![CDATA[<p>TODO:2023/08/18 19:00: 1.递归非递归遍历 2.线索树<br>TODO:2023/08/21 20:00: 1.取消stl的使用 2.树，森林，二叉树 3. 哈夫曼编码 4. 并查集的应用</p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><ul>
 <li>使用语言：c/c++</li>
@@ -2351,7 +2351,7 @@
 <li><p>表示方法：</p>
 <ul>
 <li><p>倒置树结构（如下图)</p>
-<img src="/2023/09/06/408/%E6%A0%91%E4%B8%8E%E4%BA%8C%E5%8F%89%E6%A0%91/image-20230815222453369.png" class title="image-20230815222453369"></li>
+<img src="/2023/09/06/408/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91%E4%B8%8E%E4%BA%8C%E5%8F%89%E6%A0%91/image-20230815222453369.png" class title="image-20230815222453369"></li>
 <li><p>文氏图</p>
 </li>
 <li><p>广义表</p>
@@ -2422,7 +2422,7 @@
 <h4 id="线索化"><a href="#线索化" class="headerlink" title="线索化"></a>线索化</h4><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 中序线索化 </span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">InitThread</span><span class="params">(ThreadTreeNode* threadRoot)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(!threadRoot) <span class="keyword">return</span>;</span><br><span class="line">  </span><br><span class="line">  <span class="built_in">InitThread</span>(threadRoot-&gt;left);</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 左子树为空，那么存储前驱 </span></span><br><span class="line">  <span class="keyword">if</span> (!threadRoot-&gt;left)</span><br><span class="line">  &#123;</span><br><span class="line">    threadRoot-&gt;left = pre; </span><br><span class="line">    threadRoot-&gt;lTag = <span class="number">1</span>; </span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 右子树为空且前驱结点不为空，存储后驱 </span></span><br><span class="line">  <span class="keyword">if</span> (!threadRoot-&gt;right &amp;&amp; pre)</span><br><span class="line">  &#123;</span><br><span class="line">    pre-&gt;right = threadRoot;</span><br><span class="line">    pre-&gt;rTag = <span class="number">1</span>; </span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 记录前驱结点 </span></span><br><span class="line">  pre = threadRoot;</span><br><span class="line">  </span><br><span class="line">  <span class="built_in">InitThread</span>(threadRoot-&gt;right);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="二叉搜索树（查找树）"><a href="#二叉搜索树（查找树）" class="headerlink" title="二叉搜索树（查找树）"></a>二叉搜索树（查找树）</h3><p>搜索树中，左子结点值小于父结点，右子结点大于父结点<br>中序遍历得到从小到大排序。</p>
 <h3 id="哈夫曼树及哈夫曼编码"><a href="#哈夫曼树及哈夫曼编码" class="headerlink" title="哈夫曼树及哈夫曼编码"></a>哈夫曼树及哈夫曼编码</h3><h4 id="哈夫曼树"><a href="#哈夫曼树" class="headerlink" title="哈夫曼树"></a>哈夫曼树</h4><p>哈夫曼树又叫做最优二叉树</p>
-<img src="/2023/09/06/408/%E6%A0%91%E4%B8%8E%E4%BA%8C%E5%8F%89%E6%A0%91/uTools_1692620939563.png" class>
+<img src="/2023/09/06/408/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91%E4%B8%8E%E4%BA%8C%E5%8F%89%E6%A0%91/uTools_1692620939563.png" class>
 <ol>
 <li>路径：根到叶子结点</li>
 <li>路径长度：从根结点到叶子节点，每经过一个结点+1.（从一个结点到另一个结点经过的分支树）,设长度为l。</li>
