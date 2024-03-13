@@ -1485,14 +1485,14 @@ TEXCOORDO, TEXCOORDJ, TEXCOORD2, TEXCOORD3, COLOR 等。</p>
   <entry>
     <title>unityshader精要11</title>
     <url>/2022/11/09/UnityShader/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter11/</url>
-    <content><![CDATA[<h2 id="Chapter11-让画面动起来"><a href="#Chapter11-让画面动起来" class="headerlink" title="Chapter11-让画面动起来"></a>Chapter11-让画面动起来</h2><h3 id="纹理动画"><a href="#纹理动画" class="headerlink" title="纹理动画"></a>纹理动画</h3><p>1.序列帧动画</p>
-<p>….</p>
+    <content><![CDATA[<h2 id="chapter11-让画面动起来">Chapter11-让画面动起来</h2>
+<h3 id="纹理动画">纹理动画</h3>
+<p>1.序列帧动画</p>
+<p>....</p>
 <p>2.滚动背景</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">//frac函数返回标量或每个矢量中各分量的小数部分。return v - floor(v);</span><br><span class="line">o.uv.xy = TRANSFORM_TEX(v.texcoord,_MainTex) + frac(float2(_ScrollX,0.0)*_Time.y);</span><br><span class="line">o.uv.zw = TRANSFORM_TEX(v.texcoord,_DetailTex) + frac(float2(_Scroll2X,0.0)*_Time.y);</span><br><span class="line">//可以发现当x乘上一个小于1的值时，系数越小，呈现的图像结果会越稀疏</span><br></pre></td></tr></table></figure>
-
 <p>函数如下图</p>
 <img src="/2022/11/09/UnityShader/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter11/uTools_1661861601610.png" class title="uTools_1661861601610">
-
 <p>frac(float)等价上图</p>
 <p>frac(float2())则等价于以圆心为原点，以这个点为起点的线为半径，每过v的长度，为一个周期。最后构成多重圆环。而横坐标</p>
 <p>的倍率则影响密度。倍率大于1，噪声越大，间隔小，密度大。</p>
@@ -1500,11 +1500,11 @@ TEXCOORDO, TEXCOORDJ, TEXCOORD2, TEXCOORD3, COLOR 等。</p>
 <p>3.水波动画</p>
 <p>由于本例中需要移动模型空间坐标，而批处理会使得相关模型合并，使得相关模型丢失原来模型空间；所以一般有顶点移动anime的shader要考虑关闭batch;</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Tags&#123;</span><br><span class="line">    &quot;RenderType&quot;=&quot;Transparent&quot;,</span><br><span class="line">    &quot;IgnoreProjector&quot; = &quot;True&quot;,</span><br><span class="line">    &quot;RenderType&quot; = &quot;Transparent&quot;,</span><br><span class="line">    &quot;DisableBatching&quot; = &quot;True&quot;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
 <p>如何形成水波？顶点着色器中</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">float4 offset;</span><br><span class="line">offset.yzw = float3(0.0,0.0,0.0);</span><br><span class="line">offset.x = sin(_Frequency * _Time.y +v.vertex.x * _InWaveLength + v.vertex.y *</span><br><span class="line">_InWaveLength + v.vertex.z * _InvWaveLength) * _Magnitude;</span><br><span class="line"></span><br><span class="line">o.pos = mul(UNITY_MATRIX_MVP,v.vertex + offset);</span><br><span class="line">o.uv = TRANSFORM_TEX(v.texcoord,_MainTex); //将纹理进行uv映射</span><br><span class="line">o.uv += float2(0.0,_Time.y * Speed);      //将uv的v根据时间变化进行增长</span><br></pre></td></tr></table></figure>
-
-<p>等价于<br>$$<br>x = Magnitude * sin(_Frequency * t+w * vertex)<br>$$<br>由此使得水波水平变化。</p>
+<p>等价于 <span class="math display">\[
+x = Magnitude * sin(_Frequency * t+w * vertex)
+\]</span> 由此使得水波水平变化。</p>
 <p>同时还用了纹理动画，产生水平的纹理动画。</p>
 <p>4.广告牌技术</p>
 <p>效果：星星始终面朝摄像机，向上的位置并未改变，当y轴转动，也会跟着转动</p>
@@ -1513,21 +1513,18 @@ TEXCOORDO, TEXCOORDJ, TEXCOORD2, TEXCOORD3, COLOR 等。</p>
 <p>2.将法线设为从中心点指向相机的方向</p>
 <p>3.将法线y方向乘以_VerticalBillboarding，并归一化</p>
 <p>4.一般来说，法线并不等于up向量，up向量为（0，1，0）,但是随着视点的转变，法线也会变，如果法线等于up，</p>
-<p>​    那么后续叉乘的结果会出错。此时up会变成向前的向量。</p>
+<p>​ 那么后续叉乘的结果会出错。此时up会变成向前的向量。</p>
 <p>5.然后是right向量，由前两个向量叉乘得到，需要归一化，至此三个正基向量得到。</p>
 <p>6.<code>float3 localPos = center + rightDir * centerOffs.x + upDir * centerOffs.y + normalDir * centerOffs.z;</code></p>
-<p>​    最后实现顶点坐标在模型空间，三个分量不同程度的形变，</p>
-<p>​    <strong>结果是：</strong><font color="red">错误</font>_VerticalBillboarding=1，星星就像是跟踪屏幕；</p>
-<p>​    _VerticalBillboarding= 0星星固定，有透视效果。</p>
+<p>​ 最后实现顶点坐标在模型空间，三个分量不同程度的形变，</p>
+<p>​
+<strong>结果是：</strong><font color="red">错误</font>_VerticalBillboarding=1，星星就像是跟踪屏幕；</p>
+<p>​ _VerticalBillboarding= 0星星固定，有透视效果。</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">//顶点动画都是在模型空间变换</span><br><span class="line">v2f vert (a2v v) &#123;</span><br><span class="line">			v2f o;</span><br><span class="line">			</span><br><span class="line">			//1.</span><br><span class="line">			float3 center = float3(0, 0, 0);</span><br><span class="line">			float3 viewer = mul(unity_WorldToObject,float4(_WorldSpaceCameraPos, 1));</span><br><span class="line">			</span><br><span class="line">			//2.</span><br><span class="line">			float3 normalDir = viewer - center;</span><br><span class="line">			</span><br><span class="line">			//3.</span><br><span class="line">			// If _VerticalBillboarding equals 1, we use the desired view dir as the normal dir</span><br><span class="line">			// Which means the normal dir is fixed</span><br><span class="line">			// Or if _VerticalBillboarding equals 0, the y of normal is 0</span><br><span class="line">			// Which means the up dir is fixed</span><br><span class="line">			normalDir.y =normalDir.y * _VerticalBillboarding;</span><br><span class="line">			normalDir = normalize(normalDir);</span><br><span class="line">			</span><br><span class="line">			//4.</span><br><span class="line">			// Get the approximate up dir</span><br><span class="line">			// If normal dir is already towards up, then the up dir is towards front</span><br><span class="line">			float3 upDir = abs(normalDir.y) &gt; 0.999 ? float3(0, 0, 1) : float3(0, 1, 0);</span><br><span class="line">			float3 rightDir = normalize(cross(upDir, normalDir));</span><br><span class="line">			upDir = normalize(cross(normalDir, rightDir));</span><br><span class="line">			</span><br><span class="line">			// Use the three vectors to rotate the quad</span><br><span class="line">			float3 centerOffs = v.vertex.xyz - center;</span><br><span class="line">			float3 localPos = center + rightDir * centerOffs.x + upDir * centerOffs.y + normalDir * centerOffs.z;</span><br><span class="line">             </span><br><span class="line">			o.pos = UnityObjectToClipPos(float4(localPos, 1));</span><br><span class="line">			o.uv = TRANSFORM_TEX(v.texcoord,_MainTex);</span><br><span class="line"></span><br><span class="line">			return o;</span><br><span class="line">		&#125;</span><br></pre></td></tr></table></figure>
-
-
-
 <img src="/2022/11/09/UnityShader/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter11/uTools_1661943292280.png" class title="uTools_1661943292280">
-
 ]]></content>
       <categories>
-        <category>unity shader</category>
+        <category>Unity Shader</category>
       </categories>
       <tags>
         <tag>shader动画</tag>
@@ -2314,7 +2311,7 @@ Texture)</p>
 <p><strong>unity中有一种程序材质专门使用程序纹理。而程序纹理是通过算法实现的效果。</strong></p>
 ]]></content>
       <categories>
-        <category>unity shader</category>
+        <category>Unity Shader</category>
       </categories>
   </entry>
   <entry>
@@ -2500,15 +2497,8 @@ pass中计算</p>
 <p>注意如果关闭了深度写入，此时再双面渲染就会出现半透明错误渲染</p>
 ]]></content>
       <categories>
-        <category>unity shader</category>
+        <category>Unity Shader</category>
       </categories>
-  </entry>
-  <entry>
-    <title></title>
-    <url>/2023/11/13/UnityShader/chapter8Shader%E6%A1%88%E4%BE%8B/</url>
-    <content><![CDATA[<h1 id="案例">案例</h1>
-<h2 id="outline描边">1. Outline描边</h2>
-]]></content>
   </entry>
   <entry>
     <title>unityshader精要12</title>
@@ -2617,7 +2607,7 @@ hdr,exr图片，rgb范围可以在【0，1】之外，更真实地反应光照�
 </ul>
 ]]></content>
       <categories>
-        <category>unity shader</category>
+        <category>Unity Shader</category>
       </categories>
   </entry>
   <entry>
@@ -2681,6 +2671,105 @@ themes/yilia</p>
 ]]></content>
       <categories>
         <category>随记</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>个人简介</title>
+    <url>/2024/03/12/profile/Profile/</url>
+    <content><![CDATA[<h1 id="aspect-uxs-blog">Aspect-ux's Blog</h1>
+<h2 id="links链接">Links(链接)</h2>
+<table>
+<colgroup>
+<col style="width: 15%">
+<col style="width: 57%">
+<col style="width: 26%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>知乎</th>
+<th><a href="https://www.zhihu.com/people/neng-tian-shi-47-61">(aspect -
+知乎 (zhihu.com)</a></th>
+<th>主要记录技术美术和渲染的学习</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>bilibili</strong></td>
+<td></td>
+<td>个人作品集展示</td>
+</tr>
+<tr class="even">
+<td>github</td>
+<td></td>
+<td>个人自制游戏引擎</td>
+</tr>
+<tr class="odd">
+<td>游戏开发比赛经历</td>
+<td><a href="#jumpGame">点击跳转</a></td>
+<td>曾经参加GameJam的记录</td>
+</tr>
+</tbody>
+</table>
+<h2 id="知乎">知乎</h2>
+<p>主要记录了个人技术美术和渲染知识的学习。部分效果实现均基于unity
+URP。</p>
+<h2 id="技术美术作品集">技术美术作品集</h2>
+<h2 id="自制游戏引擎">自制游戏引擎</h2>
+<h2 id="游戏开发比赛参加情况"><span id="jumpGame">游戏开发比赛参加情况</span></h2>
+<table>
+<colgroup>
+<col style="width: 28%">
+<col style="width: 39%">
+<col style="width: 32%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>2022网易Mini Game</th>
+<th><a href="https://game.academy.163.com/event/mg-2022?page=works&amp;id=2659">2022网易游戏高校MINI-GAME挑战赛——小游戏大梦想-网易游戏开发大赛
+(163.com)</a></th>
+<th>为期一个半月，作为程序和策划参与比赛(昵称 ”温蒂“)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>吉比特2022高校Game Jam挑战赛·武汉站—烫手山芋</td>
+<td>演示地址：<a href="https://www.bilibili.com/video/BV1Wt4y1K7SK/?spm_id_from=333.337.search-card.all.click">吉比特2022高校Game
+Jam挑战赛·武汉站—烫手山芋_哔哩哔哩bilibili</a> 项目地址：<a href="https://gitee.com/aspect-ux/gbit-wu-han2022">Gbit-WuHan2022:
+吉比特武汉站2022 (gitee.com)</a></td>
+<td>为期48小时，作为程序参与比赛</td>
+</tr>
+<tr class="even">
+<td>吉比特2022高校Game Jam挑战赛·福建站—</td>
+<td>演示地址：<a href="https://www.bilibili.com/video/BV1oW4y1u7rv/?spm_id_from=333.337.search-card.all.click">震惊！这个队伍花48h做了《学了个学》！--“吉比特2022高校Game
+Jam挑战赛”_哔哩哔哩bilibili_游戏实况</a> 项目地址：<a href="https://plastichub.unity.cn/gbits-fujian2022/DateTomorrow_Gbits_Fujian/src/branch/main">gbits-fujian2022/DateTomorrow_Gbits_Fujian
+- DateTomorrow_Gbits_Fujian - Plastic Hub (unity.cn)</a></td>
+<td>48小时，作为程序</td>
+</tr>
+<tr class="odd">
+<td>Ciga 2023</td>
+<td><a href="https://www.gmhub.com/game/3057">GmHub顽社</a></td>
+<td>大败而归(哭)</td>
+</tr>
+<tr class="even">
+<td>Hit Academy2023寒假集训</td>
+<td>未知</td>
+<td>程序</td>
+</tr>
+<tr class="odd">
+<td>益游未尽2022 暑期</td>
+<td>未知</td>
+<td>第一次参加Game Jam(梦开始的地方)</td>
+</tr>
+<tr class="even">
+<td>CUSGA 2024</td>
+<td></td>
+<td>目前参加</td>
+</tr>
+</tbody>
+</table>
+]]></content>
+      <categories>
+        <category>计算机图形学</category>
       </categories>
   </entry>
 </search>
