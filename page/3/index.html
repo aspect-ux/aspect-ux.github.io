@@ -51,7 +51,7 @@
   isHome: true,
   isHighlightShrink: false,
   isToc: false,
-  postUpdate: '2024-03-17 14:10:27'
+  postUpdate: '2024-03-17 15:15:32'
 }</script><noscript><style type="text/css">
   #nav {
     opacity: 1
@@ -141,97 +141,7 @@
     }
     detectApple()
     })(window)</script><meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="游戏开发与图形学学习记录" type="application/atom+xml">
-</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/mydata/miku.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">37</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">1</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">8</div></a></div><hr/></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url('/img/mydata/miku.webp')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">游戏开发与图形学学习记录</a></span><div id="menus"><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">游戏开发与图形学学习记录</h1></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="post_cover left"><a href="/2022/11/09/UnityShader/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter11/" title="unityshader精要11"><img class="post_bg" src="/img/top-img/kon.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="unityshader精要11"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/11/09/UnityShader/%E4%B8%AD%E7%BA%A7%E7%AF%87Chapter11/" title="unityshader精要11">unityshader精要11</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2022-11-09T14:04:17.719Z" title="Created 2022-11-09 22:04:17">2022-11-09</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Unity-Shader/">Unity Shader</a></span></div><div class="content">Chapter11-让画面动起来
-纹理动画
-1.序列帧动画
-....
-2.滚动背景
-1234//frac函数返回标量或每个矢量中各分量的小数部分。return v - floor(v);o.uv.xy = TRANSFORM_TEX(v.texcoord,_MainTex) + frac(float2(_ScrollX,0.0)*_Time.y);o.uv.zw = TRANSFORM_TEX(v.texcoord,_DetailTex) + frac(float2(_Scroll2X,0.0)*_Time.y);//可以发现当x乘上一个小于1的值时，系数越小，呈现的图像结果会越稀疏
-函数如下图
-
-frac(float)等价上图
-frac(float2())则等价于以圆心为原点，以这个点为起点的线为半径，每过v的长度，为一个周期。最后构成多重圆环。而横坐标
-的倍率则影响密度。倍率大于1，噪声越大，间隔小，密度大。
-如果渲染2d物体，可以将相机模式转换成正交模式
-3.水波动画
-由于本例中需要移动模型空间坐标，而批处理会使得相关模型合并，使得相关模型丢失原来模型空 ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2022/11/08/naive/%E8%99%8E%E4%B9%A6/06/" title="Computer Graphics 06"><img class="post_bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Computer Graphics 06"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/11/08/naive/%E8%99%8E%E4%B9%A6/06/" title="Computer Graphics 06">Computer Graphics 06</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2022-11-08T12:41:39.965Z" title="Created 2022-11-08 20:41:39">2022-11-08</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Fundamental-of-Computer-Graphics/">Fundamental of Computer Graphics</a></span></div><div class="content">The Graphics Pipeline前面几章已经建立了所需的数学基础(scaffolding)
-现在主要讨论第二种主要的rendering 方式。
-—在屏幕上一个接着一个绘制物体，也即object order rendering
-不同于ray tracing 的方式，通过像素找物体，现在会反过来通过物体找像素
-**在一张被几何图元(geometric primitive)占满的图像上的所有像素的过程，称之为rasterization(光栅化)**，所以object order rendering也称之为光栅化渲染
-而实现这一操作的操作序列，称之为图形渲染管线，graphics pipeline
-这种方法的成功，来源于它的效率。
-对于大型场景，对数据存储模式的管理 是至关重要的操作。而且制作一个整个场景的通道来访问几何的每一个bit一次,比重复地搜索场景来检索所需的场景更加有有时。
-object-order rendering不只有一种方法。
-hardware 硬件pipeline使用OpenGL,Direct3D等API
-software pipeline使用鱼电影制作，提供了像 ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2022/11/07/naive/%E8%99%8E%E4%B9%A6/05/" title="Computer Graphics 05"><img class="post_bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Computer Graphics 05"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/11/07/naive/%E8%99%8E%E4%B9%A6/05/" title="Computer Graphics 05">Computer Graphics 05</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2022-11-07T11:33:18.103Z" title="Created 2022-11-07 19:33:18">2022-11-07</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Fundamental-of-Computer-Graphics/">Fundamental of Computer Graphics</a></span></div><div class="content">ViewingViewing Transformations视角变换用于映射3d位置。
-它是一头复杂的野兽，依赖于包括相机坐标、orientation(取向)，投影的类型，视角的区域，和图片的清晰度(resolution);
-它是通过几个简单变换点乘获得
-
-相机变换(camera/eye  transformation)
-投影变换(projection transformation)
-视口(窗口)变换(viewport transformation)
-
-
-
-模型空间-&gt;世界空间-&gt;相机空间-&gt;规范化视线空间-&gt;屏幕空间
-The Viewport Transformation假设我们想要看到的几何体在规范的视图体积空间(canonical view volume)
-然后我们想要在z轴方向用**正交(orthographic)**相机观察
-canonical view volume(规范视图空间)是一个包含了所有3d坐标的正方体，这些坐标
-在笛卡尔坐标系(cartesian coordinates)中处于（-1，1）之间
-我们将x = -1投射到屏幕的左边，y =  ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2022/11/06/naive/Unity/EventSystem/" title="Event System"><img class="post_bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Event System"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/11/06/naive/Unity/EventSystem/" title="Event System">Event System</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2022-11-06T15:37:26.618Z" title="Created 2022-11-06 23:37:26">2022-11-06</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Game-system-with-uniy/">Game system with uniy</a></span></div><div class="content">Event System方法1：两个文件
-EventManager
-EventManager
-用法
-
-使用interface IEventListener注册事件，卸载事件
-注册具体方法使用AddEventListener,卸载使用RemoveEventListener
-如果需要传多个参数，需要适当更新文件具体代码
-
-综述
-一件事情会有可能会有许多反馈，每当我们要检测一个事件，首先注册这个事件，不断+=添加方法（反馈）,这些都在start(awake)之类中进行，等到游戏结束再取消订阅。
-
-包含一个static EventManager instance;单一实例并用于外部访问成员数据和方法
-包含一个interface IEventInfo用于外部多态地实现方法
-包含一个字典Dictionary&lt;string,IEventInfo&gt; actionDic 用于存储事件，可以理解成”事件池”
-包含类EventInfo&lt;T&gt;继承自上述接口，用于添加单参数方法
-包含添加、移除、触发事件
-
-方法2：文件
-EventHandler
-原理与方法一是一样的，使用方法也大差不差。 ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2022/11/02/UnityShader/chapter6%E9%80%8F%E6%98%8E/" title="unityshader精要8"><img class="post_bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="unityshader精要8"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/11/02/UnityShader/chapter6%E9%80%8F%E6%98%8E/" title="unityshader精要8">unityshader精要8</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2022-11-02T13:00:26.665Z" title="Created 2022-11-02 21:00:26">2022-11-02</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Unity-Shader/">Unity Shader</a></span></div><div class="content">Chapter8 透明效果
-实现透明的方法
-unity中通常使用两种方式实现透明效果
-1.透明度测试(alpha test),（无法实现真正的半透明）
-2.透明度混合(alpha blending)
-使用深度测试，可以不考虑渲染顺序，但是使用透明度混合时，需要关闭ZWrite，关闭了深度写入
-虽然透明度测试不需要关闭，但是它的机制是如果透明度不满足某个阈值（通常小于），直接舍弃该片元。
-
-为什么关闭ZWrite?
-
-由于深度测试丢弃远处被遮挡部分，但是透明物体的机制是"可以透过并看见远处的物体"。
-关闭了ZWrite，渲染顺序则成了问题。
-流程
-1.渲染时，会进行深度测试，如果先渲染后面的不透明b，将b写入颜色缓冲和深度缓冲；然后渲染前面的透明a,a写入颜色缓冲，会发生透明混合，显示正确。
-2.如果先渲染a,进行深度测试，写入颜色缓冲，但是关闭了ZWrite，无法写入深度值，然后渲染b，写入深度值，写入颜色缓冲，b的颜色覆盖a,只能看见b。
-3.半透明物体之间亦然。
-Alpha Test
-Unity Shader解决方案为SubShader 中的Tag ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2022/11/02/naive/%E8%99%8E%E4%B9%A6/04/" title="Computer Graphics 04"><img class="post_bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Computer Graphics 04"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/11/02/naive/%E8%99%8E%E4%B9%A6/04/" title="Computer Graphics 04">Computer Graphics 04</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2022-11-02T12:43:23.357Z" title="Created 2022-11-02 20:43:23">2022-11-02</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Fundamental-of-Computer-Graphics/">Fundamental of Computer Graphics</a></span></div><div class="content">Surface Shading渲染3d场景时，无论使用ray tracing还是rasterization，在实时还是在批处理中，着色是对视觉效果影响
-最大的过程之一
-本章描述基于点光源照射的不透明表面基本着色模型。
-Point source illumination点光源包括position,intensity
-点光源有isotropic(各向同性)
-the irradiance E is  E = P/4PI * 1/pow(r,2)
-the quantity I = P/4PI,是光强(amount of light)，后者是factor
-更普遍地，E = I * cos(theta) / pow(r,2),其中cos(theta) = n * l
-
-
-
-
-Directional illumination不同于点光源，由于方向光是由很远的点光源产生，这就导致I/(r^2)的占比很小，这里设为一个常数H
-E = H * cos(theta)
-其中常量H被称为法向辐射（normal irradiance)
-Basic reflection models现在可以计算辐射度（irradi ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2022/10/31/naive/%E8%99%8E%E4%B9%A6/03/" title="Computer Graphics 03"><img class="post_bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Computer Graphics 03"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/10/31/naive/%E8%99%8E%E4%B9%A6/03/" title="Computer Graphics 03">Computer Graphics 03</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2022-10-31T11:21:15.666Z" title="Created 2022-10-31 19:21:15">2022-10-31</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Fundamental-of-Computer-Graphics/">Fundamental of Computer Graphics</a></span></div><div class="content">Ray TracingWhy Ray Tracing?
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/mydata/miku.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">31</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">1</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">6</div></a></div><hr/></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url('/img/mydata/miku.webp')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">游戏开发与图形学学习记录</a></span><div id="menus"><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">游戏开发与图形学学习记录</h1></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="post_cover left"><a href="/2022/10/31/naive/%E8%99%8E%E4%B9%A6/03/" title="Computer Graphics 03"><img class="post_bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Computer Graphics 03"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/10/31/naive/%E8%99%8E%E4%B9%A6/03/" title="Computer Graphics 03">Computer Graphics 03</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2022-10-31T11:21:15.666Z" title="Created 2022-10-31 19:21:15">2022-10-31</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Fundamental-of-Computer-Graphics/">Fundamental of Computer Graphics</a></span></div><div class="content">Ray TracingWhy Ray Tracing?
 
 rasterization : real-time,ray tracing: offline
 ray tracing is accurate,but is very slow
@@ -293,11 +203,112 @@ Images,Pixels,and Geometry首先我们要知道gamma校正，见本文末“补�
 吸收（absorption)
 则相反，只改变光线密度和颜色。对于不透明物体向物体内部折射时，一部分被吸收，一部分与内部粒子相交并反射出去
 
-为了区分两种散射，用高光反射（specular)和漫反射（diffuse)分别表示物体如何反射以及计算多少光线折射、吸收(absorpt ...</div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/page/2/#content-inner"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/#content-inner">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/#content-inner">4</a><a class="extend next" rel="next" href="/page/4/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/mydata/miku.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Aspect</div><div class="author-info__description">个人博客</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">37</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">1</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">8</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/aspect-ux"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">Welcome to my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/03/12/profile/Profile/" title="个人简介(请看这里)"><img src="/img/mydata/10.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="个人简介(请看这里)"/></a><div class="content"><a class="title" href="/2024/03/12/profile/Profile/" title="个人简介(请看这里)">个人简介(请看这里)</a><time datetime="2024-03-12T07:02:42.423Z" title="Created 2024-03-12 15:02:42">2024-03-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/09/06/408/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%9B%BE/" title="数据结构与算法之 图"><img src="/img/mydata/11.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="数据结构与算法之 图"/></a><div class="content"><a class="title" href="/2023/09/06/408/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%9B%BE/" title="数据结构与算法之 图">数据结构与算法之 图</a><time datetime="2023-09-06T14:22:12.213Z" title="Created 2023-09-06 22:22:12">2023-09-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/09/06/408/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91%E4%B8%8E%E4%BA%8C%E5%8F%89%E6%A0%91/" title="Re0:数据结构与算法之 树与二叉树"><img src="/img/mydata/9.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Re0:数据结构与算法之 树与二叉树"/></a><div class="content"><a class="title" href="/2023/09/06/408/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91%E4%B8%8E%E4%BA%8C%E5%8F%89%E6%A0%91/" title="Re0:数据结构与算法之 树与二叉树">Re0:数据结构与算法之 树与二叉树</a><time datetime="2023-09-06T14:22:12.211Z" title="Created 2023-09-06 22:22:12">2023-09-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/09/06/408/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%9F%A5%E6%89%BE%E4%B8%8E%E6%8E%92%E5%BA%8F/" title="数据结构与算法之查找与排序算法"><img src="/img/mydata/10.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="数据结构与算法之查找与排序算法"/></a><div class="content"><a class="title" href="/2023/09/06/408/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%9F%A5%E6%89%BE%E4%B8%8E%E6%8E%92%E5%BA%8F/" title="数据结构与算法之查找与排序算法">数据结构与算法之查找与排序算法</a><time datetime="2023-09-06T14:22:12.209Z" title="Created 2023-09-06 22:22:12">2023-09-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/07/18/%E5%9B%BE%E5%BD%A2%E5%AD%A6%E5%AE%9E%E8%B7%B5%E5%8F%8A%E4%BD%9C%E4%B8%9A/RayTracing/" title="如何手写光追"><img src="/img/mydata/8.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="如何手写光追"/></a><div class="content"><a class="title" href="/2023/07/18/%E5%9B%BE%E5%BD%A2%E5%AD%A6%E5%AE%9E%E8%B7%B5%E5%8F%8A%E4%BD%9C%E4%B8%9A/RayTracing/" title="如何手写光追">如何手写光追</a><time datetime="2023-07-18T07:52:23.822Z" title="Created 2023-07-18 15:52:23">2023-07-18</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+为了区分两种散射，用高光反射（specular)和漫反射（diffuse)分别表示物体如何反射以及计算多少光线折射、吸收(absorpt ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2022/10/27/naive/%E8%99%8E%E4%B9%A6/01/" title="Computer Graphics 01"><img class="post_bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Computer Graphics 01"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/10/27/naive/%E8%99%8E%E4%B9%A6/01/" title="Computer Graphics 01">Computer Graphics 01</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2022-10-27T15:49:27.779Z" title="Created 2022-10-27 23:49:27">2022-10-27</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Fundamental-of-Computer-Graphics/">Fundamental of Computer Graphics</a></span></div><div class="content">Computer Graphics 01IntroductionEfficiencyHowever, for the foreseeable future, a good heuristic is that programmers
+should pay more attention to memory access patterns than to operation counts.
+因为内存的速度跟不上处理器的速度
+Miscellaneous Math2.1 集合和映射
+2.2 解决二次等式
+2.3 三角学（trigonometry) 勾股，三角函数，角
+…
+2.4.4 叉乘（cross product)
+a x b = |ab| sin (theta)
+…
+Curve and Surface从1d 到3d的积分，参数方程
+Linear Interpolationp = (1 - t)a + tb
+barycentric 重心坐标
+cardinality 集合基数
+</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2022/10/24/UnityShader/chapter3UnityShaderAPI/" title="chapter3 Unity Shader常用变量及函数"><img class="post_bg" src="/img/mydata/unityshader/3.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="chapter3 Unity Shader常用变量及函数"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/10/24/UnityShader/chapter3UnityShaderAPI/" title="chapter3 Unity Shader常用变量及函数">chapter3 Unity Shader常用变量及函数</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2022-10-24T06:34:22.454Z" title="Created 2022-10-24 14:34:22">2022-10-24</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Unity-Shader/">Unity Shader</a></span></div><div class="content">Unity Shader常用变量及函数顶点的坐标空间变换流程及推导
+MVP的推导详情见我的图形学分类下的Transformation)
+
+至此到了裁剪空间（投影空间），要想变换到屏幕空间
+
+经过齐次除法/透视除法（除以w),得到NDC坐标（归一化设备坐标）
+视口变换（viewport transformation),详情见Rasterization)
+
+
+
+总结
+从模型空间到世界空间，再到观察空间，然后裁剪空间，最后屏幕映射到屏幕空间。需要许多变换矩阵。
+
+
+法线变换（特例）这里需要额外提及unity的法线变换
+
+
+发现法线变换失败
+设切线为T，法线为N
+
+
+
+
+屏幕相机参数（API)
+
+
+
+
+
+【此章待补充，用于记录unity shader CG/HLSL的语法区别和API应用】
+DX和OpenGL / CG和HLSL / Built-in和URP之间的差异</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2022/10/22/UnityShader/chapter2ShaderLab/" title="chapter2 Unity Shader概述"><img class="post_bg" src="/img/mydata/unityshader/2.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="chapter2 Unity Shader概述"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/10/22/UnityShader/chapter2ShaderLab/" title="chapter2 Unity Shader概述">chapter2 Unity Shader概述</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2022-10-22T14:42:38.629Z" title="Created 2022-10-22 22:42:38">2022-10-22</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Unity-Shader/">Unity Shader</a></span></div><div class="content">前言
+【注】因为是概述，很多细节和需要查询的内容请参考《Unity
+Shader入门精要》
+上一章描述了什么是渲染流水线，这一章主要讨论什么是Unity Shader。
+Shader
+翻译为着色器，GPU流水线中对于高度可编程的阶段来说，Shader是可以在GPU上运行的渲染代码；而对于固定流水线来说，则起着渲染设置的作用。前者有顶点着色器，片元着色器等。
+正常情况下，开发者需要与下图中各种操作、文件打交道。
+
+因为我们是在引擎上使用shader,Unity 提供了名为Unity
+Shader的抽象。于是我们只需要使用unity
+shader就可以控制所有操作。并且必要的内部功能已经写好。
+与其它着色语言的关系
+我们知道着色器语言主要有CG,HLSL,GLSL。
+不同于它们，Unity中开发者使用的着色器语言叫做ShaderLab，语法上shaderlab和CG,HLSL没有太大区别，部分函数Unity没有提供；本质上shaderlab是基于它们的封装。
+虽然Unity只支持封装后的CG,HLSL,但是如果要写GLSL也是可行的（不推荐）。
+Unity S ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2022/10/21/UnityShader/chapter1%E6%B8%B2%E6%9F%93%E6%B5%81%E6%B0%B4%E7%BA%BF/" title="Unity Shader之渲染流水线"><img class="post_bg" src="/img/mydata/unityshader/1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Unity Shader之渲染流水线"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/10/21/UnityShader/chapter1%E6%B8%B2%E6%9F%93%E6%B5%81%E6%B0%B4%E7%BA%BF/" title="Unity Shader之渲染流水线">Unity Shader之渲染流水线</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2022-10-21T15:45:10.669Z" title="Created 2022-10-21 23:45:10">2022-10-21</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Unity-Shader/">Unity Shader</a></span></div><div class="content">前言
+
+为什么要增加这个栏目？
+
+由于个人目前主要学习Unity引擎，在引擎Shader的学习中，学了很多，但是不解的和不会的反而越来越多，借此机会自我总结一下，也为后续学习理清思路，该栏目将会随时间迭代更新。
+
+该栏目有哪些内容？
+
+我个人目前的想法是从我的学习路线入手。Unity Shader入门精要 -&gt;
+Catlike Coding -&gt; 案例综合
+
+环境
+
+软件： Unity
+着色器语言： ShaderLab (CG/HLSL)
+
+
+Unity Shader之渲染流水线
+什么是渲染流水线？
+由CPU、GPU共同完成，使用三维数据（顶点，法线等）将三维物体渲染成屏幕上的二维图像
+流水线的概念早已学过，那么渲染流水线又是什么。首先要区别于GPU（硬件)流水线。
+分为三个概念上的阶段，每个阶段又有子流水线。
+
+应用阶段(application)：开发者支配的阶段，输入场景、贴图、摄像机、光源等等；输出点、线、三角面等渲染图元。CPU上。
+几何阶段（geometry):
+这个阶段主要决定渲染哪些图元，以及将这些图元映射到二 ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2022/10/21/%E9%9A%8F%E8%AE%B0/%E9%9D%99%E6%80%81%E7%BD%91%E9%A1%B5%E6%90%AD%E5%BB%BA%E8%AE%B0%E5%BD%95/" title="搭建静态网页"><img class="post_bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="搭建静态网页"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/10/21/%E9%9A%8F%E8%AE%B0/%E9%9D%99%E6%80%81%E7%BD%91%E9%A1%B5%E6%90%AD%E5%BB%BA%E8%AE%B0%E5%BD%95/" title="搭建静态网页">搭建静态网页</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2022-10-21T14:20:57.959Z" title="Created 2022-10-21 22:20:57">2022-10-21</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E9%9A%8F%E8%AE%B0/">随记</a></span></div><div class="content">搭建静态网页
+Part1
+
+创建仓库,命名为aspect-ux.github.io,找到Pages,发现site
+是显示了。
+安装node.js 参考(26条消息)
+Node.js详细安装教程（2021）_cheerileeyoki的博客-CSDN博客_node安装教程
+安装hexo,报错有可能是权限，删去c盘下的.npmrc???
+大抵是nodejs版本太高了
+主要参考手把手教你从0开始搭建自己的个人博客
+|无坑版视频教程| hexo_哔哩哔哩_bilibili
+配置_config.yml
+123456# Deployment## Docs: https://hexo.io/docs/deployment.htmldeploy: 		type: git		repo: https://github.com/aspect-ux/aspect-ux.github.io.git 		branch: main
+
+然后
+
+更改主题git clone https://github.com/litten/hexo-theme-yilia.git
+themes/yil ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2022/10/21/%E9%9A%8F%E8%AE%B0/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/" title="我的第一篇文章"><img class="post_bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="我的第一篇文章"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/10/21/%E9%9A%8F%E8%AE%B0/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/" title="我的第一篇文章">我的第一篇文章</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2022-10-21T11:31:46.000Z" title="Created 2022-10-21 19:31:46">2022-10-21</time></span></div><div class="content"></div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/page/2/#content-inner"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/#content-inner">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/#content-inner">4</a><a class="extend next" rel="next" href="/page/4/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/mydata/miku.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Aspect</div><div class="author-info__description">个人博客</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">31</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">1</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/aspect-ux"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">Welcome to my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/03/12/profile/Profile/" title="个人简介(请看这里)"><img src="/img/mydata/10.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="个人简介(请看这里)"/></a><div class="content"><a class="title" href="/2024/03/12/profile/Profile/" title="个人简介(请看这里)">个人简介(请看这里)</a><time datetime="2024-03-12T07:02:42.423Z" title="Created 2024-03-12 15:02:42">2024-03-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/09/06/408/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91%E4%B8%8E%E4%BA%8C%E5%8F%89%E6%A0%91/" title="Re0:数据结构与算法之 树与二叉树"><img src="/img/mydata/9.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Re0:数据结构与算法之 树与二叉树"/></a><div class="content"><a class="title" href="/2023/09/06/408/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91%E4%B8%8E%E4%BA%8C%E5%8F%89%E6%A0%91/" title="Re0:数据结构与算法之 树与二叉树">Re0:数据结构与算法之 树与二叉树</a><time datetime="2023-09-06T14:22:12.211Z" title="Created 2023-09-06 22:22:12">2023-09-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/09/06/408/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%9F%A5%E6%89%BE%E4%B8%8E%E6%8E%92%E5%BA%8F/" title="数据结构与算法之查找与排序算法"><img src="/img/mydata/10.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="数据结构与算法之查找与排序算法"/></a><div class="content"><a class="title" href="/2023/09/06/408/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%9F%A5%E6%89%BE%E4%B8%8E%E6%8E%92%E5%BA%8F/" title="数据结构与算法之查找与排序算法">数据结构与算法之查找与排序算法</a><time datetime="2023-09-06T14:22:12.209Z" title="Created 2023-09-06 22:22:12">2023-09-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/07/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Radiometry/" title="RayTracing(下)---Radiometry(辐射度量学)"><img src="/img/mydata/8.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="RayTracing(下)---Radiometry(辐射度量学)"/></a><div class="content"><a class="title" href="/2023/07/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/Radiometry/" title="RayTracing(下)---Radiometry(辐射度量学)">RayTracing(下)---Radiometry(辐射度量学)</a><time datetime="2023-07-17T09:09:37.180Z" title="Created 2023-07-17 17:09:37">2023-07-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/07/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/RayTracing/" title="Ray Tracing(光线追踪)(上)"><img src="/img/mydata/7.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Ray Tracing(光线追踪)(上)"/></a><div class="content"><a class="title" href="/2023/07/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/RayTracing/" title="Ray Tracing(光线追踪)(上)">Ray Tracing(光线追踪)(上)</a><time datetime="2023-07-16T08:15:20.200Z" title="Created 2023-07-16 16:15:20">2023-07-16</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
             <i class="fas fa-folder-open"></i>
             <span>Categories</span>
             
             </div>
             <ul class="card-category-list" id="aside-cat-list">
-            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Fundamental-of-Computer-Graphics/"><span class="card-category-list-name">Fundamental of Computer Graphics</span><span class="card-category-list-count">6</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Game-system-with-uniy/"><span class="card-category-list-name">Game system with uniy</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Games101/"><span class="card-category-list-name">Games101</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Unity-Shader/"><span class="card-category-list-name">Unity Shader</span><span class="card-category-list-count">8</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/"><span class="card-category-list-name">数据结构与算法</span><span class="card-category-list-count">3</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/"><span class="card-category-list-name">计算机图形学</span><span class="card-category-list-count">9</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/C/"><span class="card-category-list-name">C++</span><span class="card-category-list-count">1</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E9%9A%8F%E8%AE%B0/"><span class="card-category-list-name">随记</span><span class="card-category-list-count">3</span></a></li>
-            </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>Tags</span></div><div class="card-tag-cloud"><a href="/tags/shader%E5%8A%A8%E7%94%BB/" style="font-size: 1.1em; color: #999">shader动画</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>Archives</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/03/"><span class="card-archive-list-date">March 2024</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/09/"><span class="card-archive-list-date">September 2023</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/07/"><span class="card-archive-list-date">July 2023</span><span class="card-archive-list-count">5</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/05/"><span class="card-archive-list-date">May 2023</span><span class="card-archive-list-count">4</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/12/"><span class="card-archive-list-date">December 2022</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/11/"><span class="card-archive-list-date">November 2022</span><span class="card-archive-list-count">11</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/10/"><span class="card-archive-list-date">October 2022</span><span class="card-archive-list-count">11</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>Info</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">Article :</div><div class="item-count">37</div></div><div class="webinfo-item"><div class="item-name">UV :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">PV :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">Last Push :</div><div class="item-count" id="last-push-date" data-lastPushDate="2024-03-17T06:10:27.382Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By Aspect</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Fundamental-of-Computer-Graphics/"><span class="card-category-list-name">Fundamental of Computer Graphics</span><span class="card-category-list-count">6</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Game-system-with-uniy/"><span class="card-category-list-name">Game system with uniy</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Unity-Shader/"><span class="card-category-list-name">Unity Shader</span><span class="card-category-list-count">8</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/"><span class="card-category-list-name">数据结构与算法</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/"><span class="card-category-list-name">计算机图形学</span><span class="card-category-list-count">8</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E9%9A%8F%E8%AE%B0/"><span class="card-category-list-name">随记</span><span class="card-category-list-count">3</span></a></li>
+            </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>Tags</span></div><div class="card-tag-cloud"><a href="/tags/shader%E5%8A%A8%E7%94%BB/" style="font-size: 1.1em; color: #999">shader动画</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>Archives</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/03/"><span class="card-archive-list-date">March 2024</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/09/"><span class="card-archive-list-date">September 2023</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/07/"><span class="card-archive-list-date">July 2023</span><span class="card-archive-list-count">4</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/05/"><span class="card-archive-list-date">May 2023</span><span class="card-archive-list-count">4</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/12/"><span class="card-archive-list-date">December 2022</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/11/"><span class="card-archive-list-date">November 2022</span><span class="card-archive-list-count">8</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/10/"><span class="card-archive-list-date">October 2022</span><span class="card-archive-list-count">11</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>Info</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">Article :</div><div class="item-count">31</div></div><div class="webinfo-item"><div class="item-name">UV :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">PV :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">Last Push :</div><div class="item-count" id="last-push-date" data-lastPushDate="2024-03-17T07:15:31.935Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By Aspect</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>

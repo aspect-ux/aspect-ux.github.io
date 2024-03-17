@@ -10,8 +10,6 @@ https://aspect-ux.github.io/2022/10/22/UnityShader/chapter2ShaderLab/
 https://aspect-ux.github.io/2023/09/06/408/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%9F%A5%E6%89%BE%E4%B8%8E%E6%8E%92%E5%BA%8F/
 https://aspect-ux.github.io/2022/11/12/%E9%9A%8F%E8%AE%B0/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85%E5%B0%8F%E7%9F%A5%E8%AF%86/
 https://aspect-ux.github.io/2022/10/21/%E9%9A%8F%E8%AE%B0/%E9%9D%99%E6%80%81%E7%BD%91%E9%A1%B5%E6%90%AD%E5%BB%BA%E8%AE%B0%E5%BD%95/
-https://aspect-ux.github.io/2023/07/18/%E5%9B%BE%E5%BD%A2%E5%AD%A6%E5%AE%9E%E8%B7%B5%E5%8F%8A%E4%BD%9C%E4%B8%9A/RayTracing/
-https://aspect-ux.github.io/2023/09/06/408/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%9B%BE/
 https://aspect-ux.github.io/2023/09/06/408/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91%E4%B8%8E%E4%BA%8C%E5%8F%89%E6%A0%91/
 https://aspect-ux.github.io/2023/05/24/%E9%9A%8F%E8%AE%B0/VSCppConfig/
 https://aspect-ux.github.io/2023/07/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/RayTracing/
@@ -23,10 +21,6 @@ https://aspect-ux.github.io/2023/05/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%B
 https://aspect-ux.github.io/2023/05/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/%E6%A6%82%E8%BF%B0/
 https://aspect-ux.github.io/tags/index.html
 https://aspect-ux.github.io/2022/12/01/naive/%E8%99%8E%E4%B9%A6/07/
-https://aspect-ux.github.io/2022/12/01/naive/Games%E7%B3%BB%E5%88%97/101/Lecture03%20Transformation/
-https://aspect-ux.github.io/2022/11/13/naive/Games%E7%B3%BB%E5%88%97/101/Homework/homework1/
-https://aspect-ux.github.io/2022/11/13/naive/Games%E7%B3%BB%E5%88%97/101/Lecture01%20Overview%20of%20Computer%20Graphics/
-https://aspect-ux.github.io/2022/11/10/naive/Games%E7%B3%BB%E5%88%97/101/Material/
 https://aspect-ux.github.io/2022/11/08/naive/%E8%99%8E%E4%B9%A6/06/
 https://aspect-ux.github.io/2022/11/07/naive/%E8%99%8E%E4%B9%A6/05/
 https://aspect-ux.github.io/2022/11/02/naive/%E8%99%8E%E4%B9%A6/04/
@@ -44,7 +38,5 @@ https://aspect-ux.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%B
 https://aspect-ux.github.io/categories/%E9%9A%8F%E8%AE%B0/
 https://aspect-ux.github.io/categories/Game-system-with-uniy/
 https://aspect-ux.github.io/categories/Fundamental-of-Computer-Graphics/
-https://aspect-ux.github.io/categories/Games101/
 https://aspect-ux.github.io/categories/Unity-Shader/
 https://aspect-ux.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/
-https://aspect-ux.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/C/
